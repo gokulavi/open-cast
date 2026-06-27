@@ -227,6 +227,13 @@ class StreamStudioScreen extends ConsumerWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      if (src.type == SourceType.camera)
+                        IconButton(
+                          icon: const Icon(Icons.qr_code_rounded, size: 16),
+                          color: AppColors.currentViolet,
+                          tooltip: 'Connect Mobile Camera (PRISM Lens)',
+                          onPressed: () => _showMobileLensDialog(context),
+                        ),
                       IconButton(
                         icon: Icon(src.isVisible ? Icons.visibility_rounded : Icons.visibility_off_rounded, size: 16),
                         color: src.isVisible ? AppColors.accentPurpleGlow : Colors.white24,
@@ -647,4 +654,543 @@ class _StudioControlBadge extends StatelessWidget {
       ),
     );
   }
+}
+
+// ── PRISM Lens Dialog Helper ─────────────────────────────────
+void _showMobileLensDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (ctx) {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+        child: _PrismLensWidget(),
+      );
+    },
+  );
+}
+
+// ── PRISM Lens Stateful Connector Interface ──────────────────
+class _PrismLensWidget extends StatefulWidget {
+  @override
+  State<_PrismLensWidget> createState() => _PrismLensWidgetState();
+}
+
+class _PrismLensWidgetState extends State<_PrismLensWidget> {
+  int _activeLens = 3;
+  bool _motionOff = false;
+  bool _lensInUse = true;
+  String _bgMode = 'Original';
+  int _selectedBgIndex = 0;
+
+  final List<Color> _bgGradients = [
+    Colors.deepPurple,
+    Colors.teal,
+    Colors.orange,
+    Colors.blueAccent,
+    Colors.pinkAccent,
+    Colors.green,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 820,
+      height: 520,
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F0F12),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white12, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.8),
+            blurRadius: 30,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // ── Window Title Bar ──
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: const BoxDecoration(
+              color: Color(0xFF16161C),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.videocam_rounded, color: AppColors.currentViolet, size: 18),
+                const SizedBox(width: 8),
+                Text(
+                  'PRISM Lens',
+                  style: AppTheme.getHeaderStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+                const Spacer(),
+                const Icon(Icons.minimize_rounded, color: Colors.white60, size: 14),
+                const SizedBox(width: 12),
+                const Icon(Icons.check_box_outline_blank_rounded, color: Colors.white60, size: 12),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Icon(Icons.close_rounded, color: Colors.white70, size: 16),
+                ),
+              ],
+            ),
+          ),
+
+          // ── Main Content Body ──
+          Expanded(
+            child: Row(
+              children: [
+                // Workspace Panel (Left Side)
+                Expanded(
+                  flex: 7,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    color: const Color(0xFF0F0F12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Lens Tabs Row
+                        Row(
+                          children: [
+                            _buildLensTab(1),
+                            const SizedBox(width: 8),
+                            _buildLensTab(2),
+                            const SizedBox(width: 8),
+                            _buildLensTab(3),
+                            const Spacer(),
+                            const Icon(Icons.flip_rounded, color: Colors.white38, size: 16),
+                            const SizedBox(width: 12),
+                            const Icon(Icons.cached_rounded, color: Colors.white38, size: 16),
+                            const SizedBox(width: 12),
+                            const Icon(Icons.crop_free_rounded, color: Colors.white38, size: 16),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Center QR Card
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Mock QR Code Drawing
+                                Container(
+                                  width: 130,
+                                  height: 130,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black, width: 2),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: CustomPaint(
+                                    painter: _MockQrPainter(),
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                const Text(
+                                  'Please scan the QR code in the CONNECT menu of the PRISM mobile app.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.black87, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Exo2'),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text(
+                                  'Your PC and mobile must use the same WiFi.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(color: Colors.black54, fontSize: 10, fontFamily: 'Exo2'),
+                                ),
+                                const SizedBox(height: 16),
+                                // Google Play & App Store buttons row
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _buildStoreBadge(Icons.play_arrow_rounded, 'Google Play'),
+                                    const SizedBox(width: 12),
+                                    _buildStoreBadge(Icons.apple_rounded, 'App Store'),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+
+                        // Bottom Actions row
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF1E1E24),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                              ),
+                              onPressed: () {},
+                              child: Text(
+                                'Edit Image',
+                                style: AppTheme.getHeaderStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+                              ),
+                            ),
+                            const Spacer(),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _motionOff,
+                                  activeColor: AppColors.currentViolet,
+                                  onChanged: (v) => setState(() => _motionOff = v!),
+                                ),
+                                Text(
+                                  'Motion Off',
+                                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white60),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: 16),
+                            const Icon(Icons.refresh_rounded, color: Colors.white54, size: 16),
+                            const SizedBox(width: 16),
+                            const Icon(Icons.flip_rounded, color: Colors.white54, size: 16),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // Settings Panel (Right Side)
+                Container(
+                  width: 240,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF16161C),
+                    border: Border(left: BorderSide(color: Colors.white10)),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Connect mobile selector dropdown
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF202028),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.phone_android_rounded, color: Colors.white60, size: 16),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Connect PRISM Mobile',
+                                style: AppTheme.getBodyStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                              ),
+                            ),
+                            const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.white38, size: 16),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      Text(
+                        'Virtual Background',
+                        style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white70),
+                      ),
+                      const SizedBox(height: 8),
+
+                      // Original / Remove BG selector buttons
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => setState(() => _bgMode = 'Original'),
+                              child: Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: _bgMode == 'Original' ? AppColors.currentViolet.withValues(alpha: 0.15) : const Color(0xFF202028),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: _bgMode == 'Original' ? AppColors.currentViolet : Colors.transparent,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Original',
+                                    style: AppTheme.getBodyStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () => setState(() => _bgMode = 'Remove'),
+                              child: Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: _bgMode == 'Remove' ? Colors.white10 : const Color(0xFF202028),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: _bgMode == 'Remove' ? AppColors.currentViolet : Colors.transparent,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Remove BG',
+                                    style: AppTheme.getBodyStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Tabs for backgrounds
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildBgTab('RECENT', false),
+                          _buildBgTab('PRISM', true),
+                          _buildBgTab('FREE', false),
+                          _buildBgTab('MY', false),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+
+                      // Virtual background grids with play icons
+                      Expanded(
+                        child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                            childAspectRatio: 1.5,
+                          ),
+                          itemCount: _bgGradients.length,
+                          itemBuilder: (context, idx) {
+                            final selected = _selectedBgIndex == idx;
+                            return GestureDetector(
+                              onTap: () => setState(() => _selectedBgIndex = idx),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      _bgGradients[idx],
+                                      _bgGradients[idx].withValues(alpha: 0.5),
+                                    ],
+                                  ),
+                                  border: Border.all(
+                                    color: selected ? AppColors.currentViolet : Colors.transparent,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: const Center(
+                                  child: Icon(Icons.play_circle_filled_rounded, color: Colors.white70, size: 20),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Tool Toolbar (Rightmost thin edge)
+                Container(
+                  width: 48,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF101014),
+                    border: Border(left: BorderSide(color: Colors.white10)),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 12),
+                      _buildToolbarIcon(Icons.face_rounded),
+                      _buildToolbarIcon(Icons.emoji_emotions_rounded),
+                      _buildToolbarIcon(Icons.auto_awesome_rounded),
+                      _buildToolbarIcon(Icons.filter_hdr_rounded),
+                      _buildToolbarIcon(Icons.tune_rounded),
+                      _buildToolbarIcon(Icons.crop_free_rounded),
+                      _buildToolbarIcon(Icons.more_horiz_rounded),
+                      const Spacer(),
+                      _buildToolbarIcon(Icons.notifications_rounded),
+                      _buildToolbarIcon(Icons.warning_amber_rounded),
+                      _buildToolbarIcon(Icons.add_circle_rounded),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // ── Bottom Status Bar ──
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: const BoxDecoration(
+              color: Color(0xFF16161C),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(12)),
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.settings_rounded, color: Colors.white38, size: 14),
+                const SizedBox(width: 6),
+                Text(
+                  '1280 x 720',
+                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                ),
+                const SizedBox(width: 16),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  'CPU: 2.92%',
+                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'GPU: 0.00%',
+                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                ),
+                const Spacer(),
+                Text(
+                  'PRISM Lens 3 is in use',
+                  style: AppTheme.getBodyStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: _lensInUse ? AppColors.currentViolet : Colors.white38,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: 20,
+                  width: 32,
+                  child: Switch(
+                    value: _lensInUse,
+                    activeColor: AppColors.currentViolet,
+                    onChanged: (v) => setState(() => _lensInUse = v),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLensTab(int index) {
+    final active = _activeLens == index;
+    return GestureDetector(
+      onTap: () => setState(() => _activeLens = index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: active ? const Color(0xFF282830) : Colors.transparent,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          'PRISM Lens $index',
+          style: AppTheme.getHeaderStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.bold,
+            color: active ? AppColors.currentViolet : Colors.white38,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStoreBadge(IconData icon, String store) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E24),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: Colors.black12),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: Colors.white, size: 14),
+          const SizedBox(width: 6),
+          Text(
+            store,
+            style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold, fontFamily: 'Exo2'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBgTab(String label, bool active) {
+    return Text(
+      label,
+      style: TextStyle(
+        fontSize: 9,
+        fontWeight: FontWeight.bold,
+        color: active ? AppColors.currentViolet : Colors.white38,
+        fontFamily: 'Rajdhani',
+      ),
+    );
+  }
+
+  Widget _buildToolbarIcon(IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Icon(icon, color: Colors.white38, size: 18),
+    );
+  }
+}
+
+// ── Mock QR Code custom painter ──
+class _MockQrPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.fill;
+
+    // Draw standard QR three corner eye squares
+    _drawEye(canvas, paint, 0, 0, 30);
+    _drawEye(canvas, paint, size.width - 30, 0, 30);
+    _drawEye(canvas, paint, 0, size.height - 30, 30);
+
+    // Draw some random dots to look like a QR code
+    final randPaint = Paint()..color = Colors.black..style = PaintingStyle.fill;
+    canvas.drawRect(Rect.fromLTWH(10, 40, 10, 10), randPaint);
+    canvas.drawRect(Rect.fromLTWH(40, 10, 10, 10), randPaint);
+    canvas.drawRect(Rect.fromLTWH(45, 45, 15, 10), randPaint);
+    canvas.drawRect(Rect.fromLTWH(20, 60, 10, 20), randPaint);
+    canvas.drawRect(Rect.fromLTWH(70, 70, 20, 10), randPaint);
+    canvas.drawRect(Rect.fromLTWH(60, 40, 15, 15), randPaint);
+    canvas.drawRect(Rect.fromLTWH(80, 20, 10, 30), randPaint);
+    canvas.drawRect(Rect.fromLTWH(30, 85, 30, 10), randPaint);
+  }
+
+  void _drawEye(Canvas canvas, Paint paint, double x, double y, double s) {
+    // Outer square
+    canvas.drawRect(Rect.fromLTWH(x, y, s, s), paint);
+    // Inner white hole
+    canvas.drawRect(Rect.fromLTWH(x + 5, y + 5, s - 10, s - 10), Paint()..color = Colors.white);
+    // Inner black dot
+    canvas.drawRect(Rect.fromLTWH(x + 9, y + 9, s - 18, s - 18), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
