@@ -65,7 +65,7 @@ class AppTheme {
   static TextStyle getHeaderStyle({
     double fontSize = 24,
     FontWeight fontWeight = FontWeight.w600,
-    Color color = AppColors.softWhite,
+    Color? color,
     double? letterSpacing,
   }) {
     return TextStyle(
@@ -80,7 +80,7 @@ class AppTheme {
   static TextStyle getBodyStyle({
     double fontSize = 14,
     FontWeight fontWeight = FontWeight.w400,
-    Color color = AppColors.softWhite,
+    Color? color,
   }) {
     return TextStyle(
       fontFamily: 'Exo2',
@@ -90,7 +90,7 @@ class AppTheme {
     );
   }
 
-  // Dark Pro Theme Definition
+  // Dark Pro Theme Definition (Primary)
   static ThemeData get darkPro {
     return ThemeData.dark().copyWith(
       scaffoldBackgroundColor: AppColors.matteBlack,
@@ -113,36 +113,64 @@ class AppTheme {
         thickness: 1,
       ),
       textTheme: TextTheme(
-        displayLarge: getHeaderStyle(fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 1),
-        titleLarge: getHeaderStyle(fontSize: 20, fontWeight: FontWeight.w600),
-        bodyLarge: getBodyStyle(fontSize: 16, fontWeight: FontWeight.w400),
-        bodyMedium: getBodyStyle(fontSize: 14, fontWeight: FontWeight.w400),
-        labelSmall: getBodyStyle(fontSize: 11, fontWeight: FontWeight.w300),
+        displayLarge: getHeaderStyle(fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 1, color: AppColors.softWhite),
+        titleLarge: getHeaderStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.softWhite),
+        bodyLarge: getBodyStyle(fontSize: 16, fontWeight: FontWeight.w400, color: AppColors.softWhite),
+        bodyMedium: getBodyStyle(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.softWhite),
+        labelSmall: getBodyStyle(fontSize: 11, fontWeight: FontWeight.w300, color: AppColors.softWhite),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.currentViolet,
-          foregroundColor: AppColors.softWhite,
+          foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          textStyle: getHeaderStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: getHeaderStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );
   }
 
-  // Violet Neon Theme Definition (Cyberpunk style)
+  // Bright Theme Definition (Premium Light Theme)
   static ThemeData get violetNeon {
-    return darkPro.copyWith(
-      scaffoldBackgroundColor: const Color(0xFF050505), // Ultra Black
+    return ThemeData.light().copyWith(
+      scaffoldBackgroundColor: const Color(0xFFF6F8FA), // Clean, premium off-white background
+      colorScheme: const ColorScheme.light(
+        primary: AppColors.currentViolet, // gold
+        secondary: Color(0xFF1A1D2B), // dark steel
+        surface: Colors.white,
+        error: AppColors.liveRed,
+      ),
       cardTheme: CardThemeData(
-        color: const Color(0xFF0F0F0F), // Black Glass Base
+        color: Colors.white,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: const BorderSide(color: Colors.white24, width: 1.2), // Clear White stroke outline
+          side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2), // Slate outline
+        ),
+      ),
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFFE2E8F0),
+        thickness: 1,
+      ),
+      textTheme: TextTheme(
+        displayLarge: getHeaderStyle(fontSize: 32, fontWeight: FontWeight.bold, letterSpacing: 1, color: const Color(0xFF0F172A)),
+        titleLarge: getHeaderStyle(fontSize: 20, fontWeight: FontWeight.w600, color: const Color(0xFF0F172A)),
+        bodyLarge: getBodyStyle(fontSize: 16, fontWeight: FontWeight.w400, color: const Color(0xFF334155)),
+        bodyMedium: getBodyStyle(fontSize: 14, fontWeight: FontWeight.w400, color: const Color(0xFF475569)),
+        labelSmall: getBodyStyle(fontSize: 11, fontWeight: FontWeight.w300, color: const Color(0xFF64748B)),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.currentViolet,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          textStyle: getHeaderStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
     );

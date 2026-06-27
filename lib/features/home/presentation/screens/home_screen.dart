@@ -155,7 +155,7 @@ class HomeScreen extends ConsumerWidget {
                       _QuickActionCard(
                         icon: Icons.videocam_rounded,
                         title: 'Go Live Setup',
-                        color: AppColors.liveRed,
+                        color: AppColors.onlineGreen,
                         onTap: () => context.push('/go-live'),
                       ),
                       _QuickActionCard(

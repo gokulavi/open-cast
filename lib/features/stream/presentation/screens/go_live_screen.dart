@@ -34,6 +34,9 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
   String _bitrate = '4500 kbps';
   String _encoder = 'NVENC';
 
+  String _orientation = 'Landscape (16:9)';
+  String _layoutPreset = 'Picture-in-Picture (PiP)';
+
   bool _micOn = true;
   bool _camOn = true;
 
@@ -337,6 +340,82 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                           ],
                         ),
                       ),
+                      const SizedBox(height: 20),
+
+                      // ── STREAM LAYOUT & ORIENTATION ────────────────────────────
+                      Text(
+                        'STREAM LAYOUT & ORIENTATION',
+                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                      ),
+                      const SizedBox(height: 8),
+                      GlassCard(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Orientation', style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white38)),
+                                      const SizedBox(height: 4),
+                                      DropdownButton<String>(
+                                        value: _orientation,
+                                        isExpanded: true,
+                                        underline: const SizedBox(),
+                                        dropdownColor: AppColors.surface,
+                                        style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                        items: ['Landscape (16:9)', 'Portrait (9:16)'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                        onChanged: (v) => setState(() => _orientation = v!),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text('Layout Preset', style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white38)),
+                                      const SizedBox(height: 4),
+                                      DropdownButton<String>(
+                                        value: _layoutPreset,
+                                        isExpanded: true,
+                                        underline: const SizedBox(),
+                                        dropdownColor: AppColors.surface,
+                                        style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                        items: ['Single Source', 'Picture-in-Picture (PiP)', 'Split Screen', 'Side-by-Side'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                                        onChanged: (v) => setState(() => _layoutPreset = v!),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            // Orientation icon representation:
+                            Row(
+                              children: [
+                                Icon(
+                                  _orientation.contains('Portrait') ? Icons.stay_current_portrait_rounded : Icons.stay_current_landscape_rounded,
+                                  color: AppColors.currentViolet,
+                                  size: 16,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    _orientation.contains('Portrait') 
+                                        ? 'Optimized for TikTok, Reels, & Shorts (Mobile portrait streams)'
+                                        : 'Optimized for YouTube, Twitch, & Facebook (Widescreen landscape streams)',
+                                    style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(height: 120), // Bottom spacer
                     ],
                   ),
@@ -372,7 +451,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                   Expanded(
                     child: GlowButton(
                       text: 'LAUNCH BROADCAST',
-                      gradient: const LinearGradient(colors: [AppColors.liveRed, Color(0xFFC2185B)]),
+                      gradient: const LinearGradient(colors: [AppColors.onlineGreen, Color(0xFF1B5E20)]),
                       onTap: _triggerGoLive,
                     ),
                   ),

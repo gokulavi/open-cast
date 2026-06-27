@@ -197,3 +197,14 @@ final analyticsProvider = Provider<AnalyticsData>((ref) {
 
 // ── Navigation Index Provider ─────────────────────────────────
 final navIndexProvider = StateProvider<int>((ref) => 0);
+
+// ── Discord Voice Chat Integration Providers ─────────────────
+final discordConnectedProvider = StateProvider<bool>((ref) => false);
+final discordVoiceParticipantsProvider = Provider<List<Map<String, dynamic>>>((ref) {
+  return [
+    {'name': 'gokulavi', 'isTalking': true, 'isMuted': false},
+    {'name': 'stream_bud', 'isTalking': false, 'isMuted': true},
+    {'name': 'gamer_girl', 'isTalking': false, 'isMuted': false},
+  ];
+});
+

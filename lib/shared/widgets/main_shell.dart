@@ -143,7 +143,7 @@ class MainShell extends ConsumerWidget {
                         padding: const EdgeInsets.all(24),
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.liveRed,
+                            backgroundColor: AppColors.onlineGreen,
                             minimumSize: const Size.fromHeight(50),
                             elevation: 0,
                             shadowColor: Colors.transparent,
@@ -224,7 +224,7 @@ class MainShell extends ConsumerWidget {
           floatingActionButton: constraints.maxWidth < 900
               ? FloatingActionButton(
                   onPressed: () => context.push('/go-live'),
-                  backgroundColor: AppColors.liveRed,
+                  backgroundColor: AppColors.onlineGreen,
                   shape: const CircleBorder(),
                   child: const Icon(Icons.stream_rounded, color: Colors.white),
                 )

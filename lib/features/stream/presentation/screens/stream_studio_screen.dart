@@ -395,6 +395,8 @@ class StreamStudioScreen extends ConsumerWidget {
   // ── Column 3 helper: Live Chat scrolling feed ──────────────────────
   Widget _buildChatAndAlertsColumn(WidgetRef ref, List<ChatMessage> messages) {
     final textController = TextEditingController();
+    final discordConnected = ref.watch(discordConnectedProvider);
+    final discordParticipants = ref.watch(discordVoiceParticipantsProvider);
 
     void submitChat() {
       if (textController.text.trim().isEmpty) return;
@@ -403,7 +405,7 @@ class StreamStudioScreen extends ConsumerWidget {
             username: 'Broadcaster',
             message: textController.text.trim(),
             timestamp: DateTime.now(),
-            usernameColor: '#FF3B5C',
+            usernameColor: '#D4AF37',
           ));
       textController.clear();
     }
@@ -411,6 +413,114 @@ class StreamStudioScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Discord Integration Panel
+        GlassCard(
+          padding: const EdgeInsets.all(12),
+          bgOpacity: 0.45,
+          borderOpacity: 0.15,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  const Icon(Icons.headset_mic_rounded, color: Color(0xFF5865F2), size: 18),
+                  const SizedBox(width: 8),
+                  Text(
+                    'DISCORD VOICE CHAT',
+                    style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const Spacer(),
+                  Container(
+                    width: 7,
+                    height: 7,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: discordConnected ? AppColors.onlineGreen : Colors.white24,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              if (!discordConnected)
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF5865F2),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    minimumSize: Size.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  onPressed: () => ref.read(discordConnectedProvider.notifier).state = true,
+                  child: Text(
+                    'CONNECT VOICE CHANNEL',
+                    style: AppTheme.getHeaderStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                )
+              else ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '🔊 Room: 🎧 Friends Voice',
+                      style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white70),
+                    ),
+                    InkWell(
+                      onTap: () => ref.read(discordConnectedProvider.notifier).state = false,
+                      child: Text(
+                        'Disconnect',
+                        style: AppTheme.getBodyStyle(fontSize: 9, color: AppColors.liveRed, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                const Divider(height: 8, color: Colors.white10),
+                ...discordParticipants.map((friend) {
+                  final String name = friend['name'];
+                  final bool isTalking = friend['isTalking'];
+                  final bool isMuted = friend['isMuted'];
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Row(
+                      children: [
+                        Icon(
+                          isTalking
+                              ? Icons.volume_up_rounded
+                              : (isMuted ? Icons.mic_off_rounded : Icons.volume_mute_rounded),
+                          size: 13,
+                          color: isTalking ? AppColors.onlineGreen : Colors.white30,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          '@$name',
+                          style: AppTheme.getBodyStyle(
+                            fontSize: 10,
+                            color: isTalking ? Colors.white : Colors.white70,
+                            fontWeight: isTalking ? FontWeight.bold : FontWeight.normal,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (isTalking)
+                          Text(
+                            'Speaking...',
+                            style: AppTheme.getBodyStyle(fontSize: 9, color: AppColors.onlineGreen),
+                          )
+                        else if (isMuted)
+                          Text(
+                            'Muted',
+                            style: AppTheme.getBodyStyle(fontSize: 9, color: Colors.white24),
+                          ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+
         Text(
           'STUDIO LIVE CHAT',
           style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
