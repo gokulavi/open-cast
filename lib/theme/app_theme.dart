@@ -8,34 +8,34 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color matteBlack = Color(0xFF0D0D0D);
-  static const Color currentViolet = Color(0xFF7F3DFF);
-  static const Color accentPurpleGlow = Color(0xFFA970FF);
-  static const Color softWhite = Color(0xFFF5F5F5);
-  static const Color cardDark = Color(0xFF1A1A2E);
-  static const Color surface = Color(0xFF161616);
-  static const Color border = Color(0xFF2A2A4A);
+  static const Color matteBlack = Color(0xFF0C0F17);       // Soft Slate Midnight (calming background)
+  static const Color currentViolet = Color(0xFF3F72AF);     // Sophisticated Sapphire Blue (primary brand)
+  static const Color accentPurpleGlow = Color(0xFF90B4CE);  // Cool Ice Blue (glow highlights)
+  static const Color softWhite = Color(0xFFE2E8F0);         // Calm Off-white (prevents text glare)
+  static const Color cardDark = Color(0xFF161B26);          // Soft Charcoal Card fill
+  static const Color surface = Color(0xFF111520);           // Deep Surface container
+  static const Color border = Color(0xFF242C3F);            // Low-contrast Steel Border
   
-  static const Color liveRed = Color(0xFFFF3B5C);
-  static const Color onlineGreen = Color(0xFF00E676);
-  static const Color warningAmber = Color(0xFFFFB300);
-  static const Color infoBlue = Color(0xFF00B4FF);
+  static const Color liveRed = Color(0xFFFF5376);           // Soft Crimson Live Red
+  static const Color onlineGreen = Color(0xFF10B981);       // Calming Emerald Green
+  static const Color warningAmber = Color(0xFFF59E0B);      // Warm Amber Warning
+  static const Color infoBlue = Color(0xFF3B82F6);          // Steel Blue Info
 
   // Gradients
   static const LinearGradient brandGradient = LinearGradient(
-    colors: [currentViolet, Color(0xFF531CB3)],
+    colors: [currentViolet, Color(0xFF2E517A)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient liveGradient = LinearGradient(
-    colors: [liveRed, Color(0xFFC2185B)],
+    colors: [liveRed, Color(0xFFD63B5D)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient neonBorderGradient = LinearGradient(
-    colors: [currentViolet, accentPurpleGlow, infoBlue],
+    colors: [currentViolet, accentPurpleGlow, Color(0xFF6B99C3)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -45,16 +45,16 @@ class AppGlows {
   AppGlows._();
 
   static const BoxShadow violetGlow = BoxShadow(
-    color: Color(0x667F3DFF), // 0.4 opacity
+    color: Color(0x333F72AF), // Softer, lower opacity sapphire glow
     blurRadius: 20,
-    spreadRadius: 2,
+    spreadRadius: 1,
     offset: Offset(0, 0),
   );
 
   static const BoxShadow redGlow = BoxShadow(
-    color: Color(0x66FF3B5C),
+    color: Color(0x33FF5376), // Softer crimson glow
     blurRadius: 20,
-    spreadRadius: 2,
+    spreadRadius: 1,
     offset: Offset(0, 0),
   );
 }
@@ -136,13 +136,13 @@ class AppTheme {
   // Violet Neon Theme Definition (Cyberpunk style)
   static ThemeData get violetNeon {
     return darkPro.copyWith(
-      scaffoldBackgroundColor: const Color(0xFF090514),
+      scaffoldBackgroundColor: const Color(0xFF0A0F1D), // Calm Midnight Blue
       cardTheme: CardThemeData(
-        color: const Color(0xFF140A26),
+        color: const Color(0xFF151C2C), // Navy-Slate card fill
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: const BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
+          side: BorderSide(color: AppColors.accentPurpleGlow.withValues(alpha: 0.4), width: 1.2), // Softer ice-blue border
         ),
       ),
     );
