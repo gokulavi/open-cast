@@ -8,22 +8,22 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color matteBlack = Color(0xFF0C0F17);       // Soft Slate Midnight (calming background)
-  static const Color currentViolet = Color(0xFF3F72AF);     // Sophisticated Sapphire Blue (primary brand)
-  static const Color accentPurpleGlow = Color(0xFF90B4CE);  // Cool Ice Blue (glow highlights)
-  static const Color softWhite = Color(0xFFE2E8F0);         // Calm Off-white (prevents text glare)
-  static const Color cardDark = Color(0xFF161B26);          // Soft Charcoal Card fill
-  static const Color surface = Color(0xFF111520);           // Deep Surface container
-  static const Color border = Color(0xFF242C3F);            // Low-contrast Steel Border
+  static const Color matteBlack = Color(0xFF080808);       // Luxury Deep Matte Black (scaffold bg)
+  static const Color currentViolet = Color(0xFFD4AF37);     // Rich Metallic Gold (brand primary)
+  static const Color accentPurpleGlow = Color(0xFFF3E5AB);  // Soft Champagne Gold (glow active highlights)
+  static const Color softWhite = Color(0xFFFAFAFA);         // Bright Soft White (clear readable text)
+  static const Color cardDark = Color(0xFF141414);          // Frosted Glassy Black Card base
+  static const Color surface = Color(0xFF1B1B1B);           // Elevated surface base
+  static const Color border = Color(0x33FFFFFF);            // Glass White Stroke (20% opacity)
   
-  static const Color liveRed = Color(0xFFFF5376);           // Soft Crimson Live Red
-  static const Color onlineGreen = Color(0xFF10B981);       // Calming Emerald Green
-  static const Color warningAmber = Color(0xFFF59E0B);      // Warm Amber Warning
-  static const Color infoBlue = Color(0xFF3B82F6);          // Steel Blue Info
+  static const Color liveRed = Color(0xFFFF453A);           // Smooth Live Crimson Red
+  static const Color onlineGreen = Color(0xFF30D158);       // Brilliant Active Green
+  static const Color warningAmber = Color(0xFFFFD60A);      // Warm Yellow warning
+  static const Color infoBlue = Color(0xFF0A84FF);          // Ocean Indigo Info
 
   // Gradients
   static const LinearGradient brandGradient = LinearGradient(
-    colors: [currentViolet, Color(0xFF2E517A)],
+    colors: [currentViolet, Color(0xFF996515)], // Metallic Gold to Dark Gold
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -35,7 +35,7 @@ class AppColors {
   );
 
   static const LinearGradient neonBorderGradient = LinearGradient(
-    colors: [currentViolet, accentPurpleGlow, Color(0xFF6B99C3)],
+    colors: [currentViolet, accentPurpleGlow, Color(0xFFC5A059)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -45,14 +45,14 @@ class AppGlows {
   AppGlows._();
 
   static const BoxShadow violetGlow = BoxShadow(
-    color: Color(0x333F72AF), // Softer, lower opacity sapphire glow
-    blurRadius: 20,
+    color: Color(0x44D4AF37), // Soft gold glow shadow
+    blurRadius: 22,
     spreadRadius: 1,
     offset: Offset(0, 0),
   );
 
   static const BoxShadow redGlow = BoxShadow(
-    color: Color(0x33FF5376), // Softer crimson glow
+    color: Color(0x33FF453A),
     blurRadius: 20,
     spreadRadius: 1,
     offset: Offset(0, 0),
@@ -136,13 +136,13 @@ class AppTheme {
   // Violet Neon Theme Definition (Cyberpunk style)
   static ThemeData get violetNeon {
     return darkPro.copyWith(
-      scaffoldBackgroundColor: const Color(0xFF0A0F1D), // Calm Midnight Blue
+      scaffoldBackgroundColor: const Color(0xFF050505), // Ultra Black
       cardTheme: CardThemeData(
-        color: const Color(0xFF151C2C), // Navy-Slate card fill
+        color: const Color(0xFF0F0F0F), // Black Glass Base
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: AppColors.accentPurpleGlow.withValues(alpha: 0.4), width: 1.2), // Softer ice-blue border
+          side: const BorderSide(color: Colors.white24, width: 1.2), // Clear White stroke outline
         ),
       ),
     );

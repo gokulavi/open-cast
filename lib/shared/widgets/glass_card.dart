@@ -25,7 +25,7 @@ class GlassCard extends StatelessWidget {
     this.borderRadius = 18.0,
     this.blur = 15.0,
     this.borderOpacity = 0.15,
-    this.bgOpacity = 0.05,
+    this.bgOpacity = 0.55, // Frosted black glass default opacity
     this.customBorder,
     this.padding = const EdgeInsets.all(16.0),
     this.width,
@@ -49,7 +49,7 @@ class GlassCard extends StatelessWidget {
           child: Container(
             padding: padding,
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: bgOpacity),
+              color: Colors.black.withValues(alpha: bgOpacity),
               borderRadius: BorderRadius.circular(borderRadius),
               border: customBorder ??
                   Border.all(
