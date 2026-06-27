@@ -17,6 +17,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
     final themeType = ref.watch(themeProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -28,14 +29,22 @@ class SettingsScreen extends ConsumerWidget {
             children: [
               Text(
                 'STUDIO SETTINGS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white54 : Colors.black54,
+                ),
               ),
               const SizedBox(height: 24),
 
               // ── APPEARANCE & BRAND THEME ──────────────────────────────
               Text(
                 'APPEARANCE',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white54 : Colors.black54,
+                ),
               ),
               const SizedBox(height: 8),
               GlassCard(
@@ -43,10 +52,13 @@ class SettingsScreen extends ConsumerWidget {
                   children: [
                     RadioListTile<String>(
                       title: Text('Dark Pro', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      subtitle: Text('Minimalist deep matte black with violet accents.', style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white38)),
+                      subtitle: Text(
+                        'Minimalist deep matte black with violet accents.',
+                        style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38),
+                      ),
                       value: 'darkPro',
                       groupValue: themeType,
-                      activeColor: AppColors.accentPurpleGlow,
+                      activeColor: AppColors.currentViolet,
                       onChanged: (val) {
                         if (val != null) {
                           ref.read(themeProvider.notifier).state = val;
@@ -57,10 +69,13 @@ class SettingsScreen extends ConsumerWidget {
                     const Divider(height: 1, indent: 16, endIndent: 16),
                     RadioListTile<String>(
                       title: Text('Violet Neon', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      subtitle: Text('Cyberpunk high energy glowing neon borders.', style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white38)),
+                      subtitle: Text(
+                        'Premium bright theme with light background.',
+                        style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38),
+                      ),
                       value: 'violetNeon',
                       groupValue: themeType,
-                      activeColor: AppColors.accentPurpleGlow,
+                      activeColor: AppColors.currentViolet,
                       onChanged: (val) {
                         if (val != null) {
                           ref.read(themeProvider.notifier).state = val;
@@ -76,13 +91,18 @@ class SettingsScreen extends ConsumerWidget {
               // ── STREAM QUALITY PRESETS ─────────────────────────────────
               Text(
                 'STREAM QUALITY CONFIGURATION',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white54 : Colors.black54,
+                ),
               ),
               const SizedBox(height: 8),
               GlassCard(
                 child: Column(
                   children: [
                     _buildSettingsDropdown(
+                      context,
                       'Broadcast Quality Preset',
                       settings.videoQuality,
                       ['720p (30fps)', '720p (60fps)', '1080p (30fps)', '1080p (60fps)'],
@@ -90,6 +110,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     const Divider(height: 20),
                     _buildSettingsDropdown(
+                      context,
                       'Video Hardware Encoder',
                       settings.encoder,
                       ['x264', 'NVENC', 'AMF', 'QuickSync'],
@@ -97,6 +118,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     const Divider(height: 20),
                     _buildSettingsDropdown(
+                      context,
                       'Target Streaming Bitrate',
                       '${settings.bitrate} kbps',
                       ['2500 kbps', '4500 kbps', '6000 kbps', '8000 kbps'],
@@ -112,13 +134,18 @@ class SettingsScreen extends ConsumerWidget {
               // ── HARDWARE & DEVICES ─────────────────────────────────────
               Text(
                 'AUDIO & CAPTURE DEVICES',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white54 : Colors.black54,
+                ),
               ),
               const SizedBox(height: 8),
               GlassCard(
                 child: Column(
                   children: [
                     _buildSettingsDropdown(
+                      context,
                       'Input Microphone Source',
                       settings.audioInputDevice,
                       ['Default Studio Mic', 'Webcam Mic Input', 'System Virtual Link'],
@@ -126,6 +153,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     const Divider(height: 20),
                     _buildSettingsDropdown(
+                      context,
                       'Active Video Webcam Source',
                       settings.videoInputDevice,
                       ['Default Webcam', 'External Camlink Input', 'Virtual OBS Source'],
@@ -139,7 +167,11 @@ class SettingsScreen extends ConsumerWidget {
               // ── CREATOR AI SHORTCUTS (BETA) ────────────────────────────
               Text(
                 'AI CO-STREAM FEATURES (BETA)',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.white54 : Colors.black54,
+                ),
               ),
               const SizedBox(height: 8),
               GlassCard(
@@ -148,19 +180,25 @@ class SettingsScreen extends ConsumerWidget {
                     SwitchListTile(
                       title: Text('Real-time Speech Captions', style: AppTheme.getBodyStyle(fontSize: 14)),
                       value: settings.enableAICaptions,
-                      activeColor: AppColors.accentPurpleGlow,
+                      activeColor: AppColors.currentViolet,
                       onChanged: (v) => ref.read(settingsProvider.notifier).updateSettings(settings.copyWith(enableAICaptions: v)),
                     ),
                     const Divider(height: 1),
                     SwitchListTile(
                       title: Text('Smart Noise Cancellation', style: AppTheme.getBodyStyle(fontSize: 14)),
                       value: settings.enableNoiseCancel,
-                      activeColor: AppColors.accentPurpleGlow,
+                      activeColor: AppColors.currentViolet,
                       onChanged: (v) => ref.read(settingsProvider.notifier).updateSettings(settings.copyWith(enableNoiseCancel: v)),
                     ),
                     const Divider(height: 1),
                     SwitchListTile(
-                      title: Text('Virtual Avatar tracking (Future)', style: AppTheme.getBodyStyle(fontSize: 14, color: Colors.white24)),
+                      title: Text(
+                        'Virtual Avatar tracking (Future)',
+                        style: AppTheme.getBodyStyle(
+                          fontSize: 14,
+                          color: isDark ? Colors.white24 : Colors.black26,
+                        ),
+                      ),
                       value: false,
                       onChanged: null, // Disabled
                     ),
@@ -195,20 +233,50 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSettingsDropdown(String label, String value, List<String> options, Function(String) onChanged) {
+  Widget _buildSettingsDropdown(
+    BuildContext context,
+    String label,
+    String value,
+    List<String> options,
+    Function(String) onChanged,
+  ) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white54)),
+          Text(
+            label,
+            style: AppTheme.getBodyStyle(
+              fontSize: 12,
+              color: isDark ? Colors.white54 : Colors.black54,
+            ),
+          ),
           DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               value: value,
               isExpanded: true,
-              dropdownColor: AppColors.matteBlack,
-              style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              items: options.map((o) => DropdownMenuItem(value: o, child: Text(o))).toList(),
+              dropdownColor: isDark ? AppColors.matteBlack : Colors.white,
+              style: AppTheme.getHeaderStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
+              items: options.map((o) {
+                return DropdownMenuItem(
+                  value: o,
+                  child: Text(
+                    o,
+                    style: TextStyle(
+                      color: isDark ? Colors.white : Colors.black87,
+                      fontSize: 13,
+                      fontFamily: 'Exo2',
+                    ),
+                  ),
+                );
+              }).toList(),
               onChanged: (val) {
                 if (val != null) onChanged(val);
               },
