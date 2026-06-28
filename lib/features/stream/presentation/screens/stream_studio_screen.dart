@@ -231,7 +231,7 @@ class StreamStudioScreen extends ConsumerWidget {
                         IconButton(
                           icon: const Icon(Icons.qr_code_rounded, size: 16),
                           color: AppColors.currentViolet,
-                          tooltip: 'Connect Mobile Camera (PRISM Lens)',
+                          tooltip: 'Connect Mobile Camera (OpenCast Lens)',
                           onPressed: () => _showMobileLensDialog(context),
                         ),
                       IconButton(
@@ -656,7 +656,7 @@ class _StudioControlBadge extends StatelessWidget {
   }
 }
 
-// ── PRISM Lens Dialog Helper ─────────────────────────────────
+// ── OpenCast Lens Dialog Helper ─────────────────────────────────
 void _showMobileLensDialog(BuildContext context) {
   showDialog(
     context: context,
@@ -664,19 +664,19 @@ void _showMobileLensDialog(BuildContext context) {
       return Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-        child: _PrismLensWidget(),
+        child: _OpenCastLensWidget(),
       );
     },
   );
 }
 
-// ── PRISM Lens Stateful Connector Interface ──────────────────
-class _PrismLensWidget extends StatefulWidget {
+// ── OpenCast Lens Stateful Connector Interface ──────────────────
+class _OpenCastLensWidget extends StatefulWidget {
   @override
-  State<_PrismLensWidget> createState() => _PrismLensWidgetState();
+  State<_OpenCastLensWidget> createState() => _OpenCastLensWidgetState();
 }
 
-class _PrismLensWidgetState extends State<_PrismLensWidget> {
+class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
   int _activeLens = 3;
   bool _motionOff = false;
   bool _lensInUse = true;
@@ -723,7 +723,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
                 const Icon(Icons.videocam_rounded, color: AppColors.currentViolet, size: 18),
                 const SizedBox(width: 8),
                 Text(
-                  'PRISM Lens',
+                  'OpenCast Lens',
                   style: AppTheme.getHeaderStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const Spacer(),
@@ -796,7 +796,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  'Please scan the QR code in the CONNECT menu of the PRISM mobile app.',
+                                  'Please scan the QR code in the CONNECT menu of the OpenCast mobile app.',
                                   textAlign: TextAlign.center,
                                   style: AppTheme.getBodyStyle(color: Colors.black87, fontSize: 11, fontWeight: FontWeight.bold),
                                 ),
@@ -886,7 +886,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Connect PRISM Mobile',
+                                'Connect OpenCast Mobile',
                                 style: AppTheme.getBodyStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
                               ),
                             ),
@@ -959,7 +959,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _buildBgTab('RECENT', false),
-                          _buildBgTab('PRISM', true),
+                          _buildBgTab('OPENCAST', true),
                           _buildBgTab('FREE', false),
                           _buildBgTab('MY', false),
                         ],
@@ -1068,7 +1068,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
                 ),
                 const Spacer(),
                 Text(
-                  'PRISM Lens 3 is in use',
+                  'OpenCast Lens 3 is in use',
                   style: AppTheme.getBodyStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
@@ -1104,7 +1104,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
-          'PRISM Lens $index',
+          'OpenCast Lens $index',
           style: AppTheme.getHeaderStyle(
             fontSize: 10,
             fontWeight: FontWeight.bold,
