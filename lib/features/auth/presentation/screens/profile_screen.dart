@@ -71,7 +71,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             children: [
               Text(
                 'MY PROFILE',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 24),
 
@@ -169,7 +169,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               // ── CONNECTED PLATFORMS ────────────────────────────────────
               Text(
                 'CONNECTED PLATFORMS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 12),
               GlassCard(
@@ -189,7 +189,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               // ── GENERAL ACCOUNT OPTIONS ────────────────────────────────
               Text(
                 'ACCOUNT SETTINGS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 12),
               GlassCard(

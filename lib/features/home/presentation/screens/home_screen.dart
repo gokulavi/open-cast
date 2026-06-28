@@ -26,7 +26,6 @@ class HomeScreen extends ConsumerWidget {
     final isBright = themeType == 'bright';
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final headerColor = isDark ? Colors.white54 : Colors.black54;
     final subheadColor = isDark ? Colors.white38 : Colors.black45;
     final iconColor = isDark ? Colors.white : Colors.black87;
 
@@ -143,7 +142,7 @@ class HomeScreen extends ConsumerWidget {
               // ── QUICK ACTIONS (2x2 Grid) ───────────────────────────────
               Text(
                 'QUICK OPERATIONS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 12),
               LayoutBuilder(
@@ -191,7 +190,7 @@ class HomeScreen extends ConsumerWidget {
               if (isLive) ...[
                 Text(
                   'STREAM METRICS & HEALTH',
-                  style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
+                  style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
                 ),
                 const SizedBox(height: 12),
                 GlassCard(
@@ -214,7 +213,7 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   Text(
                     'SCENE MANAGER',
-                    style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
+                    style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
                   ),
                   Text(
                     '${scenes.length} configured',
@@ -283,7 +282,7 @@ class HomeScreen extends ConsumerWidget {
               // ── AUDIO MIXER ────────────────────────────────────────────
               Text(
                 'AUDIO MIXER',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 12),
               GlassCard(
@@ -310,7 +309,7 @@ class HomeScreen extends ConsumerWidget {
               // ── CREATOR TOOLS TOGGLES ──────────────────────────────────
               Text(
                 'CREATOR SHORTCUTS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 12),
               SizedBox(

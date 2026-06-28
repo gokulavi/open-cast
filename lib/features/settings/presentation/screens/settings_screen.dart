@@ -32,7 +32,7 @@ class SettingsScreen extends ConsumerWidget {
                 style: AppTheme.getHeaderStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white54 : Colors.black54,
+                  color: AppColors.currentViolet,
                 ),
               ),
               const SizedBox(height: 24),
@@ -43,7 +43,7 @@ class SettingsScreen extends ConsumerWidget {
                 style: AppTheme.getHeaderStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white54 : Colors.black54,
+                  color: AppColors.currentViolet,
                 ),
               ),
               const SizedBox(height: 8),
@@ -94,7 +94,7 @@ class SettingsScreen extends ConsumerWidget {
                 style: AppTheme.getHeaderStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white54 : Colors.black54,
+                  color: AppColors.currentViolet,
                 ),
               ),
               const SizedBox(height: 8),
@@ -137,7 +137,7 @@ class SettingsScreen extends ConsumerWidget {
                 style: AppTheme.getHeaderStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white54 : Colors.black54,
+                  color: AppColors.currentViolet,
                 ),
               ),
               const SizedBox(height: 8),
@@ -170,7 +170,7 @@ class SettingsScreen extends ConsumerWidget {
                 style: AppTheme.getHeaderStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: isDark ? Colors.white54 : Colors.black54,
+                  color: AppColors.currentViolet,
                 ),
               ),
               const SizedBox(height: 8),
