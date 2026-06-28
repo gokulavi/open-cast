@@ -52,7 +52,7 @@ class AnalyticsScreen extends ConsumerWidget {
               // ── VIEWER DURATION HISTORY LINE GRAPH ─────────────────────
               Text(
                 'VIEWER GROWTH (LAST 7 DAYS)',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 8),
               GlassCard(
@@ -92,7 +92,7 @@ class AnalyticsScreen extends ConsumerWidget {
               // ── PLATFORM BREAKDOWN PIE CHART ─────────────────────────────
               Text(
                 'AUDIENCE BREAKDOWN BY PLATFORM',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 8),
               GlassCard(
@@ -134,7 +134,7 @@ class AnalyticsScreen extends ConsumerWidget {
               // ── RECENT STREAMS LIST ──────────────────────────────────
               Text(
                 'RECENT STREAM LOGS',
-                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 8),
               ListView.builder(

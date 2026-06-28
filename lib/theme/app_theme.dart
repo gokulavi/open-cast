@@ -16,7 +16,7 @@ class AppColors {
   static const Color softWhite = Color(0xFFFAFAFA);         // Bright Soft White (clear readable text)
   static const Color cardDark = Color(0xFF141414);          // Frosted Glassy Black Card base
   static const Color surface = Color(0xFF1B1B1B);           // Elevated surface base
-  static const Color border = Color(0x33FFFFFF);            // Glass White Stroke (20% opacity)
+  static const Color border = Color(0x44D4AF37);            // Glass Gold Stroke
   
   static const Color liveRed = Color(0xFFFF453A);           // Smooth Live Crimson Red
   static const Color onlineGreen = Color(0xFF30D158);       // Brilliant Active Green
@@ -66,8 +66,22 @@ class AppTheme {
 
   static TextStyle getHeaderStyle({
     double fontSize = 24,
-    FontWeight fontWeight = FontWeight.w600,
-    Color? color,
+    FontWeight fontWeight = FontWeight.bold,
+    Color? color = AppColors.currentViolet,
+    double? letterSpacing,
+  }) {
+    return GoogleFonts.rajdhani(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color,
+      letterSpacing: letterSpacing,
+    );
+  }
+
+  static TextStyle getH2Style({
+    double fontSize = 18,
+    FontWeight fontWeight = FontWeight.normal,
+    Color? color = AppColors.currentViolet,
     double? letterSpacing,
   }) {
     return GoogleFonts.rajdhani(
@@ -148,11 +162,11 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
-          side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2), // Slate outline
+          side: const BorderSide(color: AppColors.border, width: 1.2), // Themed outline
         ),
       ),
       dividerTheme: const DividerThemeData(
-        color: Color(0xFFE2E8F0),
+        color: AppColors.border,
         thickness: 1,
       ),
       textTheme: TextTheme(

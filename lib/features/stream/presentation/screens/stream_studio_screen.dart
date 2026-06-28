@@ -700,7 +700,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
       decoration: BoxDecoration(
         color: const Color(0xFF0F0F12),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white12, width: 1),
+        border: Border.all(color: AppColors.border, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.8),
@@ -1121,7 +1121,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E24),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.black12),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

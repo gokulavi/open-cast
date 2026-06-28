@@ -267,7 +267,7 @@ class _ChatOverlayScreenState extends ConsumerState<ChatOverlayScreen> {
               ? Colors.transparent
               : (_bgStyle == 'Dark' ? Colors.black.withValues(alpha: _opacity) : Colors.white.withValues(alpha: 0.1)),
           borderRadius: BorderRadius.circular(8),
-          border: _bgStyle == 'Glass' ? Border.all(color: Colors.white24) : null,
+          border: _bgStyle == 'Glass' ? Border.all(color: AppColors.border) : null,
         ),
         padding: const EdgeInsets.all(6),
         child: Column(

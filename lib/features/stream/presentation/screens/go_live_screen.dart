@@ -27,7 +27,22 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
   final _rtmpKeyCtrl = TextEditingController();
 
   String _category = 'Gaming';
-  final List<String> _platforms = ['Twitch', 'YouTube', 'Facebook', 'TikTok', 'Kick', 'Custom RTMP'];
+  final List<String> _platforms = [
+    'Twitch',
+    'YouTube',
+    'Facebook',
+    'Kick',
+    'Trovo',
+    'Instagram',
+    'SOOP',
+    'NAVER TV',
+    'BAND',
+    'NAVER Shopping',
+    'CHZZK',
+    'NOW',
+    'NAVER Cloud Platform',
+    'Custom RTMP',
+  ];
   final List<String> _selectedPlatforms = [];
   
   String _resolution = '1080p (60fps)';
@@ -143,7 +158,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       // ── TITLE INPUT ───────────────────────────────────────
                       Text(
                         'STREAM TITLE (MAX 140 CHARS)',
-                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                        style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
                       ),
                       const SizedBox(height: 8),
                       TextField(
@@ -170,7 +185,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                               children: [
                                 Text(
                                   'STREAM CATEGORY',
-                                  style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                                  style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
                                 ),
                                 const SizedBox(height: 8),
                                 Container(
@@ -204,7 +219,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                               children: [
                                 Text(
                                   'ACTIVE SCENE PREVIEW',
-                                  style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                                  style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
                                 ),
                                 const SizedBox(height: 8),
                                 Container(
@@ -238,7 +253,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       // ── PLATFORMS GRID ──────────────────────────────────
                       Text(
                         'STREAM PLATFORMS',
-                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet),
+                        style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
                       ),
                       const SizedBox(height: 8),
                       GridView.builder(

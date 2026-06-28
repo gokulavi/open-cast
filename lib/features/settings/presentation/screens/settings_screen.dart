@@ -40,9 +40,8 @@ class SettingsScreen extends ConsumerWidget {
               // ── APPEARANCE & BRAND THEME ──────────────────────────────
               Text(
                 'APPEARANCE',
-                style: AppTheme.getHeaderStyle(
+                style: AppTheme.getH2Style(
                   fontSize: 12,
-                  fontWeight: FontWeight.bold,
                   color: AppColors.currentViolet,
                 ),
               ),
@@ -91,9 +90,8 @@ class SettingsScreen extends ConsumerWidget {
               // ── STREAM QUALITY PRESETS ─────────────────────────────────
               Text(
                 'STREAM QUALITY CONFIGURATION',
-                style: AppTheme.getHeaderStyle(
+                style: AppTheme.getH2Style(
                   fontSize: 12,
-                  fontWeight: FontWeight.bold,
                   color: AppColors.currentViolet,
                 ),
               ),
@@ -134,9 +132,8 @@ class SettingsScreen extends ConsumerWidget {
               // ── HARDWARE & DEVICES ─────────────────────────────────────
               Text(
                 'AUDIO & CAPTURE DEVICES',
-                style: AppTheme.getHeaderStyle(
+                style: AppTheme.getH2Style(
                   fontSize: 12,
-                  fontWeight: FontWeight.bold,
                   color: AppColors.currentViolet,
                 ),
               ),
@@ -167,9 +164,8 @@ class SettingsScreen extends ConsumerWidget {
               // ── CREATOR AI SHORTCUTS (BETA) ────────────────────────────
               Text(
                 'AI CO-STREAM FEATURES (BETA)',
-                style: AppTheme.getHeaderStyle(
+                style: AppTheme.getH2Style(
                   fontSize: 12,
-                  fontWeight: FontWeight.bold,
                   color: AppColors.currentViolet,
                 ),
               ),
