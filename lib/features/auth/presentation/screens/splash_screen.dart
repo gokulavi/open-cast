@@ -51,10 +51,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     final themeType = ref.watch(themeProvider);
-    final isNeon = themeType == 'violetNeon';
+    final isBright = themeType == 'bright';
 
     return Scaffold(
-      backgroundColor: isNeon ? const Color(0xFF090514) : AppColors.matteBlack,
+      backgroundColor: isBright ? const Color(0xFF090514) : AppColors.matteBlack,
       body: Container(
         decoration: BoxDecoration(
           gradient: RadialGradient(

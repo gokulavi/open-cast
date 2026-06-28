@@ -21,7 +21,7 @@ class OpenCastApp extends ConsumerWidget {
       title: 'OPEN CAST',
       debugShowCheckedModeBanner: false,
       routerConfig: router,
-      theme: themeType == 'violetNeon' ? AppTheme.violetNeon : AppTheme.darkPro,
+      theme: themeType == 'bright' ? AppTheme.bright : AppTheme.darkPro,
     );
   }
 }

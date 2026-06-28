@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
+import 'shared/providers/app_providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +20,9 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
+  // Initialize Shared Preferences
+  final prefs = await SharedPreferences.getInstance();
+
   // Safe Firebase Initialization
   try {
     await Firebase.initializeApp();
@@ -27,8 +32,11 @@ void main() async {
 
   runApp(
     // ── RIVERPOD ROOT PROVIDERSCOPE ──────────────────────────────
-    const ProviderScope(
-      child: OpenCastApp(),
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(prefs),
+      ],
+      child: const OpenCastApp(),
     ),
   );
 }

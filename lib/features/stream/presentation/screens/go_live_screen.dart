@@ -73,7 +73,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
     }
     if (_selectedPlatforms.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select at least one stream destination!')),
+        const SnackBar(content: Text('Please select at least one stream platform!')),
       );
       return;
     }
@@ -235,9 +235,9 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       ),
                       const SizedBox(height: 24),
 
-                      // ── DESTINATIONS GRID ──────────────────────────────────
+                      // ── PLATFORMS GRID ──────────────────────────────────
                       Text(
-                        'STREAM DESTINATIONS',
+                        'STREAM PLATFORMS',
                         style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
                       ),
                       const SizedBox(height: 8),

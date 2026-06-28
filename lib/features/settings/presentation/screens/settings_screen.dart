@@ -68,12 +68,12 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     const Divider(height: 1, indent: 16, endIndent: 16),
                     RadioListTile<String>(
-                      title: Text('Violet Neon', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      title: Text('Bright', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                       subtitle: Text(
                         'Premium bright theme with light background.',
                         style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38),
                       ),
-                      value: 'violetNeon',
+                      value: 'bright',
                       groupValue: themeType,
                       activeColor: AppColors.currentViolet,
                       onChanged: (val) {
@@ -269,10 +269,9 @@ class SettingsScreen extends ConsumerWidget {
                   value: o,
                   child: Text(
                     o,
-                    style: TextStyle(
-                      color: isDark ? Colors.white : Colors.black87,
+                    style: AppTheme.getBodyStyle(
                       fontSize: 13,
-                      fontFamily: 'Exo2',
+                      color: isDark ? Colors.white : Colors.black87,
                     ),
                   ),
                 );

@@ -45,7 +45,7 @@ class MainShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = _calculateSelectedIndex(context);
     final themeMode = ref.watch(themeProvider);
-    final isNeon = themeMode == 'violetNeon';
+    final isBright = themeMode == 'bright';
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -60,7 +60,7 @@ class MainShell extends ConsumerWidget {
                 Container(
                   width: 260,
                   decoration: BoxDecoration(
-                    color: isNeon ? const Color(0xFF140A26) : AppColors.surface,
+                    color: isBright ? const Color(0xFF140A26) : AppColors.surface,
                     border: const Border(
                       right: BorderSide(color: AppColors.border, width: 1),
                     ),
@@ -107,7 +107,7 @@ class MainShell extends ConsumerWidget {
                                 icon: Icons.dashboard_rounded,
                                 label: 'Home Feed',
                                 selected: selectedIndex == 0,
-                                isNeon: isNeon,
+                                isBright: isBright,
                                 onTap: () => _onItemTapped(0, context, ref),
                               ),
                               const SizedBox(height: 12),
@@ -115,7 +115,7 @@ class MainShell extends ConsumerWidget {
                                 icon: Icons.analytics_rounded,
                                 label: 'Analytics',
                                 selected: selectedIndex == 1,
-                                isNeon: isNeon,
+                                isBright: isBright,
                                 onTap: () => _onItemTapped(1, context, ref),
                               ),
                               const SizedBox(height: 12),
@@ -123,7 +123,7 @@ class MainShell extends ConsumerWidget {
                                 icon: Icons.settings_rounded,
                                 label: 'Settings',
                                 selected: selectedIndex == 2,
-                                isNeon: isNeon,
+                                isBright: isBright,
                                 onTap: () => _onItemTapped(2, context, ref),
                               ),
                               const SizedBox(height: 12),
@@ -131,7 +131,7 @@ class MainShell extends ConsumerWidget {
                                 icon: Icons.person_rounded,
                                 label: 'My Profile',
                                 selected: selectedIndex == 3,
-                                isNeon: isNeon,
+                                isBright: isBright,
                                 onTap: () => _onItemTapped(3, context, ref),
                               ),
                             ],
@@ -184,7 +184,7 @@ class MainShell extends ConsumerWidget {
           body: child,
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
-              color: isNeon ? const Color(0xFF140A26) : AppColors.surface,
+              color: isBright ? const Color(0xFF140A26) : AppColors.surface,
               border: const Border(
                 top: BorderSide(color: AppColors.border, width: 1),
               ),
@@ -241,14 +241,14 @@ class _SidebarItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final bool selected;
-  final bool isNeon;
+  final bool isBright;
   final VoidCallback onTap;
 
   const _SidebarItem({
     required this.icon,
     required this.label,
     required this.selected,
-    required this.isNeon,
+    required this.isBright,
     required this.onTap,
   });
 
@@ -266,7 +266,7 @@ class _SidebarItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: selected
-                ? (isNeon ? AppColors.accentPurpleGlow : AppColors.currentViolet)
+                ? (isBright ? AppColors.accentPurpleGlow : AppColors.currentViolet)
                 : Colors.transparent,
             width: 1.5,
           ),

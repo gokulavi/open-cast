@@ -4,6 +4,7 @@
 // ============================================================
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_models.dart';
 
 // ── Theme Provider ──────────────────────────────────────────
@@ -206,5 +207,16 @@ final discordVoiceParticipantsProvider = Provider<List<Map<String, dynamic>>>((r
     {'name': 'stream_bud', 'isTalking': false, 'isMuted': true},
     {'name': 'gamer_girl', 'isTalking': false, 'isMuted': false},
   ];
+});
+
+// ── Shared Preferences Provider ──────────────────────────────
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError('sharedPreferencesProvider must be overridden in main.dart');
+});
+
+// ── Permissions Requested State Provider ─────────────────────
+final permissionsRequestedProvider = StateProvider<bool>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return prefs.getBool('has_requested_permissions') ?? false;
 });
 

@@ -23,7 +23,12 @@ class HomeScreen extends ConsumerWidget {
     final isLive = session.status == StreamStatus.live;
 
     final themeType = ref.watch(themeProvider);
-    final isNeon = themeType == 'violetNeon';
+    final isBright = themeType == 'bright';
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final headerColor = isDark ? Colors.white54 : Colors.black54;
+    final subheadColor = isDark ? Colors.white38 : Colors.black45;
+    final iconColor = isDark ? Colors.white : Colors.black87;
 
     return Scaffold(
       backgroundColor: Colors.transparent, // Shell handles background
@@ -45,7 +50,7 @@ class HomeScreen extends ConsumerWidget {
                           style: AppTheme.getBodyStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white38,
+                            color: subheadColor,
                           ),
                         ),
                         Text(
@@ -60,7 +65,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   // Notification icon
                   IconButton(
-                    icon: const Icon(Icons.notifications_none_rounded, color: Colors.white),
+                    icon: Icon(Icons.notifications_none_rounded, color: iconColor),
                     onPressed: () {},
                   ),
                   const SizedBox(width: 8),
@@ -138,7 +143,7 @@ class HomeScreen extends ConsumerWidget {
               // ── QUICK ACTIONS (2x2 Grid) ───────────────────────────────
               Text(
                 'QUICK OPERATIONS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
               ),
               const SizedBox(height: 12),
               LayoutBuilder(
@@ -186,7 +191,7 @@ class HomeScreen extends ConsumerWidget {
               if (isLive) ...[
                 Text(
                   'STREAM METRICS & HEALTH',
-                  style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                  style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
                 ),
                 const SizedBox(height: 12),
                 GlassCard(
@@ -209,11 +214,11 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   Text(
                     'SCENE MANAGER',
-                    style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                    style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
                   ),
                   Text(
                     '${scenes.length} configured',
-                    style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white30),
+                    style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white30 : Colors.black38),
                   ),
                 ],
               ),
@@ -278,7 +283,7 @@ class HomeScreen extends ConsumerWidget {
               // ── AUDIO MIXER ────────────────────────────────────────────
               Text(
                 'AUDIO MIXER',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
               ),
               const SizedBox(height: 12),
               GlassCard(
@@ -305,7 +310,7 @@ class HomeScreen extends ConsumerWidget {
               // ── CREATOR TOOLS TOGGLES ──────────────────────────────────
               Text(
                 'CREATOR SHORTCUTS',
-                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white54),
+                style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold, color: headerColor),
               ),
               const SizedBox(height: 12),
               SizedBox(
@@ -497,6 +502,35 @@ class _ToolChipState extends State<_ToolChip> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final Color bgColor;
+    final Color borderColor;
+    final Color contentColor;
+
+    if (isDark) {
+      bgColor = _active 
+          ? AppColors.currentViolet.withValues(alpha: 0.15) 
+          : Colors.white.withValues(alpha: 0.04);
+      borderColor = _active 
+          ? AppColors.accentPurpleGlow 
+          : AppColors.border;
+      contentColor = _active 
+          ? AppColors.softWhite 
+          : Colors.white54;
+    } else {
+      // Bright mode (Light theme)
+      bgColor = _active 
+          ? AppColors.currentViolet.withValues(alpha: 0.2) 
+          : Colors.black.withValues(alpha: 0.05);
+      borderColor = _active 
+          ? AppColors.currentViolet 
+          : Colors.black12;
+      contentColor = _active 
+          ? Colors.black 
+          : Colors.black87;
+    }
+
     return GestureDetector(
       onTap: () => setState(() => _active = !_active),
       child: AnimatedContainer(
@@ -504,13 +538,13 @@ class _ToolChipState extends State<_ToolChip> {
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: _active ? AppColors.currentViolet.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.04),
+          color: bgColor,
           borderRadius: BorderRadius.circular(50),
           border: Border.all(
-            color: _active ? AppColors.accentPurpleGlow : AppColors.border,
+            color: borderColor,
             width: 1.2,
           ),
-          boxShadow: _active ? [AppGlows.violetGlow] : [],
+          boxShadow: _active && isDark ? [AppGlows.violetGlow] : [],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -518,7 +552,7 @@ class _ToolChipState extends State<_ToolChip> {
             Icon(
               widget.icon,
               size: 16,
-              color: _active ? AppColors.accentPurpleGlow : Colors.white54,
+              color: contentColor,
             ),
             const SizedBox(width: 8),
             Text(
@@ -526,7 +560,7 @@ class _ToolChipState extends State<_ToolChip> {
               style: AppTheme.getBodyStyle(
                 fontSize: 12,
                 fontWeight: _active ? FontWeight.bold : FontWeight.normal,
-                color: _active ? AppColors.softWhite : Colors.white54,
+                color: contentColor,
               ),
             ),
           ],

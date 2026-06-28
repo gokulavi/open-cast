@@ -5,6 +5,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 class AppColors {
   AppColors._();
 
@@ -68,8 +70,7 @@ class AppTheme {
     Color? color,
     double? letterSpacing,
   }) {
-    return TextStyle(
-      fontFamily: 'Rajdhani',
+    return GoogleFonts.rajdhani(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
@@ -82,8 +83,7 @@ class AppTheme {
     FontWeight fontWeight = FontWeight.w400,
     Color? color,
   }) {
-    return TextStyle(
-      fontFamily: 'Exo2',
+    return GoogleFonts.exo2(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
@@ -134,7 +134,7 @@ class AppTheme {
   }
 
   // Bright Theme Definition (Premium Light Theme)
-  static ThemeData get violetNeon {
+  static ThemeData get bright {
     return ThemeData.light().copyWith(
       scaffoldBackgroundColor: const Color(0xFFF6F8FA), // Clean, premium off-white background
       colorScheme: const ColorScheme.light(

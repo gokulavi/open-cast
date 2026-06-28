@@ -795,16 +795,16 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                const Text(
+                                Text(
                                   'Please scan the QR code in the CONNECT menu of the PRISM mobile app.',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(color: Colors.black87, fontSize: 11, fontWeight: FontWeight.bold, fontFamily: 'Exo2'),
+                                  style: AppTheme.getBodyStyle(color: Colors.black87, fontSize: 11, fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 4),
-                                const Text(
+                                Text(
                                   'Your PC and mobile must use the same WiFi.',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(color: Colors.black54, fontSize: 10, fontFamily: 'Exo2'),
+                                  style: AppTheme.getBodyStyle(color: Colors.black54, fontSize: 10),
                                 ),
                                 const SizedBox(height: 16),
                                 // Google Play & App Store buttons row
@@ -1130,7 +1130,7 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
           const SizedBox(width: 6),
           Text(
             store,
-            style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold, fontFamily: 'Exo2'),
+            style: AppTheme.getBodyStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -1140,11 +1140,10 @@ class _PrismLensWidgetState extends State<_PrismLensWidget> {
   Widget _buildBgTab(String label, bool active) {
     return Text(
       label,
-      style: TextStyle(
+      style: AppTheme.getHeaderStyle(
         fontSize: 9,
         fontWeight: FontWeight.bold,
         color: active ? AppColors.currentViolet : Colors.white38,
-        fontFamily: 'Rajdhani',
       ),
     );
   }

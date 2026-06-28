@@ -52,7 +52,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final themeType = ref.watch(themeProvider);
-    final isNeon = themeType == 'violetNeon';
+    final isBright = themeType == 'bright';
 
     if (user == null) {
       return const Scaffold(

@@ -12,6 +12,7 @@ import '../features/auth/presentation/screens/splash_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/profile_screen.dart';
+import '../features/auth/presentation/screens/permissions_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/analytics/presentation/screens/analytics_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
@@ -81,12 +82,14 @@ CustomTransitionPage<T> buildSlideUpTransitionPage<T>({
 
 final routerProvider = Provider<GoRouter>((ref) {
   final user = ref.watch(userProvider);
+  final permissionsRequested = ref.watch(permissionsRequestedProvider);
 
   return GoRouter(
     initialLocation: '/',
     redirect: (context, state) {
       final isLoggingIn = state.matchedLocation == '/login' || state.matchedLocation == '/register';
       final isSplash = state.matchedLocation == '/';
+      final isPermissions = state.matchedLocation == '/permissions';
 
       if (isSplash) return null;
 
@@ -95,8 +98,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         return isLoggingIn ? null : '/login';
       }
 
-      // If logged in, redirect away from auth screens to home
-      if (isLoggingIn) {
+      // If logged in but hasn't completed/seen the permissions screen, redirect to /permissions
+      if (!permissionsRequested) {
+        return isPermissions ? null : '/permissions';
+      }
+
+      // If logged in and completed permissions, redirect away from auth and permissions screens to home
+      if (isLoggingIn || isPermissions) {
         return '/home';
       }
 
@@ -128,6 +136,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           context: context,
           state: state,
           child: const RegisterScreen(),
+        ),
+      ),
+      GoRoute(
+        path: '/permissions',
+        pageBuilder: (context, state) => buildFadeTransitionPage(
+          context: context,
+          state: state,
+          child: const PermissionsScreen(),
         ),
       ),
 

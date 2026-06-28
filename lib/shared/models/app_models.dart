@@ -354,7 +354,7 @@ class AnalyticsData {
 
 // ── APP SETTINGS ─────────────────────────────────────────────
 class AppSettings {
-  final String themeType; // 'darkPro' or 'violetNeon'
+  final String themeType; // 'darkPro' or 'bright'
   final String videoQuality; // '360p' to '1080p'
   final int bitrate; // kbps
   final String encoder; // 'x264', 'NVENC', etc.
