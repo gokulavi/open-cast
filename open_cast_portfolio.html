@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPEN CAST - Visual Portfolio & UX/UI Spec</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,300;0,400;0,600;0,800;1,300&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- CSS Reset & Global Styling --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: #080808;
+      color: #FAFAFA;
+      font-family: 'Exo 2', sans-serif;
+      line-height: 1.6;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #FAFAFA;
+    }
+
+    a {
+      color: #D4AF37;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:hover {
+      color: #F3E5AB;
+    }
+
+    /* --- Page Container --- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* --- Navigation Bar (Hidden in Print) --- */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: rgba(20, 20, 20, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #D4AF37;
+      letter-spacing: 3px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FAFAFA;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover {
+      color: #D4AF37;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #D4AF37, #996515);
+      color: #000;
+      border: none;
+      padding: 8px 16px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-print:hover {
+      opacity: 0.9;
+    }
+
+    /* --- Hero Section --- */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15), transparent 70%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 60px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid #D4AF37;
+      border-radius: 20px;
+      color: #D4AF37;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: 56px;
+      color: #FAFAFA;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: #b0b0b0;
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* --- Main Spec Sheets --- */
+    .section-title {
+      font-size: 32px;
+      color: #FAFAFA;
+      border-left: 4px solid #D4AF37;
+      padding-left: 15px;
+      margin-bottom: 35px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .card {
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .card-accent {
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      box-shadow: 0 4px 30px rgba(212, 175, 55, 0.05);
+    }
+
+    .card-title {
+      font-size: 20px;
+      color: #FAFAFA;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 10px;
+    }
+
+    .card-title span.number {
+      background: #D4AF37;
+      color: #000;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    /* --- Design Tokens --- */
+    .token-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .token-box {
+      flex: 1;
+      min-width: 140px;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .token-box .color-preview {
+      width: 100%;
+      height: 50px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .token-box .color-hex {
+      font-family: monospace;
+      font-size: 13px;
+      color: #b0b0b0;
+    }
+
+    .token-box .color-name {
+      font-size: 13px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    /* --- Spec Sheet Screen Details --- */
+    .screen-spec {
+      background: rgba(14, 14, 14, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 40px;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      page-break-inside: avoid;
+    }
+
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+
+    .screen-title-text {
+      font-size: 26px;
+      color: #FAFAFA;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .screen-path {
+      font-family: monospace;
+      font-size: 12px;
+      color: #888;
+      background: rgba(255,255,255,0.05);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .screen-badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .badge-auth { background: rgba(255, 69, 58, 0.15); border: 1px solid #FF453A; color: #FF453A; }
+    .badge-core { background: rgba(48, 209, 88, 0.15); border: 1px solid #30D158; color: #30D158; }
+    .badge-config { background: rgba(10, 132, 255, 0.15); border: 1px solid #0A84FF; color: #0A84FF; }
+    .badge-studio { background: rgba(212, 175, 55, 0.15); border: 1px solid #D4AF37; color: #D4AF37; }
+
+    .spec-cols {
+      display: grid;
+      grid-template-columns: 4fr 5fr;
+      gap: 40px;
+    }
+
+    /* --- CSS Wireframes --- */
+    .wireframe-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0d0d0d;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+
+    .device-mockup {
+      width: 250px;
+      height: 450px;
+      background: #000;
+      border-radius: 32px;
+      border: 8px solid #222;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .device-mockup-landscape {
+      width: 440px;
+      height: 260px;
+      background: #000;
+      border-radius: 24px;
+      border: 8px solid #222;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Screen specifics inside wireframes */
+    .wf-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #080808;
+      padding: 16px;
+      position: relative;
+    }
+
+    .wf-status-bar {
+      height: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 7px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .wf-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .wf-icon {
+      font-size: 28px;
+      color: #D4AF37;
+      margin-bottom: 8px;
+    }
+
+    .wf-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #FAFAFA;
+      letter-spacing: 2px;
+    }
+
+    .wf-subtitle {
+      font-size: 8px;
+      color: #666;
+    }
+
+    .wf-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+
+    .wf-input {
+      height: 26px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      font-size: 8px;
+      color: #555;
+    }
+
+    .wf-btn {
+      height: 28px;
+      background: linear-gradient(135deg, #D4AF37, #996515);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: bold;
+      font-size: 9px;
+      font-family: 'Rajdhani', sans-serif;
+      cursor: default;
+    }
+
+    .wf-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .wf-list-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 9px;
+    }
+
+    .wf-list-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(212,175,55,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #D4AF37;
+      font-size: 7px;
+    }
+
+    .wf-list-pill {
+      font-size: 7px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(48, 209, 88, 0.15);
+      color: #30D158;
+      border: 1px solid rgba(48, 209,  green, 0.2);
+    }
+
+    /* --- List Specifications --- */
+    .spec-details h4 {
+      font-size: 16px;
+      color: #D4AF37;
+      margin-bottom: 8px;
+      margin-top: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 4px;
+    }
+    
+    .spec-details h4:first-child {
+      margin-top: 0;
+    }
+
+    .spec-list {
+      list-style: none;
+      margin-bottom: 15px;
+    }
+
+    .spec-list li {
+      font-size: 13px;
+      margin-bottom: 6px;
+      padding-left: 14px;
+      position: relative;
+      color: #d8d8d8;
+    }
+
+    .spec-list li::before {
+      content: "▪";
+      color: #D4AF37;
+      position: absolute;
+      left: 0;
+      font-size: 11px;
+    }
+
+    .navigation-flow-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #b0b0b0;
+      margin-top: 10px;
+    }
+
+    /* --- Navigation Map Vector --- */
+    .nav-map-container {
+      background: #0b0b0b;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 45px 30px;
+      margin-bottom: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-map-svg {
+      width: 100%;
+      max-width: 960px;
+      height: 480px;
+    }
+
+    /* --- Print Custom Optimization --- */
+    @media print {
+      body {
+        background-color: #fff;
+        color: #000;
+      }
+      
+      .nav-bar, .btn-print {
+        display: none !important;
+      }
+
+      .hero {
+        background: none;
+        border-bottom: 2px solid #000;
+        padding: 40px 0;
+      }
+
+      .hero-title {
+        color: #000;
+        text-shadow: none;
+      }
+
+      .hero-subtitle {
+        color: #444;
+      }
+
+      .section-title {
+        color: #000;
+        border-left: 4px solid #000;
+      }
+
+      .card {
+        background: #fff;
+        color: #000;
+        border: 1px solid #ccc;
+        box-shadow: none;
+      }
+
+      .card-title {
+        color: #000;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .card-title span.number {
+        background: #000;
+        color: #fff;
+      }
+
+      .screen-spec {
+        background: #fff;
+        color: #000;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        page-break-after: always;
+      }
+
+      .screen-header {
+        border-bottom: 2px solid #000;
+      }
+
+      .screen-title-text {
+        color: #000;
+      }
+
+      .screen-path {
+        background: #f0f0f0;
+        color: #555;
+        border: 1px solid #ddd;
+      }
+
+      .wireframe-container {
+        background: #fafafa;
+        border: 1px solid #ccc;
+        box-shadow: none;
+      }
+
+      .device-mockup, .device-mockup-landscape {
+        border: 8px solid #555;
+      }
+
+      .wf-screen {
+        background: #fff;
+      }
+
+      .wf-title {
+        color: #000;
+      }
+
+      .wf-card {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+      }
+
+      .wf-input {
+        background: #fff;
+        border: 1px solid #ccc;
+      }
+
+      .wf-btn {
+        background: #000;
+        color: #fff;
+      }
+
+      .spec-details h4 {
+        color: #000;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .spec-list li {
+        color: #222;
+      }
+
+      .spec-list li::before {
+        color: #000;
+      }
+
+      .navigation-flow-box {
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        color: #444;
+      }
+      
+      .nav-map-container {
+        background: #fff;
+        border: 1px solid #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Navbar (Hidden on print) -->
+  <div class="nav-bar">
+    <div class="nav-logo">
+      <span style="color:#D4AF37;">★</span> OPEN CAST
+    </div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#navmap">Navigation Map</a></li>
+      <li><a href="#screens">Screen Spec Sheets</a></li>
+      <li><a href="#uxfeatures">UX Breakdown</a></li>
+    </ul>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+      SAVE AS PDF
+    </button>
+  </div>
+
+  <div class="container">
+    
+    <!-- Hero Header -->
+    <header class="hero">
+      <div class="hero-badge">System Specification</div>
+      <h1 class="hero-title">Open Cast</h1>
+      <p class="hero-subtitle">High-fidelity Visual Portfolio & User Experience System Document for Multi-Platform Broadcaster Studio App</p>
+    </header>
+
+    <!-- Section 1: Overview & Identity -->
+    <section id="overview" style="margin-bottom: 80px;">
+      <h2 class="section-title">Overview & Product Identity</h2>
+      <div class="grid-2">
+        <div class="card card-accent">
+          <h3 class="card-title"><span class="number">1</span>Design Philosophy</h3>
+          <p style="font-size: 14px; color: #d8d8d8; margin-bottom: 12px;">
+            Open Cast is a premium stream control deck designed to resemble luxury cyberpunk control modules. Built for pro broadcasters, the UI combines clean, high-performance typography, radial glows, and glassmorphic cards to create a layout that feels state of the art.
+          </p>
+          <p style="font-size: 14px; color: #d8d8d8;">
+            Our key layout choice features dynamic multi-column grids for web/desktop screen surfaces and tabbed panels for mobile displays. High-contrast indicators ensure critical parameters like stream health, fps, and audio levels are legible during intense gameplay.
+          </p>
+        </div>
+        
+        <div class="card">
+          <h3 class="card-title"><span class="number">2</span>Core Specs & Design Tokens</h3>
+          <h4 style="font-size: 13px; color: #D4AF37; margin-bottom: 8px;">COLOR SYSTEM</h4>
+          <div class="token-row">
+            <div class="token-box">
+              <div class="color-preview" style="background:#080808;"></div>
+              <span class="color-hex">#080808</span>
+              <div class="color-name">Matte Black</div>
+            </div>
+            <div class="token-box">
+              <div class="color-preview" style="background:#D4AF37;"></div>
+              <span class="color-hex">#D4AF37</span>
+              <div class="color-name">Metallic Gold</div>
+            </div>
+            <div class="token-box">
+              <div class="color-preview" style="background:#30D158;"></div>
+              <span class="color-hex">#30D158</span>
+              <div class="color-name">Online Green</div>
+            </div>
+            <div class="token-box">
+              <div class="color-preview" style="background:#FF453A;"></div>
+              <span class="color-hex">#FF453A</span>
+              <div class="color-name">Live Red</div>
+            </div>
+          </div>
+          <h4 style="font-size: 13px; color: #D4AF37; margin-bottom: 8px;">TYPOGRAPHY</h4>
+          <p style="font-size: 14px; color: #d8d8d8;">
+            Headers: <strong>Rajdhani</strong> (Geometric, condensed, perfect for telemetry numbers)<br>
+            Body text: <strong>Exo 2</strong> (Tech-focused, readable, futuristic shapes)
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: GoRouter State Map -->
+    <section id="navmap" style="margin-bottom: 80px;">
+      <h2 class="section-title">GoRouter Navigation & Flow Guarding</h2>
+      <div class="nav-map-container">
+        <h3 style="color:#FAFAFA; margin-bottom: 20px; font-size:18px; text-transform:uppercase;">App Navigation Diagram</h3>
+        <svg class="nav-map-svg" viewBox="0 0 800 400">
+          <!-- Definitions for markers/shadows -->
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#D4AF37"/>
+            </marker>
+          </defs>
+          
+          <!-- Background grids for visual flair -->
+          <g stroke="rgba(255,255,255,0.02)" stroke-width="1">
+            <line x1="50" y1="0" x2="50" y2="400" />
+            <line x1="150" y1="0" x2="150" y2="400" />
+            <line x1="250" y1="0" x2="250" y2="400" />
+            <line x1="350" y1="0" x2="350" y2="400" />
+            <line x1="450" y1="0" x2="450" y2="400" />
+            <line x1="550" y1="0" x2="550" y2="400" />
+            <line x1="650" y1="0" x2="650" y2="400" />
+            <line x1="750" y1="0" x2="750" y2="400" />
+          </g>
+
+          <!-- Nodes -->
+          <!-- 1. Splash Screen -->
+          <rect x="50" y="170" width="100" height="50" rx="8" fill="#141414" stroke="#D4AF37" stroke-width="1.5"/>
+          <text x="100" y="195" font-family="'Rajdhani'" font-size="12" fill="#fff" text-anchor="middle" font-weight="bold">SPLASH SCREEN</text>
+          <text x="100" y="210" font-family="sans-serif" font-size="8" fill="#888" text-anchor="middle">/</text>
+
+          <!-- 2. Auth Group (Login / Register) -->
+          <rect x="220" y="80" width="120" height="60" rx="8" fill="#141414" stroke="#FF453A" stroke-width="1.5"/>
+          <text x="280" y="105" font-family="'Rajdhani'" font-size="12" fill="#fff" text-anchor="middle" font-weight="bold">AUTH FLOW</text>
+          <text x="280" y="120" font-family="sans-serif" font-size="8" fill="#888" text-anchor="middle">/login | /register</text>
+
+          <!-- 3. System Permission Guard (Once) -->
+          <rect x="420" y="80" width="130" height="60" rx="8" fill="#1b1505" stroke="#D4AF37" stroke-dasharray="4" stroke-width="1.5"/>
+          <text x="485" y="105" font-family="'Rajdhani'" font-size="12" fill="#D4AF37" text-anchor="middle" font-weight="bold">SYSTEM PERMISSIONS</text>
+          <text x="485" y="120" font-family="sans-serif" font-size="8" fill="#888" text-anchor="middle">/permissions (Once)</text>
+
+          <!-- 4. Shell Navigation Route -->
+          <rect x="620" y="160" width="140" height="180" rx="10" fill="#141414" stroke="#30D158" stroke-width="1.5" stroke-dasharray="2"/>
+          <text x="690" y="180" font-family="'Rajdhani'" font-size="12" fill="#30D158" text-anchor="middle" font-weight="bold">MAIN SHELL ROUTE</text>
+          
+          <rect x="635" y="195" width="110" height="26" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.1)"/>
+          <text x="690" y="212" font-family="'Rajdhani'" font-size="10" fill="#fff" text-anchor="middle">Home (/home)</text>
+          
+          <rect x="635" y="228" width="110" height="26" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.1)"/>
+          <text x="690" y="245" font-family="'Rajdhani'" font-size="10" fill="#fff" text-anchor="middle">Analytics (/analytics)</text>
+
+          <rect x="635" y="261" width="110" height="26" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.1)"/>
+          <text x="690" y="278" font-family="'Rajdhani'" font-size="10" fill="#fff" text-anchor="middle">Settings (/settings)</text>
+
+          <rect x="635" y="294" width="110" height="26" rx="4" fill="#0d0d0d" stroke="rgba(255,255,255,0.1)"/>
+          <text x="690" y="311" font-family="'Rajdhani'" font-size="10" fill="#fff" text-anchor="middle">Profile (/profile)</text>
+
+          <!-- 5. Go Live Control Deck -->
+          <rect x="425" y="220" width="120" height="50" rx="8" fill="#141414" stroke="#D4AF37" stroke-width="1.5"/>
+          <text x="485" y="245" font-family="'Rajdhani'" font-size="12" fill="#fff" text-anchor="middle" font-weight="bold">GO LIVE ENGINE</text>
+          <text x="485" y="260" font-family="sans-serif" font-size="8" fill="#888" text-anchor="middle">/go-live</text>
+
+          <!-- 6. Stream Studio Screen (Broadcasting state) -->
+          <rect x="220" y="290" width="120" height="50" rx="8" fill="#240505" stroke="#FF453A" stroke-width="1.8"/>
+          <text x="280" y="315" font-family="'Rajdhani'" font-size="12" fill="#FF453A" text-anchor="middle" font-weight="bold">STUDIO PREVIEW</text>
+          <text x="280" y="330" font-family="sans-serif" font-size="8" fill="#888" text-anchor="middle">/studio (Broadcasting)</text>
+
+          <!-- Navigation Arrow Connectors -->
+          <!-- Splash -> Auth (Not Authenticated) -->
+          <path d="M 150 180 L 195 180 Q 220 180 220 135" fill="none" stroke="#D4AF37" stroke-width="1.2" marker-end="url(#arrow)"/>
+          <!-- Splash -> Shell (Authenticated) -->
+          <path d="M 150 200 L 610 200" fill="none" stroke="#30D158" stroke-width="1.2" stroke-dasharray="3" marker-end="url(#arrow)"/>
+          
+          <!-- Auth Flow -> Permissions Screen Guard -->
+          <path d="M 340 110 L 410 110" fill="none" stroke="#D4AF37" stroke-width="1.2" marker-end="url(#arrow)"/>
+          <!-- Permissions Guard -> Home Shell (Success) -->
+          <path d="M 550 110 L 690 110 L 690 150" fill="none" stroke="#30D158" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+          <!-- Shell (Home) -> Go Live -->
+          <path d="M 620 230 L 555 230" fill="none" stroke="#D4AF37" stroke-width="1.2" marker-end="url(#arrow)"/>
+          <!-- Go Live -> Studio Screen -->
+          <path d="M 425 245 L 280 245 L 280 280" fill="none" stroke="#FF453A" stroke-width="1.2" marker-end="url(#arrow)"/>
+          <!-- Studio -> Home (End Stream) -->
+          <path d="M 220 315 L 180 315 L 180 380 L 690 380 L 690 350" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="3" marker-end="url(#arrow)"/>
+
+          <!-- Label elements for clarity -->
+          <rect x="155" y="145" width="60" height="15" rx="3" fill="#000" stroke="rgba(255,255,255,0.1)"/>
+          <text x="185" y="155" font-family="sans-serif" font-size="7" fill="#FF453A" text-anchor="middle">No Session</text>
+          
+          <rect x="555" y="85" width="60" height="15" rx="3" fill="#000" stroke="rgba(255,255,255,0.1)"/>
+          <text x="585" y="95" font-family="sans-serif" font-size="7" fill="#30D158" text-anchor="middle">Authorized</text>
+        </svg>
+        
+        <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+          <div class="navigation-flow-box">
+            <strong>Declarative Guards (GoRouter redirect)</strong><br>
+            If a user profile is missing, the router blocks accesses and redirects to <code>/login</code>.<br>
+            If the profile is active, but the SharedPreferences flag <code>has_requested_permissions</code> is false, the app automatically intercepts and routes to <code>/permissions</code>.
+          </div>
+          <div class="navigation-flow-box">
+            <strong>State Persistency</strong><br>
+            The setup uses Riverpod's state providers backed by <code>SharedPreferences</code> cache to ensure prompts occur once. Once completed, subsequent app loads direct users straight to <code>/home</code>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Screen Spec Directory -->
+    <section id="screens">
+      <h2 class="section-title">Core Screens Design Sheets</h2>
+
+      <!-- Splash Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">01</span> Splash Screen
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">splash_screen.dart</span>
+            <span class="screen-badge badge-auth">Intro</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen" style="justify-content: center; align-items: center;">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div class="wf-header" style="margin-top: 40px;">
+                  <div class="wf-icon" style="animation: spin 4s linear infinite;">☀️</div>
+                  <div class="wf-title" style="margin-top: 15px;">OPEN CAST</div>
+                  <div class="wf-subtitle" style="margin-top: 5px; color:#D4AF37;">STREAM WITHOUT LIMITS</div>
+                </div>
+                <div style="width: 100px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 40px; overflow: hidden;">
+                  <div style="width: 60%; height: 100%; background: #D4AF37;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Central 3D-painted isometric studio setup rendering utilizing a custom canvas painter.</li>
+              <li>Dual softbox studio beams that scale and fade dynamically using <code>flutter_animate</code> loops.</li>
+              <li>Metallic gold brand header title 'OPEN CAST' with 6px character letter spacing.</li>
+              <li>A sleek micro linear progress bar indicating initialization progress.</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Splash duration is set to 3500ms to allow background checks and state preparation.</li>
+              <li><strong>Redirect Rule</strong>: Checks the active Riverpod user state. If user model is active, redirects to <code>/home</code> (which gets guarded and redirected to <code>/permissions</code> if needed). If missing, routes to <code>/login</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">02</span> Login Screen
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">login_screen.dart</span>
+            <span class="screen-badge badge-auth">Auth</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div class="wf-header" style="margin-bottom: 15px;">
+                  <div class="wf-icon">🎙️</div>
+                  <div class="wf-title">OPEN CAST</div>
+                </div>
+                <div class="wf-card">
+                  <div style="font-size: 10px; font-weight:bold; margin-bottom: 8px;">Sign In</div>
+                  <div class="wf-input">✉ Email address</div>
+                  <div class="wf-input">🔒 Password</div>
+                  <div class="wf-btn">SIGN IN</div>
+                </div>
+                <div class="wf-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:7px; height: 22px; margin-bottom: 8px;">Sign In with Google</div>
+                <div style="display:flex; justify-content:space-between; font-size:7px; color:#D4AF37; margin-top: 5px;">
+                  <span>Register</span>
+                  <span style="color:#888;">Guest Access</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Frosted glass panel card using custom white-glass blur configuration in light mode.</li>
+              <li>Input fields are enclosed in dark grey borders with highlight glow borders on focus.</li>
+              <li>Cyberpunk gold gradient 'SIGN IN' action button with interactive scale transitions.</li>
+              <li>Outlined Google OAuth secondary access button.</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Instant form validator alerts the user if mandatory inputs are empty.</li>
+              <li>Allows testers to log in instantly with <code>test@opencast.app / password</code> or sign in as an offline Guest Broadcaster.</li>
+              <li>Routes to <code>/home</code> upon successful login, which prompts the permission guard.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">03</span> Registration Screen
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">register_screen.dart</span>
+            <span class="screen-badge badge-auth">Auth</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div class="wf-header" style="margin-bottom: 10px;">
+                  <div class="wf-title">CREATE ACCOUNT</div>
+                </div>
+                <div class="wf-card" style="padding: 8px;">
+                  <div class="wf-input" style="height:22px; margin-bottom:6px;">👤 Username</div>
+                  <div class="wf-input" style="height:22px; margin-bottom:6px;">✉ Email</div>
+                  <div class="wf-input" style="height:22px; margin-bottom:6px;">🔒 Password</div>
+                  <div class="wf-input" style="height:22px; margin-bottom:6px;">🔒 Confirm Pass</div>
+                  <div style="display:flex; gap: 4px; font-size: 6px; color:#888; margin-bottom: 8px;">
+                    <input type="checkbox" checked style="transform: scale(0.7);">
+                    <span>I agree to the Terms & Conditions</span>
+                  </div>
+                  <div class="wf-btn" style="height:24px;">REGISTER</div>
+                </div>
+                <div style="text-align:center; font-size:7px; color:#D4AF37; margin-top:5px;">Already have an account? Sign In</div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Vertical form layout designed specifically to prevent overflow errors on small screens.</li>
+              <li>A custom <code>Checkbox</code> styled to match the metallic gold theme.</li>
+              <li>Clear placeholder text and matching prefix outline icons for all fields.</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Validates password length (minimum 6 characters) and matches passwords synchronously.</li>
+              <li>Saves a mock profile with an avatar to Riverpod state.</li>
+              <li>Triggers route change to <code>/home</code> upon execution.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Permissions Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">04</span> System Access (Permissions) Screen
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">permissions_screen.dart</span>
+            <span class="screen-badge badge-config">System Guard</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div class="wf-header" style="margin-bottom: 12px;">
+                  <div style="font-size: 18px; color: #D4AF37;">🛡️</div>
+                  <div class="wf-title" style="font-size: 11px;">SYSTEM ACCESS</div>
+                </div>
+                <div class="wf-card" style="padding: 6px;">
+                  <div class="wf-list-item">
+                    <div class="wf-list-left">
+                      <span class="wf-list-icon">📷</span>
+                      <div>Camera</div>
+                    </div>
+                    <span class="wf-list-pill">GRANTED</span>
+                  </div>
+                  <div class="wf-list-item">
+                    <div class="wf-list-left">
+                      <span class="wf-list-icon">🎙️</span>
+                      <div>Mic</div>
+                    </div>
+                    <span class="wf-list-pill" style="background:rgba(255, 214, 10, 0.15); color:#FFD60A; border-color:rgba(255,214,10,0.2);">NOT GRANTED</span>
+                  </div>
+                  <div class="wf-list-item">
+                    <div class="wf-list-left">
+                      <span class="wf-list-icon">🔔</span>
+                      <div>Notifications</div>
+                    </div>
+                    <span class="wf-list-pill">GRANTED</span>
+                  </div>
+                </div>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                  <div class="wf-btn" style="flex:1; background:transparent; border:1px solid #555; color:#fff; font-size:7px;">GRANT ALL</div>
+                  <div class="wf-btn" style="flex:1; font-size:7px;">CONTINUE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Header shield icon with scale-up elastic spring animations.</li>
+              <li>Status list tiles detailing Camera, Microphone, and Notification rules.</li>
+              <li>Color-coded status chips (Green = Granted, Amber = Not Granted, Red = Permanently Denied).</li>
+              <li>Clean direct settings link if permission is permanently blocked.</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Queries the operating system status instantly in <code>initState</code>.</li>
+              <li>Requests permissions inline using system popups.</li>
+              <li>Bypasses screen automatically on next launches by caching a <code>has_requested_permissions</code> flag in SharedPreferences.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">05</span> Main Home Dashboard
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">home_screen.dart</span>
+            <span class="screen-badge badge-core">Core</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                  <div style="width:24px; height:24px; border-radius:50%; background:#D4AF37;"></div>
+                  <div>
+                    <div style="font-size:8px; font-weight:bold;">gokulavi</div>
+                    <div style="font-size:6px; color:#888;">Level 10 Broadcaster</div>
+                  </div>
+                </div>
+                <div class="wf-card" style="padding: 10px; margin-bottom: 10px;">
+                  <div style="font-size:8px; font-weight:bold; color:#D4AF37;">STREAM CONTROL</div>
+                  <div style="font-size:7px; color:#aaa; margin: 4px 0;">Configure your platform targets and quality.</div>
+                  <div class="wf-btn" style="height:24px;">GO LIVE PANEL</div>
+                </div>
+                <div class="wf-card" style="padding: 8px;">
+                  <div style="font-size:8px; font-weight:bold; margin-bottom:6px;">INTEGRATIONS</div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                    <div style="background:rgba(255,255,255,0.02); padding:4px; font-size:6px; text-align:center; border:1px solid rgba(255,255,255,0.05); border-radius:4px;">Twitch</div>
+                    <div style="background:rgba(255,255,255,0.02); padding:4px; font-size:6px; text-align:center; border:1px solid rgba(255,255,255,0.05); border-radius:4px;">YouTube</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Header row displays avatar avatarUrl, user stats, and connected stream indicator.</li>
+              <li>A primary quick-action module 'GO LIVE' with neon borders that highlights the flow.</li>
+              <li>Custom glass grids detailing connections to APIs (YouTube, Twitch, Discord Voice).</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Integrates navigation index states to switch between tabbed layouts: Home, Analytics, Settings, and Profile.</li>
+              <li>Provides quick-action links to start deep stream setups.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Go Live Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">06</span> Go Live Wizard (Setup)
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">go_live_screen.dart</span>
+            <span class="screen-badge badge-config">Setup Wizard</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div style="font-size:8px; font-weight:bold; color:#D4AF37; margin-bottom:4px;">STREAM TITLE</div>
+                <div class="wf-input" style="height:20px; font-size:7px;">e.g. Cyberpunk speedrun...</div>
+                
+                <div style="font-size:8px; font-weight:bold; color:#D4AF37; margin-bottom:4px;">TARGET PLATFORMS</div>
+                <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px; margin-bottom:10px;">
+                  <div style="background:rgba(212,175,55,0.1); border:1px solid #D4AF37; border-radius:4px; font-size:6px; padding:4px; text-align:center; color:#fff;">Twitch</div>
+                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.1); border-radius:4px; font-size:6px; padding:4px; text-align:center; color:#888;">YouTube</div>
+                  <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.1); border-radius:4px; font-size:6px; padding:4px; text-align:center; color:#888;">FB Live</div>
+                </div>
+
+                <div class="wf-card" style="padding:6px; margin-bottom:10px;">
+                  <div style="font-size:7px; color:#888;">RESOLUTION</div>
+                  <div style="font-size:8px; color:#fff; font-weight:bold;">1080p (60fps) ▼</div>
+                </div>
+
+                <div class="wf-btn" style="background:linear-gradient(135deg,#30D158,#1B5E20); color:#fff;">LAUNCH BROADCAST</div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Horizontal text input fields with max length counters (140 characters).</li>
+              <li>Multi-selection grid featuring 15 platforms (Twitch, YouTube, Kick, NAVER TV, custom RTMP, etc.).</li>
+              <li>Dropdown selectors for Resolution, Bitrate, Encoder, Layout, and Orientation parameters configured explicitly in white.</li>
+              <li>Visual preview thumbnail of the active broadcast scene layout.</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Requires stream title input and at least one target platform validation.</li>
+              <li>Launches an overlay showing a 3-second starting countdown before starting WebRTC.</li>
+              <li>Navigates directly to the core Stream Studio Screen (<code>/studio</code>).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stream Studio Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">07</span> Stream Studio Control Deck
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">stream_studio_screen.dart</span>
+            <span class="screen-badge badge-studio">Live Deck</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup-landscape">
+              <div class="wf-screen" style="flex-direction: row; padding: 6px; gap:6px;">
+                <!-- Column 1 -->
+                <div style="flex:2; display:flex; flex-direction:column; gap:4px;">
+                  <div style="font-size:6px; font-weight:bold; color:#D4AF37;">SCENES</div>
+                  <div style="background:rgba(212,175,55,0.1); border:1px solid #D4AF37; padding:4px; font-size:6px; border-radius:4px;">Gameplay</div>
+                  <div style="background:rgba(255,255,255,0.02); padding:4px; font-size:6px; border-radius:4px;">Intermission</div>
+                </div>
+                <!-- Column 2 -->
+                <div style="flex:4; display:flex; flex-direction:column; gap:4px;">
+                  <div style="flex:1; background:#111; border-radius:6px; border:1px solid #FF453A; position:relative; overflow:hidden;">
+                    <div style="position:absolute; top:4px; left:4px; background:#FF453A; color:#fff; font-size:5px; padding:2px 4px; border-radius:2px; font-weight:bold;">LIVE</div>
+                    <div style="position:absolute; bottom:4px; right:4px; color:#fff; font-size:6px; font-weight:bold;">gokulavi</div>
+                  </div>
+                  <div style="display:flex; justify-content:space-between; font-size:5px; color:#888;">
+                    <span>⏱ 00:15:32</span>
+                    <span style="color:#30D158;">● Excellent (4500kbps)</span>
+                  </div>
+                  <div class="wf-btn" style="background:#FF453A; color:#fff; height:18px; font-size:7px;">END STREAM</div>
+                </div>
+                <!-- Column 3 -->
+                <div style="flex:2; display:flex; flex-direction:column; gap:4px;">
+                  <div style="font-size:6px; font-weight:bold; color:#D4AF37;">LIVE CHAT</div>
+                  <div style="flex:1; background:#0d0d0d; border-radius:4px; padding:4px; font-size:5px; overflow:hidden;">
+                    <div style="color:#D4AF37;">user1: nice stream!</div>
+                    <div style="color:#fff;">user2: cool game</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li><strong>Responsive Deck Layout</strong>: 3-column split view (Scenes, Preview/Stats, Live Chat) for large displays; tabbed views for mobile layouts.</li>
+              <li>WebRTC video feedback monitor canvas with live stats overlays (Viewer count, health telemetry).</li>
+              <li>Action overlays for audio control mixer (dials for mic volume and media levels).</li>
+              <li>Scene management list selector showing active templates (e.g. Gameplay Main, Intro Screen, Chat Screen).</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Ensures streaming sessions can be safely stopped by prompting a verification dialog.</li>
+              <li>Updates live indicators synchronously using Riverpod notifier listeners.</li>
+              <li>Redirection: returns the broadcaster to the main dashboard interface.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Screen -->
+      <div class="screen-spec">
+        <div class="screen-header">
+          <div class="screen-title-text">
+            <span style="color:#D4AF37;">08</span> Performance Analytics
+          </div>
+          <div style="display: flex; gap: 10px; align-items:center;">
+            <span class="screen-path">analytics_screen.dart</span>
+            <span class="screen-badge badge-core">Core</span>
+          </div>
+        </div>
+        <div class="spec-cols">
+          <div class="wireframe-container">
+            <div class="device-mockup">
+              <div class="wf-screen">
+                <div class="wf-status-bar"><span>09:41</span><span>🔋</span></div>
+                <div style="font-size:8px; font-weight:bold; color:#D4AF37; margin-bottom:8px;">ANALYTICS SUMMARY</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px;">
+                  <div class="wf-card" style="padding:4px; text-align:center; margin:0;">
+                    <div style="font-size:6px; color:#888;">Avg Viewers</div>
+                    <div style="font-size:10px; font-weight:bold; color:#D4AF37;">1,240</div>
+                  </div>
+                  <div class="wf-card" style="padding:4px; text-align:center; margin:0;">
+                    <div style="font-size:6px; color:#888;">Followers</div>
+                    <div style="font-size:10px; font-weight:bold; color:#D4AF37;">+342</div>
+                  </div>
+                </div>
+                <div class="wf-card" style="height:110px; padding:8px;">
+                  <div style="font-size:7px; font-weight:bold; margin-bottom:6px;">GROWTH CHART</div>
+                  <!-- Mini Chart Drawing -->
+                  <div style="width:100%; height:75px; display:flex; align-items:flex-end; gap:8px; border-bottom:1px solid #333; border-left:1px solid #333; padding: 4px;">
+                    <div style="width:12px; height:20px; background:#D4AF37; border-radius:2px;"></div>
+                    <div style="width:12px; height:35px; background:#D4AF37; border-radius:2px;"></div>
+                    <div style="width:12px; height:50px; background:#D4AF37; border-radius:2px;"></div>
+                    <div style="width:12px; height:65px; background:#D4AF37; border-radius:2px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="spec-details">
+            <h4>UI Elements & Layout</h4>
+            <ul class="spec-list">
+              <li>Header cards displaying viewer stats, revenue parameters, and stream count totals.</li>
+              <li>A custom <code>LineChart</code> displaying viewer growth over a 7-day period.</li>
+              <li>A <code>PieChart</code> detailing visitor sources (e.g. YouTube, Twitch, Kick).</li>
+            </ul>
+            <h4>UX & Navigations</h4>
+            <ul class="spec-list">
+              <li>Data parameters update dynamically from an analytics provider.</li>
+              <li>Accessible directly from the navigation tabs on the shell dashboard.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Key UX Features -->
+    <section id="uxfeatures" style="margin-bottom: 80px;">
+      <h2 class="section-title">Key UX Systems Specification</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3 class="card-title">Scene Compositor</h3>
+          <p style="font-size: 13px; color:#b0b0b0;">
+            The studio features an interactive Scene Compositor allowing streamers to click and toggle layouts (PiP, Split Screen, etc.). The layout updates the feed representation on the fly.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">WebRTC Streaming</h3>
+          <p style="font-size: 13px; color:#b0b0b0;">
+            Integrated with WebRTC and RTMP configurations to connect streams directly to platforms (Twitch, YouTube) with optimized audio levels and low latency.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Audio Mixer</h3>
+          <p style="font-size: 13px; color:#b0b0b0;">
+            Broadcasters can mix different inputs via separate sliders (microphone capture, game soundtrack, background media) directly from the dashboard controls.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PDF Export Guidance Footer -->
+    <footer style="border-top:1px solid rgba(255,255,255,0.1); padding-top:30px; text-align:center; color:#666; font-size:12px;">
+      <p>OPEN CAST — Stream Specification Visual Spec Sheet</p>
+      <p style="margin-top: 5px; color:#888;">To export this portfolio as a PDF, simply click the "SAVE AS PDF" button at the top or press Ctrl+P / Cmd+P in your web browser.</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

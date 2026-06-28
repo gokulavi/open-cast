@@ -319,15 +319,31 @@ class _ChatOverlayScreenState extends ConsumerState<ChatOverlayScreen> {
             border: Border.all(color: AppColors.border),
           ),
           child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: value,
-              isExpanded: true,
-              dropdownColor: AppColors.matteBlack,
-              style: AppTheme.getBodyStyle(),
-              items: items.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
-              onChanged: (val) {
-                if (val != null) onChanged(val);
-              },
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: AppColors.matteBlack,
+                textTheme: Theme.of(context).textTheme.copyWith(
+                  titleMedium: AppTheme.getBodyStyle(color: Colors.white),
+                  bodyLarge: AppTheme.getBodyStyle(color: Colors.white),
+                  bodyMedium: AppTheme.getBodyStyle(color: Colors.white),
+                ),
+              ),
+              child: DropdownButton<String>(
+                value: value,
+                isExpanded: true,
+                dropdownColor: AppColors.matteBlack,
+                style: AppTheme.getBodyStyle(color: Colors.white),
+                items: items.map((i) => DropdownMenuItem(
+                  value: i,
+                  child: Text(
+                    i,
+                    style: AppTheme.getBodyStyle(color: Colors.white),
+                  ),
+                )).toList(),
+                onChanged: (val) {
+                  if (val != null) onChanged(val);
+                },
+              ),
             ),
           ),
         ),

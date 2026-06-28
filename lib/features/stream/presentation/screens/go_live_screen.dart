@@ -196,15 +196,31 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                     border: Border.all(color: AppColors.border),
                                   ),
                                   child: DropdownButtonHideUnderline(
-                                    child: DropdownButton<String>(
-                                      value: _category,
-                                      isExpanded: true,
-                                      dropdownColor: AppColors.matteBlack,
-                                      style: AppTheme.getBodyStyle(),
-                                      items: ['Gaming', 'Just Chatting', 'Music', 'Art', 'Tech', 'IRL']
-                                          .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                                          .toList(),
-                                      onChanged: (val) => setState(() => _category = val ?? 'Gaming'),
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        canvasColor: AppColors.matteBlack,
+                                        textTheme: Theme.of(context).textTheme.copyWith(
+                                          titleMedium: AppTheme.getBodyStyle(color: Colors.white),
+                                          bodyLarge: AppTheme.getBodyStyle(color: Colors.white),
+                                          bodyMedium: AppTheme.getBodyStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                      child: DropdownButton<String>(
+                                        value: _category,
+                                        isExpanded: true,
+                                        dropdownColor: AppColors.matteBlack,
+                                        style: AppTheme.getBodyStyle(color: Colors.white),
+                                        items: ['Gaming', 'Just Chatting', 'Music', 'Art', 'Tech', 'IRL']
+                                            .map((c) => DropdownMenuItem(
+                                                  value: c,
+                                                  child: Text(
+                                                    c,
+                                                    style: AppTheme.getBodyStyle(color: Colors.white),
+                                                  ),
+                                                ))
+                                            .toList(),
+                                        onChanged: (val) => setState(() => _category = val ?? 'Gaming'),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -375,14 +391,30 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                     children: [
                                       Text('Orientation', style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white38)),
                                       const SizedBox(height: 4),
-                                      DropdownButton<String>(
-                                        value: _orientation,
-                                        isExpanded: true,
-                                        underline: const SizedBox(),
-                                        dropdownColor: AppColors.surface,
-                                        style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                                        items: ['Landscape (16:9)', 'Portrait (9:16)'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                                        onChanged: (v) => setState(() => _orientation = v!),
+                                      Theme(
+                                        data: Theme.of(context).copyWith(
+                                          canvasColor: AppColors.surface,
+                                          textTheme: Theme.of(context).textTheme.copyWith(
+                                            titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                          ),
+                                        ),
+                                        child: DropdownButton<String>(
+                                          value: _orientation,
+                                          isExpanded: true,
+                                          underline: const SizedBox(),
+                                          dropdownColor: AppColors.surface,
+                                          style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                                          items: ['Landscape (16:9)', 'Portrait (9:16)'].map((e) => DropdownMenuItem(
+                                            value: e,
+                                            child: Text(
+                                              e,
+                                              style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            ),
+                                          )).toList(),
+                                          onChanged: (v) => setState(() => _orientation = v!),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -394,14 +426,30 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                     children: [
                                       Text('Layout Preset', style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white38)),
                                       const SizedBox(height: 4),
-                                      DropdownButton<String>(
-                                        value: _layoutPreset,
-                                        isExpanded: true,
-                                        underline: const SizedBox(),
-                                        dropdownColor: AppColors.surface,
-                                        style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                                        items: ['Single Source', 'Picture-in-Picture (PiP)', 'Split Screen', 'Side-by-Side'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
-                                        onChanged: (v) => setState(() => _layoutPreset = v!),
+                                      Theme(
+                                        data: Theme.of(context).copyWith(
+                                          canvasColor: AppColors.surface,
+                                          textTheme: Theme.of(context).textTheme.copyWith(
+                                            titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                          ),
+                                        ),
+                                        child: DropdownButton<String>(
+                                          value: _layoutPreset,
+                                          isExpanded: true,
+                                          underline: const SizedBox(),
+                                          dropdownColor: AppColors.surface,
+                                          style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                                          items: ['Single Source', 'Picture-in-Picture (PiP)', 'Split Screen', 'Side-by-Side'].map((e) => DropdownMenuItem(
+                                            value: e,
+                                            child: Text(
+                                              e,
+                                              style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            ),
+                                          )).toList(),
+                                          onChanged: (v) => setState(() => _layoutPreset = v!),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -525,15 +573,31 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
         children: [
           Text(label.toUpperCase(), style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white30)),
           DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: value,
-              isExpanded: true,
-              dropdownColor: AppColors.matteBlack,
-              style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold),
-              items: options.map((o) => DropdownMenuItem(value: o, child: Text(o))).toList(),
-              onChanged: (val) {
-                if (val != null) onChanged(val);
-              },
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                canvasColor: AppColors.matteBlack,
+                textTheme: Theme.of(context).textTheme.copyWith(
+                  titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                  bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                  bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                ),
+              ),
+              child: DropdownButton<String>(
+                value: value,
+                isExpanded: true,
+                dropdownColor: AppColors.matteBlack,
+                style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                items: options.map((o) => DropdownMenuItem(
+                  value: o,
+                  child: Text(
+                    o,
+                    style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                  ),
+                )).toList(),
+                onChanged: (val) {
+                  if (val != null) onChanged(val);
+                },
+              ),
             ),
           ),
         ],
