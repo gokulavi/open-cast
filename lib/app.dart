@@ -9,6 +9,8 @@ import 'navigation/app_router.dart';
 import 'theme/app_theme.dart';
 import 'shared/providers/app_providers.dart';
 
+import 'shared/widgets/live_theme_background.dart';
+
 class OpenCastApp extends ConsumerWidget {
   const OpenCastApp({super.key});
 
@@ -26,22 +28,9 @@ class OpenCastApp extends ConsumerWidget {
       routerConfig: router,
       theme: AppTheme.getThemeData(themeConfig),
       builder: (context, child) {
-        return Container(
-          decoration: BoxDecoration(
-            color: themeConfig.isDark ? AppColors.matteBlack : null,
-            gradient: !themeConfig.isDark
-                ? LinearGradient(
-                    colors: [
-                      AppColors.currentViolet.withValues(alpha: 0.15),
-                      Colors.white,
-                      AppColors.currentViolet.withValues(alpha: 0.05),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : null,
-          ),
-          child: child,
+        return LiveThemeBackground(
+          themeConfig: themeConfig,
+          child: child ?? const SizedBox(),
         );
       },
     );
