@@ -528,9 +528,39 @@ class StreamStudioScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
 
-        Text(
-          'STUDIO LIVE CHAT',
-          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'STUDIO LIVE CHAT',
+              style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+            ),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                backgroundColor: AppColors.warningAmber.withValues(alpha: 0.1),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              ),
+              icon: const Icon(Icons.star_rounded, color: AppColors.warningAmber, size: 12),
+              label: Text(
+                'SIM SUB',
+                style: AppTheme.getHeaderStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.warningAmber),
+              ),
+              onPressed: () {
+                ref.read(chatMessagesProvider.notifier).addMessage(ChatMessage(
+                      id: 'sim_sub_${DateTime.now().millisecondsSinceEpoch}',
+                      username: 'Subscriber${DateTime.now().second}',
+                      message: 'Just subscribed for Tier 1! 🎉',
+                      timestamp: DateTime.now(),
+                      type: ChatMessageType.subscription,
+                      usernameColor: '#FFB300',
+                      badges: const ['subscriber'],
+                    ));
+              },
+            ),
+          ],
         ),
         const SizedBox(height: 8),
         Expanded(
@@ -677,7 +707,7 @@ class _OpenCastLensWidget extends StatefulWidget {
 }
 
 class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
-  int _activeLens = 3;
+  int _activeLens = 1;
   bool _motionOff = false;
   bool _lensInUse = true;
   String _bgMode = 'Original';
@@ -756,10 +786,6 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                         Row(
                           children: [
                             _buildLensTab(1),
-                            const SizedBox(width: 8),
-                            _buildLensTab(2),
-                            const SizedBox(width: 8),
-                            _buildLensTab(3),
                             const Spacer(),
                             const Icon(Icons.flip_rounded, color: Colors.white38, size: 16),
                             const SizedBox(width: 12),
@@ -1068,7 +1094,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                 ),
                 const Spacer(),
                 Text(
-                  'OpenCast Lens 3 is in use',
+                  'OpenCast Lens 1 is in use',
                   style: AppTheme.getBodyStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,

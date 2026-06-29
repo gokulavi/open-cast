@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +26,11 @@ void main() async {
 
   // Safe Firebase Initialization
   try {
-    await Firebase.initializeApp();
+    if (!kIsWeb) {
+      await Firebase.initializeApp();
+    } else {
+      debugPrint('ℹ️ Web environment detected. Starting in offline demo mode.');
+    }
   } catch (e) {
     debugPrint('⚠️ Firebase options not configured yet. Starting in offline demo mode. Error: $e');
   }

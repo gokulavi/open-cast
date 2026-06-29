@@ -19,7 +19,6 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
     final session = ref.watch(streamSessionProvider);
-    final scenes = ref.watch(scenesProvider);
     final isLive = session.status == StreamStatus.live;
 
     final themeType = ref.watch(themeProvider);
@@ -57,35 +56,24 @@ class HomeScreen extends ConsumerWidget {
                           style: AppTheme.getHeaderStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
+                          ).copyWith(
+                            color: Colors.amber,
+                            shadows: [
+                              Shadow(
+                                color: Colors.amber.withValues(alpha: 0.6),
+                                blurRadius: 12,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.amberAccent,
+                            decorationStyle: TextDecorationStyle.double,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  // Notification icon
-                  IconButton(
-                    icon: Icon(Icons.notifications_none_rounded, color: iconColor),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 8),
-                  // Avatar with violet glow
-                  Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.accentPurpleGlow, width: 1.5),
-                      boxShadow: const [AppGlows.violetGlow],
-                    ),
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundImage: user?.avatarUrl.isNotEmpty == true
-                          ? NetworkImage(user!.avatarUrl)
-                          : null,
-                      backgroundColor: AppColors.currentViolet,
-                      child: user?.avatarUrl.isEmpty == true
-                          ? Text(user?.username[0].toUpperCase() ?? '', style: const TextStyle(color: Colors.white))
-                          : null,
-                    ),
-                  ),
+
                 ],
               ),
               const SizedBox(height: 24),
@@ -151,7 +139,7 @@ class HomeScreen extends ConsumerWidget {
                   return GridView.count(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: isWide ? 4 : 2,
+                    crossAxisCount: isWide ? 3 : 2,
                     crossAxisSpacing: 12,
                     mainAxisSpacing: 12,
                     childAspectRatio: 1.25,
@@ -173,12 +161,6 @@ class HomeScreen extends ConsumerWidget {
                         title: 'Chat Overlay',
                         color: AppColors.infoBlue,
                         onTap: () => context.push('/chat'),
-                      ),
-                      _QuickActionCard(
-                        icon: Icons.bar_chart_rounded,
-                        title: 'Analytics',
-                        color: AppColors.onlineGreen,
-                        onTap: () => ref.read(navIndexProvider.notifier).state = 1, // Navigate to Analytics Tab
                       ),
                     ],
                   );
@@ -207,77 +189,8 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
               ],
 
-              // ── SCENE SWITCHER ─────────────────────────────────────────
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'SCENE MANAGER',
-                    style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
-                  ),
-                  Text(
-                    '${scenes.length} configured',
-                    style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white30 : Colors.black38),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 110,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: scenes.length,
-                  itemBuilder: (context, index) {
-                    final scene = scenes[index];
-                    return GestureDetector(
-                      onTap: () => ref.read(scenesProvider.notifier).selectScene(scene.id),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        width: 140,
-                        margin: const EdgeInsets.only(right: 12),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: scene.isActive ? AppColors.accentPurpleGlow : AppColors.border,
-                            width: scene.isActive ? 2 : 1,
-                          ),
-                          boxShadow: scene.isActive ? [AppGlows.violetGlow] : [],
-                          image: DecorationImage(
-                            image: NetworkImage(scene.thumbnail),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                              Colors.black.withValues(alpha: scene.isActive ? 0.3 : 0.6),
-                              BlendMode.srcOver,
-                            ),
-                          ),
-                        ),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                            decoration: const BoxDecoration(
-                              color: Colors.black54,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                bottomRight: Radius.circular(12),
-                              ),
-                            ),
-                            child: Text(
-                              scene.name,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 24),
+
+
 
               // ── AUDIO MIXER ────────────────────────────────────────────
               Text(

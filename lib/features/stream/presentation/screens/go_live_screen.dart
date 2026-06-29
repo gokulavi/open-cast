@@ -10,7 +10,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../../shared/providers/app_providers.dart';
-import '../../../../shared/models/app_models.dart';
 import '../../../../shared/widgets/glass_card.dart';
 import '../../../../shared/widgets/glow_button.dart';
 
@@ -126,9 +125,23 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
   Widget build(BuildContext context) {
     final scenes = ref.watch(scenesProvider);
     final activeScene = scenes.firstWhere((s) => s.isActive, orElse: () => scenes.first);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Theme-aware colors
+    final scaffoldBg = isDark ? AppColors.matteBlack : const Color(0xFFE4E7EC);
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textSecondary = isDark ? Colors.white54 : const Color(0xFF64748B);
+    final textTertiary = isDark ? Colors.white30 : const Color(0xFF94A3B8);
+    final textMuted = isDark ? Colors.white38 : const Color(0xFFAEB8C4);
+    final inputFill = isDark ? Colors.white.withValues(alpha: 0.05) : Colors.black.withValues(alpha: 0.04);
+    final dropdownBg = isDark ? AppColors.matteBlack : Colors.white;
+    final dropdownSurfaceBg = isDark ? AppColors.surface : const Color(0xFFF1F5F9);
+    final bottomBarBg = isDark ? const Color(0xFF161616) : const Color(0xFFFFFFFF);
+    final platformInactive = isDark ? Colors.white.withValues(alpha: 0.04) : Colors.black.withValues(alpha: 0.03);
+    final platformTextInactive = isDark ? Colors.white54 : const Color(0xFF64748B);
 
     return Scaffold(
-      backgroundColor: AppColors.matteBlack,
+      backgroundColor: scaffoldBg,
       body: Stack(
         children: [
           // Main Config panel
@@ -138,12 +151,12 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
               SliverAppBar(
                 backgroundColor: Colors.transparent,
                 leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
+                  icon: Icon(Icons.arrow_back_ios_new_rounded, color: textPrimary),
                   onPressed: () => context.pop(),
                 ),
                 title: Text(
                   'CREATE STREAM SESSION',
-                  style: AppTheme.getHeaderStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: AppTheme.getHeaderStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? AppColors.currentViolet : AppColors.currentViolet),
                 ),
                 centerTitle: true,
                 pinned: true,
@@ -165,12 +178,12 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                         controller: _titleCtrl,
                         maxLength: 140,
                         maxLines: 2,
-                        style: AppTheme.getBodyStyle(),
+                        style: AppTheme.getBodyStyle(color: textPrimary),
                         decoration: InputDecoration(
                           hintText: 'Enter title here (e.g. Chill Coding Session)...',
-                          hintStyle: AppTheme.getBodyStyle(color: Colors.white30),
+                          hintStyle: AppTheme.getBodyStyle(color: textTertiary),
                           filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.05),
+                          fillColor: inputFill,
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                         ),
                       ),
@@ -191,31 +204,31 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 12),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.05),
+                                    color: inputFill,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(color: AppColors.border),
                                   ),
                                   child: DropdownButtonHideUnderline(
                                     child: Theme(
                                       data: Theme.of(context).copyWith(
-                                        canvasColor: AppColors.matteBlack,
+                                        canvasColor: dropdownBg,
                                         textTheme: Theme.of(context).textTheme.copyWith(
-                                          titleMedium: AppTheme.getBodyStyle(color: Colors.white),
-                                          bodyLarge: AppTheme.getBodyStyle(color: Colors.white),
-                                          bodyMedium: AppTheme.getBodyStyle(color: Colors.white),
+                                          titleMedium: AppTheme.getBodyStyle(color: textPrimary),
+                                          bodyLarge: AppTheme.getBodyStyle(color: textPrimary),
+                                          bodyMedium: AppTheme.getBodyStyle(color: textPrimary),
                                         ),
                                       ),
                                       child: DropdownButton<String>(
                                         value: _category,
                                         isExpanded: true,
-                                        dropdownColor: AppColors.matteBlack,
-                                        style: AppTheme.getBodyStyle(color: Colors.white),
+                                        dropdownColor: dropdownBg,
+                                        style: AppTheme.getBodyStyle(color: textPrimary),
                                         items: ['Gaming', 'Just Chatting', 'Music', 'Art', 'Tech', 'IRL']
                                             .map((c) => DropdownMenuItem(
                                                   value: c,
                                                   child: Text(
                                                     c,
-                                                    style: AppTheme.getBodyStyle(color: Colors.white),
+                                                    style: AppTheme.getBodyStyle(color: textPrimary),
                                                   ),
                                                 ))
                                             .toList(),
@@ -276,10 +289,10 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                          crossAxisCount: 5,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 1.6,
+                          childAspectRatio: 2.5,
                         ),
                         itemCount: _platforms.length,
                         itemBuilder: (context, i) {
@@ -290,7 +303,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 200),
                               decoration: BoxDecoration(
-                                color: active ? AppColors.currentViolet.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.04),
+                                color: active ? AppColors.currentViolet.withValues(alpha: 0.15) : platformInactive,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: active ? AppColors.accentPurpleGlow : AppColors.border,
@@ -304,7 +317,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                   style: AppTheme.getHeaderStyle(
                                     fontSize: 13,
                                     fontWeight: active ? FontWeight.bold : FontWeight.w500,
-                                    color: active ? AppColors.softWhite : Colors.white54,
+                                    color: active ? (isDark ? AppColors.softWhite : AppColors.currentViolet) : platformTextInactive,
                                   ),
                                 ),
                               ),
@@ -322,16 +335,16 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                             children: [
                               Text(
                                 'CUSTOM RTMP SERVER SETTINGS',
-                                style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white54),
+                                style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: textSecondary),
                               ),
                               const SizedBox(height: 12),
                               TextField(
                                 controller: _rtmpUrlCtrl,
-                                style: AppTheme.getBodyStyle(),
-                                decoration: const InputDecoration(
+                                style: AppTheme.getBodyStyle(color: textPrimary),
+                                decoration: InputDecoration(
                                   hintText: 'rtmp://your-streaming-server-url.com/live',
                                   labelText: 'RTMP URL',
-                                  labelStyle: TextStyle(color: Colors.white54),
+                                  labelStyle: TextStyle(color: textSecondary),
                                   filled: false,
                                 ),
                               ),
@@ -339,11 +352,11 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                               TextField(
                                 controller: _rtmpKeyCtrl,
                                 obscureText: true,
-                                style: AppTheme.getBodyStyle(),
-                                decoration: const InputDecoration(
+                                style: AppTheme.getBodyStyle(color: textPrimary),
+                                decoration: InputDecoration(
                                   hintText: 'Enter stream key...',
                                   labelText: 'Stream Key',
-                                  labelStyle: TextStyle(color: Colors.white54),
+                                  labelStyle: TextStyle(color: textSecondary),
                                   filled: false,
                                 ),
                               ),
@@ -356,7 +369,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       // ── QUALITY PRESETS ────────────────────────────────────
                       Text(
                         'VIDEO QUALITY PRESETS',
-                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSecondary),
                       ),
                       const SizedBox(height: 8),
                       GlassCard(
@@ -376,7 +389,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       // ── STREAM LAYOUT & ORIENTATION ────────────────────────────
                       Text(
                         'STREAM LAYOUT & ORIENTATION',
-                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                        style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSecondary),
                       ),
                       const SizedBox(height: 8),
                       GlassCard(
@@ -389,28 +402,28 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Orientation', style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white38)),
+                                      Text('Orientation', style: AppTheme.getBodyStyle(fontSize: 10, color: textMuted)),
                                       const SizedBox(height: 4),
                                       Theme(
                                         data: Theme.of(context).copyWith(
-                                          canvasColor: AppColors.surface,
+                                          canvasColor: dropdownSurfaceBg,
                                           textTheme: Theme.of(context).textTheme.copyWith(
-                                            titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
-                                            bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
-                                            bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
+                                            bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
+                                            bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
                                           ),
                                         ),
                                         child: DropdownButton<String>(
                                           value: _orientation,
                                           isExpanded: true,
                                           underline: const SizedBox(),
-                                          dropdownColor: AppColors.surface,
-                                          style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                                          dropdownColor: dropdownSurfaceBg,
+                                          style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textPrimary),
                                           items: ['Landscape (16:9)', 'Portrait (9:16)'].map((e) => DropdownMenuItem(
                                             value: e,
                                             child: Text(
                                               e,
-                                              style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                              style: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
                                             ),
                                           )).toList(),
                                           onChanged: (v) => setState(() => _orientation = v!),
@@ -424,28 +437,28 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text('Layout Preset', style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white38)),
+                                      Text('Layout Preset', style: AppTheme.getBodyStyle(fontSize: 10, color: textMuted)),
                                       const SizedBox(height: 4),
                                       Theme(
                                         data: Theme.of(context).copyWith(
-                                          canvasColor: AppColors.surface,
+                                          canvasColor: dropdownSurfaceBg,
                                           textTheme: Theme.of(context).textTheme.copyWith(
-                                            titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
-                                            bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
-                                            bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                            titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
+                                            bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
+                                            bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
                                           ),
                                         ),
                                         child: DropdownButton<String>(
                                           value: _layoutPreset,
                                           isExpanded: true,
                                           underline: const SizedBox(),
-                                          dropdownColor: AppColors.surface,
-                                          style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                                          dropdownColor: dropdownSurfaceBg,
+                                          style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textPrimary),
                                           items: ['Single Source', 'Picture-in-Picture (PiP)', 'Split Screen', 'Side-by-Side'].map((e) => DropdownMenuItem(
                                             value: e,
                                             child: Text(
                                               e,
-                                              style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                                              style: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
                                             ),
                                           )).toList(),
                                           onChanged: (v) => setState(() => _layoutPreset = v!),
@@ -471,7 +484,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                                     _orientation.contains('Portrait') 
                                         ? 'Optimized for TikTok, Reels, & Shorts (Mobile portrait streams)'
                                         : 'Optimized for YouTube, Twitch, & Facebook (Widescreen landscape streams)',
-                                    style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                                    style: AppTheme.getBodyStyle(fontSize: 10, color: textSecondary),
                                   ),
                                 ),
                               ],
@@ -494,9 +507,18 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
             right: 0,
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 16, 20, MediaQuery.of(context).padding.bottom + 16),
-              decoration: const BoxDecoration(
-                color: Color(0xFF161616),
-                border: Border(top: BorderSide(color: AppColors.border)),
+              decoration: BoxDecoration(
+                color: bottomBarBg,
+                border: const Border(top: BorderSide(color: AppColors.border)),
+                boxShadow: isDark
+                    ? []
+                    : [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.06),
+                          blurRadius: 12,
+                          offset: const Offset(0, -4),
+                        ),
+                      ],
               ),
               child: Row(
                 children: [
@@ -567,31 +589,36 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
   }
 
   Widget _buildQualityDropdown(String label, String value, List<String> options, Function(String) onChanged) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textPrimary = isDark ? Colors.white : const Color(0xFF0F172A);
+    final textTertiary = isDark ? Colors.white30 : const Color(0xFF94A3B8);
+    final dropdownBg = isDark ? AppColors.matteBlack : Colors.white;
+
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label.toUpperCase(), style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white30)),
+          Text(label.toUpperCase(), style: AppTheme.getBodyStyle(fontSize: 10, color: textTertiary)),
           DropdownButtonHideUnderline(
             child: Theme(
               data: Theme.of(context).copyWith(
-                canvasColor: AppColors.matteBlack,
+                canvasColor: dropdownBg,
                 textTheme: Theme.of(context).textTheme.copyWith(
-                  titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
-                  bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
-                  bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                  titleMedium: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
+                  bodyLarge: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
+                  bodyMedium: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
                 ),
               ),
               child: DropdownButton<String>(
                 value: value,
                 isExpanded: true,
-                dropdownColor: AppColors.matteBlack,
-                style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                dropdownColor: dropdownBg,
+                style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textPrimary),
                 items: options.map((o) => DropdownMenuItem(
                   value: o,
                   child: Text(
                     o,
-                    style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white),
+                    style: AppTheme.getBodyStyle(fontSize: 12, color: textPrimary),
                   ),
                 )).toList(),
                 onChanged: (val) {

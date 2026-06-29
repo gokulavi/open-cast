@@ -19,7 +19,9 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final _bioCtrl = TextEditingController();
+  final _nameCtrl = TextEditingController();
   bool _editingBio = false;
+  bool _editingName = false;
 
   @override
   void initState() {
@@ -27,12 +29,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final user = ref.read(userProvider);
     if (user != null) {
       _bioCtrl.text = user.bio;
+      _nameCtrl.text = user.username;
     }
   }
 
   @override
   void dispose() {
     _bioCtrl.dispose();
+    _nameCtrl.dispose();
     super.dispose();
   }
 
@@ -41,6 +45,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ref.read(userProvider.notifier).updateBio(_bioCtrl.text);
     }
     setState(() => _editingBio = !_editingBio);
+  }
+
+  void _onToggleEditName() {
+    if (_editingName) {
+      ref.read(userProvider.notifier).updateUsername(_nameCtrl.text);
+    }
+    setState(() => _editingName = !_editingName);
   }
 
   void _onSignOut() {
@@ -102,47 +113,74 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      user.username,
-                      style: AppTheme.getHeaderStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
                       user.email,
                       style: AppTheme.getBodyStyle(fontSize: 13, color: Colors.white38),
                     ),
                     
                     const SizedBox(height: 16),
-                    // Bio section
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _editingBio
-                              ? TextField(
-                                  controller: _bioCtrl,
-                                  style: AppTheme.getBodyStyle(),
-                                  maxLines: 2,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white.withValues(alpha: 0.05),
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                                  ),
-                                )
-                              : Text(
-                                  user.bio,
-                                  textAlign: TextAlign.center,
-                                  style: AppTheme.getBodyStyle(fontSize: 13, color: Colors.white70),
-                                ),
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            _editingBio ? Icons.check_circle_outline_rounded : Icons.edit_rounded,
-                            color: AppColors.accentPurpleGlow,
-                            size: 20,
-                          ),
-                          onPressed: _onToggleEditBio,
-                        ),
-                      ],
-                    ),
+     
+                     // Username edit row
+                     Row(
+                       children: [
+                         Expanded(
+                           child: _editingName
+                               ? TextField(
+                                   controller: _nameCtrl,
+                                   style: AppTheme.getBodyStyle(),
+                                   maxLines: 1,
+                                   decoration: InputDecoration(
+                                     filled: true,
+                                     fillColor: Colors.white.withValues(alpha: 0.05),
+                                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                                   ),
+                                 )
+                               : Text(
+                                   user.username,
+                                   style: AppTheme.getHeaderStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                                 ),
+                         ),
+                         IconButton(
+                           icon: Icon(
+                             _editingName ? Icons.check_circle_outline_rounded : Icons.edit_rounded,
+                             color: AppColors.accentPurpleGlow,
+                             size: 20,
+                           ),
+                           onPressed: _onToggleEditName,
+                         ),
+                       ],
+                     ),
+                     const SizedBox(height: 4),
+                     // Bio section
+                     Row(
+                       children: [
+                         Expanded(
+                           child: _editingBio
+                               ? TextField(
+                                   controller: _bioCtrl,
+                                   style: AppTheme.getBodyStyle(),
+                                   maxLines: 2,
+                                   decoration: InputDecoration(
+                                     filled: true,
+                                     fillColor: Colors.white.withValues(alpha: 0.05),
+                                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                                   ),
+                                 )
+                               : Text(
+                                   user.bio,
+                                   textAlign: TextAlign.center,
+                                   style: AppTheme.getBodyStyle(fontSize: 13, color: Colors.white70),
+                                 ),
+                         ),
+                         IconButton(
+                           icon: Icon(
+                             _editingBio ? Icons.check_circle_outline_rounded : Icons.edit_rounded,
+                             color: AppColors.accentPurpleGlow,
+                             size: 20,
+                           ),
+                           onPressed: _onToggleEditBio,
+                         ),
+                       ],
+                     ),
                   ],
                 ),
               ),
@@ -166,25 +204,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 24),
 
-              // ── CONNECTED PLATFORMS ────────────────────────────────────
-              Text(
-                'CONNECTED PLATFORMS',
-                style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
-              ),
-              const SizedBox(height: 12),
-              GlassCard(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  children: [
-                    _buildPlatformRow('Twitch', user.platformConnections.contains('Twitch')),
-                    const Divider(height: 1, indent: 16, endIndent: 16),
-                    _buildPlatformRow('YouTube', user.platformConnections.contains('YouTube')),
-                    const Divider(height: 1, indent: 16, endIndent: 16),
-                    _buildPlatformRow('TikTok', user.platformConnections.contains('TikTok')),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
+
 
               // ── GENERAL ACCOUNT OPTIONS ────────────────────────────────
               Text(
@@ -258,9 +278,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            name,
-            style: AppTheme.getBodyStyle(fontSize: 15, fontWeight: FontWeight.w600),
+          Row(
+            children: [
+              if (!connected) Icon(Icons.add, size: 20, color: AppColors.accentPurpleGlow),
+              Text(
+                name,
+                style: AppTheme.getBodyStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
           TextButton(
             onPressed: () {

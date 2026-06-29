@@ -366,6 +366,9 @@ class AppSettings {
   final String videoInputDevice;
   final bool recordLocally;
   final String recordingPath;
+  final bool enableChatbot;
+  final String chatbotName;
+  final String chatbotReplyTemplate;
 
   const AppSettings({
     this.themeType = 'darkPro',
@@ -380,6 +383,9 @@ class AppSettings {
     this.videoInputDevice = 'Default Webcam',
     this.recordLocally = false,
     this.recordingPath = '/storage/opencast/records',
+    this.enableChatbot = true,
+    this.chatbotName = 'OpenCast Bot',
+    this.chatbotReplyTemplate = 'Thanks for subscribing, @{username}! Welcome to the cast! 🚀',
   });
 
   AppSettings copyWith({
@@ -395,6 +401,9 @@ class AppSettings {
     String? videoInputDevice,
     bool? recordLocally,
     String? recordingPath,
+    bool? enableChatbot,
+    String? chatbotName,
+    String? chatbotReplyTemplate,
   }) {
     return AppSettings(
       themeType: themeType ?? this.themeType,
@@ -409,6 +418,9 @@ class AppSettings {
       videoInputDevice: videoInputDevice ?? this.videoInputDevice,
       recordLocally: recordLocally ?? this.recordLocally,
       recordingPath: recordingPath ?? this.recordingPath,
+      enableChatbot: enableChatbot ?? this.enableChatbot,
+      chatbotName: chatbotName ?? this.chatbotName,
+      chatbotReplyTemplate: chatbotReplyTemplate ?? this.chatbotReplyTemplate,
     );
   }
 }

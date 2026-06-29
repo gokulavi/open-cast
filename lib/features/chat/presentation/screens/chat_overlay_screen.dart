@@ -70,22 +70,27 @@ class _ChatOverlayScreenState extends ConsumerState<ChatOverlayScreen> {
                         style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
                       ),
                       const SizedBox(height: 8),
-                      AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: AppColors.border),
-                            borderRadius: BorderRadius.circular(14),
-                            image: const DecorationImage(
-                              image: NetworkImage('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80'),
-                              fit: BoxFit.cover,
+                      Center(
+                        child: FractionallySizedBox(
+                          widthFactor: 0.5,
+                          child: AspectRatio(
+                            aspectRatio: 16 / 9,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.border),
+                                borderRadius: BorderRadius.circular(14),
+                                image: const DecorationImage(
+                                  image: NetworkImage('https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&q=80'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Stack(
+                                children: [
+                                  // Simulated overlay alignment
+                                  _buildOverlayPositionWidget(),
+                                ],
+                              ),
                             ),
-                          ),
-                          child: Stack(
-                            children: [
-                              // Simulated overlay alignment
-                              _buildOverlayPositionWidget(),
-                            ],
                           ),
                         ),
                       ),
@@ -151,16 +156,6 @@ class _ChatOverlayScreenState extends ConsumerState<ChatOverlayScreen> {
                               24.0,
                               (v) => setState(() => _fontSize = v),
                               '${_fontSize.toInt()} px',
-                            ),
-                            const Divider(height: 24),
-                            // Max message history
-                            _buildSliderRow(
-                              'Max Visible Messages',
-                              _maxMessages,
-                              5.0,
-                              30.0,
-                              (v) => setState(() => _maxMessages = v),
-                              '${_maxMessages.toInt()}',
                             ),
                           ],
                         ),
@@ -256,27 +251,52 @@ class _ChatOverlayScreenState extends ConsumerState<ChatOverlayScreen> {
     if (_position == 'Top Right') alignment = Alignment.topRight;
     if (_position == 'Bottom Right') alignment = Alignment.bottomRight;
 
+    // Sample chat messages for preview
+    final sampleMessages = [
+      {'user': 'Viewer1', 'text': 'Nice layout!', 'isHighlight': true},
+      {'user': 'Subscriber', 'text': 'Low latency 🚀', 'isHighlight': false},
+      {'user': 'ModBot', 'text': 'Welcome everyone!', 'isHighlight': true},
+      {'user': 'Fan99', 'text': 'GG 🔥', 'isHighlight': false},
+      {'user': 'NewUser', 'text': 'First time here!', 'isHighlight': false},
+    ];
+    final visibleCount = _maxMessages.toInt().clamp(1, sampleMessages.length);
+    final visibleMessages = sampleMessages.take(visibleCount).toList();
+
     return Align(
       alignment: alignment,
       child: Container(
         margin: const EdgeInsets.all(10),
         width: 140,
-        height: 80,
+        constraints: const BoxConstraints(maxHeight: 120),
         decoration: BoxDecoration(
           color: _bgStyle == 'None'
               ? Colors.transparent
-              : (_bgStyle == 'Dark' ? Colors.black.withValues(alpha: _opacity) : Colors.white.withValues(alpha: 0.1)),
+              : (_bgStyle == 'Dark'
+                  ? Colors.black.withValues(alpha: _opacity)
+                  : Colors.white.withValues(alpha: _opacity * 0.15)),
           borderRadius: BorderRadius.circular(8),
           border: _bgStyle == 'Glass' ? Border.all(color: AppColors.border) : null,
         ),
         padding: const EdgeInsets.all(6),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Viewer1: Nice layout!', style: TextStyle(fontSize: _fontSize - 5, color: AppColors.accentPurpleGlow, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 2),
-            Text('Subscriber: Low latency 🚀', style: TextStyle(fontSize: _fontSize - 5, color: Colors.white70)),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: visibleMessages.map((msg) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 2),
+                child: Text(
+                  '${msg['user']}: ${msg['text']}',
+                  style: TextStyle(
+                    fontSize: _fontSize - 5,
+                    color: msg['isHighlight'] == true ? AppColors.accentPurpleGlow : Colors.white70,
+                    fontWeight: msg['isHighlight'] == true ? FontWeight.bold : FontWeight.normal,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            }).toList(),
+          ),
         ),
       ),
     );

@@ -150,7 +150,7 @@ class AppTheme {
   // Bright Theme Definition (Premium Light Theme)
   static ThemeData get bright {
     return ThemeData.light().copyWith(
-      scaffoldBackgroundColor: const Color(0xFFF6F8FA), // Clean, premium off-white background
+      scaffoldBackgroundColor: const Color(0xFFE4E7EC), // Muted premium off-white background
       colorScheme: const ColorScheme.light(
         primary: AppColors.currentViolet, // gold
         secondary: Color(0xFF1A1D2B), // dark steel

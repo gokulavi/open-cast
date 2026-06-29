@@ -153,19 +153,107 @@ final scenesProvider = StateNotifierProvider<ScenesNotifier, List<SceneModel>>((
 
 // ── Chat Messages Provider (Live messages) ────────────────────
 class ChatMessagesNotifier extends StateNotifier<List<ChatMessage>> {
-  ChatMessagesNotifier() : super(ChatMessage.mockList);
+  final Ref _ref;
+
+  ChatMessagesNotifier(this._ref) : super(ChatMessage.mockList);
 
   void addMessage(ChatMessage message) {
     state = [...state, message];
+    _processChatbot(message);
   }
 
   void clearChat() {
     state = [];
   }
+
+  void _processChatbot(ChatMessage message) {
+    final settings = _ref.read(settingsProvider);
+    if (!settings.enableChatbot) return;
+
+    // Safety: ignore bot messages to avoid loops
+    if (message.badges.contains('bot') || message.username == settings.chatbotName) {
+      return;
+    }
+
+    // Handle subscriber thank-you
+    if (message.type == ChatMessageType.subscription) {
+      Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+          final replyText = settings.chatbotReplyTemplate.replaceAll('{username}', message.username);
+          addMessage(ChatMessage(
+            id: 'bot_sub_${DateTime.now().millisecondsSinceEpoch}',
+            username: settings.chatbotName,
+            message: replyText,
+            timestamp: DateTime.now(),
+            type: ChatMessageType.normal,
+            usernameColor: '#00E5FF',
+            badges: const ['bot'],
+          ));
+        }
+      });
+      return;
+    }
+
+    // Handle commands
+    final text = message.message.trim();
+    if (text.startsWith('!')) {
+      final command = text.split(' ')[0].toLowerCase();
+      String? reply;
+
+      if (command == '!help') {
+        reply = 'Chatbot commands: !uptime, !stats, !socials, !joke';
+      } else if (command == '!uptime') {
+        final session = _ref.read(streamSessionProvider);
+        if (session.status != StreamStatus.live) {
+          reply = 'Stream is currently offline.';
+        } else {
+          final diff = DateTime.now().difference(session.startTime);
+          final hours = diff.inHours.toString().padLeft(2, '0');
+          final minutes = (diff.inMinutes % 60).toString().padLeft(2, '0');
+          final seconds = (diff.inSeconds % 60).toString().padLeft(2, '0');
+          reply = 'Stream uptime: $hours:$minutes:$seconds';
+        }
+      } else if (command == '!stats') {
+        final session = _ref.read(streamSessionProvider);
+        if (session.status != StreamStatus.live) {
+          reply = 'Stream is offline. No stats available.';
+        } else {
+          reply = 'Viewer Count: ${session.viewerCount} | Bitrate: ${session.bitrate.toInt()} kbps | Health: ${session.health.name.toUpperCase()}';
+        }
+      } else if (command == '!socials') {
+        reply = 'Follow us on Twitter: @OpenCastApp | Discord: dsc.gg/opencast | YouTube: OpenCastLive';
+      } else if (command == '!joke') {
+        final jokes = [
+          "Why do programmers wear glasses? Because they can't C#!",
+          "There are 10 types of people in the world: those who understand binary, and those who don't.",
+          "Why was the mobile phone wearing glasses? Because it lost its contacts.",
+          "What is a streamer's favorite key? The Space bar, to give their viewers some space!",
+          "How many programmers does it take to change a light bulb? None, that's a hardware problem."
+        ];
+        reply = jokes[DateTime.now().millisecond % jokes.length];
+      }
+
+      if (reply != null) {
+        Future.delayed(const Duration(milliseconds: 600), () {
+          if (mounted) {
+            addMessage(ChatMessage(
+              id: 'bot_cmd_${DateTime.now().millisecondsSinceEpoch}',
+              username: settings.chatbotName,
+              message: reply!,
+              timestamp: DateTime.now(),
+              type: ChatMessageType.normal,
+              usernameColor: '#00E5FF',
+              badges: const ['bot'],
+            ));
+          }
+        });
+      }
+    }
+  }
 }
 
 final chatMessagesProvider = StateNotifierProvider<ChatMessagesNotifier, List<ChatMessage>>((ref) {
-  return ChatMessagesNotifier();
+  return ChatMessagesNotifier(ref);
 });
 
 // ── Audio Mixer volume controls & toggles ─────────────────────
