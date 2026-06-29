@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/stream/presentation/screens/go_live_screen.dart
 // Pre-stream configuration panel & countdown trigger
 // ============================================================
@@ -168,7 +168,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ── TITLE INPUT ───────────────────────────────────────
+                      // â”€â”€ TITLE INPUT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                       Text(
                         'STREAM TITLE (MAX 140 CHARS)',
                         style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
@@ -189,7 +189,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // ── CATEGORY DROP DOWN ────────────────────────────────
+                      // â”€â”€ CATEGORY DROP DOWN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                       Row(
                         children: [
                           Expanded(
@@ -279,7 +279,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       ),
                       const SizedBox(height: 24),
 
-                      // ── PLATFORMS GRID ──────────────────────────────────
+                      // â”€â”€ PLATFORMS GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                       Text(
                         'STREAM PLATFORMS',
                         style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
@@ -366,7 +366,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                         const SizedBox(height: 24),
                       ],
 
-                      // ── QUALITY PRESETS ────────────────────────────────────
+                      // â”€â”€ QUALITY PRESETS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                       Text(
                         'VIDEO QUALITY PRESETS',
                         style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSecondary),
@@ -386,7 +386,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                       ),
                       const SizedBox(height: 20),
 
-                      // ── STREAM LAYOUT & ORIENTATION ────────────────────────────
+                      // â”€â”€ STREAM LAYOUT & ORIENTATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                       Text(
                         'STREAM LAYOUT & ORIENTATION',
                         style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: textSecondary),
@@ -509,7 +509,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
               padding: EdgeInsets.fromLTRB(20, 16, 20, MediaQuery.of(context).padding.bottom + 16),
               decoration: BoxDecoration(
                 color: bottomBarBg,
-                border: const Border(top: BorderSide(color: AppColors.border)),
+                border: Border(top: BorderSide(color: AppColors.border)),
                 boxShadow: isDark
                     ? []
                     : [
@@ -536,7 +536,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
                   Expanded(
                     child: GlowButton(
                       text: 'LAUNCH BROADCAST',
-                      gradient: const LinearGradient(colors: [AppColors.onlineGreen, Color(0xFF1B5E20)]),
+                      gradient: LinearGradient(colors: [AppColors.onlineGreen, Color(0xFF1B5E20)]),
                       onTap: _triggerGoLive,
                     ),
                   ),
@@ -545,7 +545,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
             ),
           ),
 
-          // ── COUNTDOWN OVERLAY ──────────────────────────────────────
+          // â”€â”€ COUNTDOWN OVERLAY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           if (_showCountdown)
             Container(
               color: Colors.black.withValues(alpha: 0.9),
@@ -632,3 +632,4 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
     );
   }
 }
+

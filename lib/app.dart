@@ -15,13 +15,35 @@ class OpenCastApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
-    final themeType = ref.watch(themeProvider);
+    final themeConfig = ref.watch(themeProvider);
+    
+    // Dynamically update the app's static color palette based on config
+    AppTheme.updateColors(themeConfig);
 
     return MaterialApp.router(
       title: 'OPEN CAST',
       debugShowCheckedModeBanner: false,
       routerConfig: router,
-      theme: themeType == 'bright' ? AppTheme.bright : AppTheme.darkPro,
+      theme: AppTheme.getThemeData(themeConfig),
+      builder: (context, child) {
+        return Container(
+          decoration: BoxDecoration(
+            color: themeConfig.isDark ? AppColors.matteBlack : null,
+            gradient: !themeConfig.isDark
+                ? LinearGradient(
+                    colors: [
+                      AppColors.currentViolet.withValues(alpha: 0.15),
+                      Colors.white,
+                      AppColors.currentViolet.withValues(alpha: 0.05),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  )
+                : null,
+          ),
+          child: child,
+        );
+      },
     );
   }
 }

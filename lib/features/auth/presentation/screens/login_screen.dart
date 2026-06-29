@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/auth/presentation/screens/login_screen.dart
 // Cyberpunk Login UI screen
 // ============================================================
@@ -115,7 +115,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   children: [
                     // Brand Header
-                    const Icon(
+                    Icon(
                       Icons.podcasts_rounded,
                       color: AppColors.accentPurpleGlow,
                       size: 60,
@@ -168,15 +168,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 prefixIcon: const Icon(Icons.email_outlined, color: Colors.white30),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.border),
+                                  borderSide: BorderSide(color: AppColors.border),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.border),
+                                  borderSide: BorderSide(color: AppColors.border),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
+                                  borderSide: BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
                                 ),
                               ),
                               validator: (val) => val == null || val.isEmpty ? 'Email is required' : null,
@@ -195,15 +195,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 prefixIcon: const Icon(Icons.lock_outline_rounded, color: Colors.white30),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.border),
+                                  borderSide: BorderSide(color: AppColors.border),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.border),
+                                  borderSide: BorderSide(color: AppColors.border),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
+                                  borderSide: BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
                                 ),
                               ),
                               validator: (val) => val == null || val.isEmpty ? 'Password is required' : null,
@@ -231,7 +231,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             // Google Auth
                             OutlinedButton.icon(
                               style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: AppColors.border),
+                                side: BorderSide(color: AppColors.border),
                                 padding: const EdgeInsets.symmetric(vertical: 14),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -287,3 +287,4 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 }
+

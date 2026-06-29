@@ -352,9 +352,43 @@ class AnalyticsData {
       );
 }
 
+// ── THEME PALETTE ──────────────────────────────────────────────
+enum ThemePalette { gold, seaGreen, violet }
+
+class ThemeConfig {
+  final ThemePalette palette;
+  final bool isDark;
+
+  const ThemeConfig({
+    this.palette = ThemePalette.gold,
+    this.isDark = true,
+  });
+
+  ThemeConfig copyWith({
+    ThemePalette? palette,
+    bool? isDark,
+  }) {
+    return ThemeConfig(
+      palette: palette ?? this.palette,
+      isDark: isDark ?? this.isDark,
+    );
+  }
+
+  // To/from string for shared prefs if needed
+  String get id => '${palette.name}_${isDark ? "dark" : "light"}';
+  
+  static ThemeConfig fromId(String id) {
+    if (id.isEmpty) return const ThemeConfig();
+    final parts = id.split('_');
+    final palette = ThemePalette.values.firstWhere((e) => e.name == parts[0], orElse: () => ThemePalette.gold);
+    final isDark = parts.length > 1 ? parts[1] == 'dark' : true;
+    return ThemeConfig(palette: palette, isDark: isDark);
+  }
+}
+
 // ── APP SETTINGS ─────────────────────────────────────────────
 class AppSettings {
-  final String themeType; // 'darkPro' or 'bright'
+  final ThemeConfig themeConfig;
   final String videoQuality; // '360p' to '1080p'
   final int bitrate; // kbps
   final String encoder; // 'x264', 'NVENC', etc.
@@ -371,7 +405,7 @@ class AppSettings {
   final String chatbotReplyTemplate;
 
   const AppSettings({
-    this.themeType = 'darkPro',
+    this.themeConfig = const ThemeConfig(),
     this.videoQuality = '1080p (60fps)',
     this.bitrate = 4500,
     this.encoder = 'NVENC',
@@ -389,7 +423,7 @@ class AppSettings {
   });
 
   AppSettings copyWith({
-    String? themeType,
+    ThemeConfig? themeConfig,
     String? videoQuality,
     int? bitrate,
     String? encoder,
@@ -406,7 +440,7 @@ class AppSettings {
     String? chatbotReplyTemplate,
   }) {
     return AppSettings(
-      themeType: themeType ?? this.themeType,
+      themeConfig: themeConfig ?? this.themeConfig,
       videoQuality: videoQuality ?? this.videoQuality,
       bitrate: bitrate ?? this.bitrate,
       encoder: encoder ?? this.encoder,

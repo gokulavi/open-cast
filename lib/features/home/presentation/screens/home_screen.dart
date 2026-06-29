@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/home/presentation/screens/home_screen.dart
 // Cyberpunk main control dashboard
 // ============================================================
@@ -36,7 +36,7 @@ class HomeScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── TOP BAR ────────────────────────────────────────────────
+              // â”€â”€ TOP BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Row(
                 children: [
                   Expanded(
@@ -78,18 +78,18 @@ class HomeScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── LIVE STREAMING BANNER ──────────────────────────────────
+              // â”€â”€ LIVE STREAMING BANNER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               if (isLive) ...[
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [AppColors.currentViolet, AppColors.liveRed],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(18),
-                    boxShadow: const [AppGlows.violetGlow],
+                    boxShadow: [AppGlows.violetGlow],
                   ),
                   child: Row(
                     children: [
@@ -111,7 +111,7 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              'Category: ${session.category} • Active Platforms: ${session.activePlatforms.join(", ")}',
+                              'Category: ${session.category} â€¢ Active Platforms: ${session.activePlatforms.join(", ")}',
                               style: AppTheme.getBodyStyle(
                                 fontSize: 12,
                                 color: Colors.white70,
@@ -127,7 +127,7 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
               ],
 
-              // ── QUICK ACTIONS (2x2 Grid) ───────────────────────────────
+              // â”€â”€ QUICK ACTIONS (2x2 Grid) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'QUICK OPERATIONS',
                 style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
@@ -168,7 +168,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── STREAM HEALTH STATS ───────────────────────────────────
+              // â”€â”€ STREAM HEALTH STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               if (isLive) ...[
                 Text(
                   'STREAM METRICS & HEALTH',
@@ -192,7 +192,7 @@ class HomeScreen extends ConsumerWidget {
 
 
 
-              // ── AUDIO MIXER ────────────────────────────────────────────
+              // â”€â”€ AUDIO MIXER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'AUDIO MIXER',
                 style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
@@ -219,7 +219,7 @@ class HomeScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── CREATOR TOOLS TOGGLES ──────────────────────────────────
+              // â”€â”€ CREATOR TOOLS TOGGLES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'CREATOR SHORTCUTS',
                 style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
@@ -245,7 +245,7 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-// ── Quick Operations Grid Card ──────────────────────────────
+// â”€â”€ Quick Operations Grid Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _QuickActionCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -290,7 +290,7 @@ class _QuickActionCard extends StatelessWidget {
   }
 }
 
-// ── Stream Health Status Metrics ─────────────────────────────
+// â”€â”€ Stream Health Status Metrics â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _HealthMetric extends StatelessWidget {
   final String label;
   final String value;
@@ -320,7 +320,7 @@ class _HealthMetric extends StatelessWidget {
   }
 }
 
-// ── Audio Mixer Slider ───────────────────────────────────────
+// â”€â”€ Audio Mixer Slider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _AudioSlider extends ConsumerWidget {
   final String title;
   final IconData icon;
@@ -391,7 +391,7 @@ class _AudioSlider extends ConsumerWidget {
   }
 }
 
-// ── Shortcuts Toggle Chip ────────────────────────────────────
+// â”€â”€ Shortcuts Toggle Chip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _ToolChip extends StatefulWidget {
   final String label;
   final IconData icon;
@@ -481,3 +481,4 @@ class _ToolChipState extends State<_ToolChip> {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/stream/presentation/screens/stream_studio_screen.dart
 // Cyberpunk main live streaming studio dashboard
 // ============================================================
@@ -61,7 +61,7 @@ class StreamStudioScreen extends ConsumerWidget {
           final isDesktop = constraints.maxWidth >= 900;
 
           if (isDesktop) {
-            // ── DESKTOP LAYOUT (3 columns side-by-side) ─────────────────
+            // â”€â”€ DESKTOP LAYOUT (3 columns side-by-side) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: Row(
@@ -91,7 +91,7 @@ class StreamStudioScreen extends ConsumerWidget {
             );
           }
 
-          // ── MOBILE LAYOUT (Tabbed view) ────────────────────────────
+          // â”€â”€ MOBILE LAYOUT (Tabbed view) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           return DefaultTabController(
             length: 3,
             child: Scaffold(
@@ -105,7 +105,7 @@ class StreamStudioScreen extends ConsumerWidget {
                 centerTitle: true,
                 actions: [
                   IconButton(
-                    icon: const Icon(Icons.stop_circle_rounded, color: AppColors.liveRed),
+                    icon: Icon(Icons.stop_circle_rounded, color: AppColors.liveRed),
                     onPressed: () => _onConfirmEndStream(context, ref),
                   ),
                 ],
@@ -144,7 +144,7 @@ class StreamStudioScreen extends ConsumerWidget {
     );
   }
 
-  // ── Column 1 helper: Scenes & Sources manager ─────────────────────
+  // â”€â”€ Column 1 helper: Scenes & Sources manager â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildScenesAndSourcesColumn(WidgetRef ref, List<SceneModel> scenes) {
     final activeScene = scenes.firstWhere((s) => s.isActive, orElse: () => scenes.first);
 
@@ -190,7 +190,7 @@ class StreamStudioScreen extends ConsumerWidget {
                           ),
                         ),
                         if (scene.isActive)
-                          const Icon(Icons.check_circle_rounded, color: AppColors.accentPurpleGlow, size: 18),
+                          Icon(Icons.check_circle_rounded, color: AppColors.accentPurpleGlow, size: 18),
                       ],
                     ),
                   ),
@@ -250,7 +250,7 @@ class StreamStudioScreen extends ConsumerWidget {
     );
   }
 
-  // ── Column 2 helper: Studio Preview & monitor controls ─────────────
+  // â”€â”€ Column 2 helper: Studio Preview & monitor controls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildStudioPreviewColumn(BuildContext context, WidgetRef ref, StreamSession session, List<SceneModel> scenes) {
     final activeScene = scenes.firstWhere((s) => s.isActive, orElse: () => scenes.first);
 
@@ -282,7 +282,7 @@ class StreamStudioScreen extends ConsumerWidget {
                     child: Container(
                       color: Colors.black38,
                       child: Center(
-                        child: const Icon(
+                        child: Icon(
                           Icons.podcasts_rounded,
                           color: AppColors.accentPurpleGlow,
                           size: 48,
@@ -399,7 +399,7 @@ class StreamStudioScreen extends ConsumerWidget {
     );
   }
 
-  // ── Column 3 helper: Live Chat scrolling feed ──────────────────────
+  // â”€â”€ Column 3 helper: Live Chat scrolling feed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   Widget _buildChatAndAlertsColumn(WidgetRef ref, List<ChatMessage> messages) {
     final textController = TextEditingController();
     final discordConnected = ref.watch(discordConnectedProvider);
@@ -468,7 +468,7 @@ class StreamStudioScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '🔊 Room: 🎧 Friends Voice',
+                      'ðŸ”Š Room: ðŸŽ§ Friends Voice',
                       style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white70),
                     ),
                     InkWell(
@@ -543,7 +543,7 @@ class StreamStudioScreen extends ConsumerWidget {
                 backgroundColor: AppColors.warningAmber.withValues(alpha: 0.1),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
               ),
-              icon: const Icon(Icons.star_rounded, color: AppColors.warningAmber, size: 12),
+              icon: Icon(Icons.star_rounded, color: AppColors.warningAmber, size: 12),
               label: Text(
                 'SIM SUB',
                 style: AppTheme.getHeaderStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.warningAmber),
@@ -552,7 +552,7 @@ class StreamStudioScreen extends ConsumerWidget {
                 ref.read(chatMessagesProvider.notifier).addMessage(ChatMessage(
                       id: 'sim_sub_${DateTime.now().millisecondsSinceEpoch}',
                       username: 'Subscriber${DateTime.now().second}',
-                      message: 'Just subscribed for Tier 1! 🎉',
+                      message: 'Just subscribed for Tier 1! ðŸŽ‰',
                       timestamp: DateTime.now(),
                       type: ChatMessageType.subscription,
                       usernameColor: '#FFB300',
@@ -635,7 +635,7 @@ class StreamStudioScreen extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     IconButton(
-                      icon: const Icon(Icons.send_rounded, color: AppColors.accentPurpleGlow, size: 18),
+                      icon: Icon(Icons.send_rounded, color: AppColors.accentPurpleGlow, size: 18),
                       onPressed: submitChat,
                     ),
                   ],
@@ -649,7 +649,7 @@ class StreamStudioScreen extends ConsumerWidget {
   }
 }
 
-// ── Studio Action Control Circle ─────────────────────────────
+// â”€â”€ Studio Action Control Circle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _StudioControlBadge extends StatelessWidget {
   final IconData icon;
   final bool active;
@@ -686,7 +686,7 @@ class _StudioControlBadge extends StatelessWidget {
   }
 }
 
-// ── OpenCast Lens Dialog Helper ─────────────────────────────────
+// â”€â”€ OpenCast Lens Dialog Helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 void _showMobileLensDialog(BuildContext context) {
   showDialog(
     context: context,
@@ -700,7 +700,7 @@ void _showMobileLensDialog(BuildContext context) {
   );
 }
 
-// ── OpenCast Lens Stateful Connector Interface ──────────────────
+// â”€â”€ OpenCast Lens Stateful Connector Interface â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _OpenCastLensWidget extends StatefulWidget {
   @override
   State<_OpenCastLensWidget> createState() => _OpenCastLensWidgetState();
@@ -741,7 +741,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
       ),
       child: Column(
         children: [
-          // ── Window Title Bar ──
+          // â”€â”€ Window Title Bar â”€â”€
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: const BoxDecoration(
@@ -750,7 +750,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.videocam_rounded, color: AppColors.currentViolet, size: 18),
+                Icon(Icons.videocam_rounded, color: AppColors.currentViolet, size: 18),
                 const SizedBox(width: 8),
                 Text(
                   'OpenCast Lens',
@@ -769,7 +769,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
             ),
           ),
 
-          // ── Main Content Body ──
+          // â”€â”€ Main Content Body â”€â”€
           Expanded(
             child: Row(
               children: [
@@ -1061,7 +1061,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
             ),
           ),
 
-          // ── Bottom Status Bar ──
+          // â”€â”€ Bottom Status Bar â”€â”€
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: const BoxDecoration(
@@ -1182,7 +1182,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
   }
 }
 
-// ── Mock QR Code custom painter ──
+// â”€â”€ Mock QR Code custom painter â”€â”€
 class _MockQrPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -1219,3 +1219,4 @@ class _MockQrPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
+

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/auth/presentation/screens/profile_screen.dart
 // User account profile details & integrations
 // ============================================================
@@ -66,7 +66,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final isBright = themeType == 'bright';
 
     if (user == null) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(child: CircularProgressIndicator(color: AppColors.currentViolet)),
       );
@@ -86,7 +86,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 24),
 
-              // ── AVATAR & INFO CARD ─────────────────────────────────────
+              // â”€â”€ AVATAR & INFO CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               GlassCard(
                 child: Column(
                   children: [
@@ -95,7 +95,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(color: AppColors.accentPurpleGlow, width: 2.5),
-                        boxShadow: const [AppGlows.violetGlow],
+                        boxShadow: [AppGlows.violetGlow],
                       ),
                       child: CircleAvatar(
                         radius: 40,
@@ -186,7 +186,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 20),
 
-              // ── FOLLOWER STATS GRID ────────────────────────────────────
+              // â”€â”€ FOLLOWER STATS GRID â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Row(
                 children: [
                   Expanded(
@@ -206,7 +206,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
 
 
-              // ── GENERAL ACCOUNT OPTIONS ────────────────────────────────
+              // â”€â”€ GENERAL ACCOUNT OPTIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'ACCOUNT SETTINGS',
                 style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
@@ -226,10 +226,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 32),
 
-              // ── SIGN OUT TRIGGER ───────────────────────────────────────
+              // â”€â”€ SIGN OUT TRIGGER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppColors.liveRed),
+                  side: BorderSide(color: AppColors.liveRed),
                   minimumSize: const Size.fromHeight(50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -320,3 +320,4 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     );
   }
 }
+

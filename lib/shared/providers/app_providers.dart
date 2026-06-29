@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_models.dart';
 
 // ── Theme Provider ──────────────────────────────────────────
-final themeProvider = StateProvider<String>((ref) => 'darkPro');
+final themeProvider = StateProvider<ThemeConfig>((ref) => const ThemeConfig());
 
 // ── User Provider (Auth State) ──────────────────────────────
 class UserNotifier extends StateNotifier<UserModel?> {
@@ -270,8 +270,8 @@ class SettingsNotifier extends StateNotifier<AppSettings> {
     state = settings;
   }
 
-  void updateTheme(String theme) {
-    state = state.copyWith(themeType: theme);
+  void updateTheme(ThemeConfig config) {
+    state = state.copyWith(themeConfig: config);
   }
 }
 

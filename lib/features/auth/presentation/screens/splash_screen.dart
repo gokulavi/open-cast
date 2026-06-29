@@ -97,7 +97,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                               ),
                             ],
                           ),
-                          child: const Icon(Icons.wb_sunny_rounded, color: AppColors.currentViolet, size: 22),
+                          child: Icon(Icons.wb_sunny_rounded, color: AppColors.currentViolet, size: 22),
                         )
                             .animate(onPlay: (c) => c.repeat(reverse: true))
                             .scale(begin: const Offset(0.9, 0.9), end: const Offset(1.1, 1.1), duration: 800.ms),
@@ -116,7 +116,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                               ),
                             ],
                           ),
-                          child: const Icon(Icons.wb_sunny_rounded, color: AppColors.currentViolet, size: 22),
+                          child: Icon(Icons.wb_sunny_rounded, color: AppColors.currentViolet, size: 22),
                         )
                             .animate(onPlay: (c) => c.repeat(reverse: true))
                             .scale(begin: const Offset(0.9, 0.9), end: const Offset(1.1, 1.1), duration: 800.ms, delay: 400.ms),
@@ -131,11 +131,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                             shape: BoxShape.circle,
                             color: Colors.black,
                             border: Border.all(color: Colors.white24, width: 1.2),
-                            boxShadow: const [AppGlows.violetGlow],
+                            boxShadow: [AppGlows.violetGlow],
                           ),
                           child: Transform.rotate(
                             angle: _animationController.value * 6.28,
-                            child: const Icon(Icons.camera_rounded, color: AppColors.currentViolet, size: 38),
+                            child: Icon(Icons.camera_rounded, color: AppColors.currentViolet, size: 38),
                           ),
                         ),
                       ),

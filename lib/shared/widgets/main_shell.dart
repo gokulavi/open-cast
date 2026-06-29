@@ -45,7 +45,7 @@ class MainShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedIndex = _calculateSelectedIndex(context);
     final themeMode = ref.watch(themeProvider);
-    final isBright = themeMode == 'bright';
+    final isBright = !themeMode.isDark;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -56,12 +56,12 @@ class MainShell extends ConsumerWidget {
           return Scaffold(
             body: Row(
               children: [
-                // ── Sidebar Left ──────────────────────────────────────────
+                // ──────────────────────────────────────────────────────────
                 Container(
                   width: 260,
                   decoration: BoxDecoration(
-                    color: isBright ? const Color(0xFF140A26) : AppColors.surface,
-                    border: const Border(
+                    color: isBright ? Colors.black.withValues(alpha: 0.03) : AppColors.surface,
+                    border: Border(
                       right: BorderSide(color: AppColors.border, width: 1),
                     ),
                   ),
@@ -79,7 +79,7 @@ class MainShell extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: AppColors.currentViolet, width: 1.5),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.podcasts_rounded,
                               color: AppColors.accentPurpleGlow,
                               size: 24,
@@ -172,7 +172,7 @@ class MainShell extends ConsumerWidget {
                     ],
                   ),
                 ),
-                // ── Main Context ──────────────────────────────────────────
+                // â”€â”€ Main Context â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Expanded(child: child),
               ],
             ),
@@ -184,8 +184,8 @@ class MainShell extends ConsumerWidget {
           body: child,
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
-              color: isBright ? const Color(0xFF140A26) : AppColors.surface,
-              border: const Border(
+              color: isBright ? Colors.white.withValues(alpha: 0.8) : AppColors.surface,
+              border: Border(
                 top: BorderSide(color: AppColors.border, width: 1),
               ),
             ),
@@ -195,7 +195,7 @@ class MainShell extends ConsumerWidget {
               backgroundColor: Colors.transparent,
               type: BottomNavigationBarType.fixed,
               selectedItemColor: AppColors.accentPurpleGlow,
-              unselectedItemColor: Colors.white38,
+              unselectedItemColor: isBright ? Colors.black54 : Colors.white38,
               elevation: 0,
               showSelectedLabels: isTablet,
               showUnselectedLabels: isTablet,
@@ -236,7 +236,7 @@ class MainShell extends ConsumerWidget {
   }
 }
 
-// ── Sidebar Menu Row Widget ──────────────────────────────────
+// â”€â”€ Sidebar Menu Row Widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 class _SidebarItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -276,7 +276,7 @@ class _SidebarItem extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: selected ? AppColors.accentPurpleGlow : Colors.white60,
+              color: selected ? AppColors.accentPurpleGlow : (isBright ? Colors.black54 : Colors.white60),
               size: 22,
             ),
             const SizedBox(width: 14),
@@ -285,7 +285,7 @@ class _SidebarItem extends StatelessWidget {
               style: AppTheme.getHeaderStyle(
                 fontSize: 15,
                 fontWeight: selected ? FontWeight.bold : FontWeight.w500,
-                color: selected ? AppColors.softWhite : Colors.white60,
+                color: selected ? AppColors.softWhite : (isBright ? Colors.black54 : Colors.white60),
               ),
             ),
           ],
@@ -294,3 +294,4 @@ class _SidebarItem extends StatelessWidget {
     );
   }
 }
+

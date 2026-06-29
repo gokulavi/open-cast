@@ -225,8 +225,8 @@ class _ChatOverlayScreenState extends ConsumerState<ChatOverlayScreen> {
             right: 0,
             child: Container(
               padding: EdgeInsets.fromLTRB(20, 16, 20, MediaQuery.of(context).padding.bottom + 16),
-              decoration: const BoxDecoration(
-                color: Color(0xFF161616),
+              decoration: BoxDecoration(
+                color: const Color(0xFF161616),
                 border: Border(top: BorderSide(color: AppColors.border)),
               ),
               child: GlowButton(

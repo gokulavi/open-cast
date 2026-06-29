@@ -42,7 +42,7 @@ class GlassCard extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: glowShadows,
+        boxShadow: glowShadows ?? (isDark ? [AppGlows.violetGlow] : []),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -57,8 +57,8 @@ class GlassCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(borderRadius),
               border: customBorder ??
                   Border.all(
-                    color: AppColors.border,
-                    width: 1.2,
+                    color: AppColors.currentViolet.withValues(alpha: isDark ? 0.7 : 0.4),
+                    width: 1.5,
                   ),
             ),
             child: child,

@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/auth/presentation/screens/register_screen.dart
 // Cyberpunk Account Registration Screen
 // ============================================================
@@ -239,16 +239,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       prefixIcon: Icon(icon, color: Colors.white30, size: 20),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.border),
+        borderSide: BorderSide(color: AppColors.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.border),
+        borderSide: BorderSide(color: AppColors.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
+        borderSide: BorderSide(color: AppColors.accentPurpleGlow, width: 1.5),
       ),
     );
   }
 }
+

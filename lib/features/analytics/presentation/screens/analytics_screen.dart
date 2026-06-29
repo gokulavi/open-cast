@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/analytics/presentation/screens/analytics_screen.dart
 // Creator performance statistics & charts using fl_chart
 // ============================================================
@@ -19,7 +19,7 @@ class AnalyticsScreen extends ConsumerWidget {
     final stats = ref.watch(analyticsProvider);
     final user = ref.watch(userProvider);
     if (user == null) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(child: CircularProgressIndicator(color: AppColors.currentViolet)),
       );
@@ -69,12 +69,12 @@ class AnalyticsScreen extends ConsumerWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.add_circle_outline, color: AppColors.accentPurpleGlow),
+                                    icon: Icon(Icons.add_circle_outline, color: AppColors.accentPurpleGlow),
                                     onPressed: () {
                                       ref.read(userProvider.notifier).connectPlatform('NewPlatform');
                                     },
                                   ),
-                                  const Text('Add Platform', style: TextStyle(color: AppColors.accentPurpleGlow)),
+                                  Text('Add Platform', style: TextStyle(color: AppColors.accentPurpleGlow)),
                                 ],
                               ),
                             ],
@@ -135,7 +135,7 @@ class AnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 24),
 
 
-              // ── TOP METRICS ROW (Grid) ──────────────────────────────────
+              // â”€â”€ TOP METRICS ROW (Grid) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -152,7 +152,7 @@ class AnalyticsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── VIEWER DURATION HISTORY LINE GRAPH ─────────────────────
+              // â”€â”€ VIEWER DURATION HISTORY LINE GRAPH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'VIEWER GROWTH (LAST 30 DAYS)',
                 style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
@@ -202,7 +202,7 @@ class AnalyticsScreen extends ConsumerWidget {
               const SizedBox(height: 24),
 
 
-              // ── RECENT STREAMS LIST ──────────────────────────────────
+              // â”€â”€ RECENT STREAMS LIST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'RECENT STREAM LOGS',
                 style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
@@ -217,13 +217,13 @@ class AnalyticsScreen extends ConsumerWidget {
                   return Card(
                     margin: const EdgeInsets.only(bottom: 8),
                     child: ListTile(
-                      leading: const Icon(Icons.videocam_rounded, color: AppColors.accentPurpleGlow),
+                      leading: Icon(Icons.videocam_rounded, color: AppColors.accentPurpleGlow),
                       title: Text(
                         stream['title'],
                         style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        '${stream['date']} • Duration: ${stream['duration']}',
+                        '${stream['date']} â€¢ Duration: ${stream['duration']}',
                         style: AppTheme.getBodyStyle(fontSize: 11, color: Colors.white38),
                       ),
                       trailing: Text(
@@ -323,3 +323,4 @@ class AnalyticsScreen extends ConsumerWidget {
     );
   }
 }
+

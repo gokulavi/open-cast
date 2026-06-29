@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/auth/presentation/screens/permissions_screen.dart
 // Cyberpunk Permission request center for Camera, Mic & Notifications
 // ============================================================
@@ -185,7 +185,7 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
                   const SizedBox(height: 6),
                   GestureDetector(
                     onTap: openAppSettings,
-                    child: const Text(
+                    child: Text(
                       'Settings',
                       style: TextStyle(
                         fontSize: 11,
@@ -211,7 +211,7 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
     if (!_hasChecked) {
       return Scaffold(
         backgroundColor: isBright ? const Color(0xFF090514) : AppColors.matteBlack,
-        body: const Center(
+        body: Center(
           child: CircularProgressIndicator(color: AppColors.currentViolet),
         ),
       );
@@ -255,7 +255,7 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Icon and title area
-                    const Icon(
+                    Icon(
                       Icons.security_rounded,
                       color: AppColors.currentViolet,
                       size: 56,
@@ -330,7 +330,7 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
                         Expanded(
                           child: OutlinedButton(
                             style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: AppColors.border),
+                              side: BorderSide(color: AppColors.border),
                               padding: const EdgeInsets.symmetric(vertical: 14),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -378,3 +378,4 @@ class _PermissionsScreenState extends ConsumerState<PermissionsScreen> {
     );
   }
 }
+

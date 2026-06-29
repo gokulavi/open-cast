@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/features/settings/presentation/screens/settings_screen.dart
 // Configurator dashboard for streaming parameters & themes
 // ============================================================
@@ -16,10 +16,10 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
-    final themeType = ref.watch(themeProvider);
+    final themeConfig = ref.watch(themeProvider);
         final user = ref.watch(userProvider);
     if (user == null) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(child: CircularProgressIndicator(color: AppColors.currentViolet)),
       );
@@ -45,7 +45,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── APPEARANCE & BRAND THEME ──────────────────────────────
+              // â”€â”€ APPEARANCE & BRAND THEME â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'APPEARANCE',
                 style: AppTheme.getH2Style(
@@ -56,47 +56,101 @@ class SettingsScreen extends ConsumerWidget {
               const SizedBox(height: 8),
               GlassCard(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RadioListTile<String>(
-                      title: Text('Dark Pro', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      subtitle: Text(
-                        'Minimalist deep matte black with violet accents.',
-                        style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38),
-                      ),
-                      value: 'darkPro',
-                      groupValue: themeType,
-                      activeColor: AppColors.currentViolet,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
+                      child: Text('THEME MODE', style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet)),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: RadioListTile<bool>(
+                            title: Text('Dark Pro', style: AppTheme.getBodyStyle(fontSize: 14)),
+                            value: true,
+                            groupValue: themeConfig.isDark,
+                            activeColor: AppColors.currentViolet,
+                            onChanged: (val) {
+                              if (val != null) {
+                                final newConfig = themeConfig.copyWith(isDark: val);
+                                ref.read(themeProvider.notifier).state = newConfig;
+                                ref.read(settingsProvider.notifier).updateTheme(newConfig);
+                              }
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: RadioListTile<bool>(
+                            title: Text('Bright', style: AppTheme.getBodyStyle(fontSize: 14)),
+                            value: false,
+                            groupValue: themeConfig.isDark,
+                            activeColor: AppColors.currentViolet,
+                            onChanged: (val) {
+                              if (val != null) {
+                                final newConfig = themeConfig.copyWith(isDark: val);
+                                ref.read(themeProvider.notifier).state = newConfig;
+                                ref.read(settingsProvider.notifier).updateTheme(newConfig);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(height: 1, indent: 16, endIndent: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, top: 16, bottom: 8),
+                      child: Text('COLOR PALETTE', style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.currentViolet)),
+                    ),
+                    RadioListTile<ThemePalette>(
+                      title: Text('Golden (Default)', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      subtitle: Text('Classic OpenCast luxury gold and black.', style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38)),
+                      value: ThemePalette.gold,
+                      groupValue: themeConfig.palette,
+                      activeColor: const Color(0xFFD4AF37),
                       onChanged: (val) {
                         if (val != null) {
-                          ref.read(themeProvider.notifier).state = val;
-                          ref.read(settingsProvider.notifier).updateTheme(val);
+                          final newConfig = themeConfig.copyWith(palette: val);
+                          ref.read(themeProvider.notifier).state = newConfig;
+                          ref.read(settingsProvider.notifier).updateTheme(newConfig);
                         }
                       },
                     ),
                     const Divider(height: 1, indent: 16, endIndent: 16),
-                    RadioListTile<String>(
-                      title: Text('Bright', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                      subtitle: Text(
-                        'Premium bright theme with light background.',
-                        style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38),
-                      ),
-                      value: 'bright',
-                      groupValue: themeType,
-                      activeColor: AppColors.currentViolet,
+                    RadioListTile<ThemePalette>(
+                      title: Text('Sea Green', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      subtitle: Text('Refreshing and vibrant natural green aesthetic.', style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38)),
+                      value: ThemePalette.seaGreen,
+                      groupValue: themeConfig.palette,
+                      activeColor: const Color(0xFF2E8A56),
                       onChanged: (val) {
                         if (val != null) {
-                          ref.read(themeProvider.notifier).state = val;
-                          ref.read(settingsProvider.notifier).updateTheme(val);
+                          final newConfig = themeConfig.copyWith(palette: val);
+                          ref.read(themeProvider.notifier).state = newConfig;
+                          ref.read(settingsProvider.notifier).updateTheme(newConfig);
                         }
                       },
                     ),
-
+                    const Divider(height: 1, indent: 16, endIndent: 16),
+                    RadioListTile<ThemePalette>(
+                      title: Text('Vicious Violet', style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                      subtitle: Text('Deep neon violet for a true cyberpunk feel.', style: AppTheme.getBodyStyle(fontSize: 12, color: isDark ? Colors.white38 : Colors.black38)),
+                      value: ThemePalette.violet,
+                      groupValue: themeConfig.palette,
+                      activeColor: const Color(0xFF9343A3),
+                      onChanged: (val) {
+                        if (val != null) {
+                          final newConfig = themeConfig.copyWith(palette: val);
+                          ref.read(themeProvider.notifier).state = newConfig;
+                          ref.read(settingsProvider.notifier).updateTheme(newConfig);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
               const SizedBox(height: 24),
 
-              // ── STREAM QUALITY PRESETS ─────────────────────────────────
+              // â”€â”€ STREAM QUALITY PRESETS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'STREAM QUALITY CONFIGURATION',
                 style: AppTheme.getH2Style(
@@ -138,7 +192,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── HARDWARE & DEVICES ─────────────────────────────────────
+              // â”€â”€ HARDWARE & DEVICES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'AUDIO & CAPTURE DEVICES',
                 style: AppTheme.getH2Style(
@@ -170,7 +224,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── CREATOR AI SHORTCUTS (BETA) ────────────────────────────
+              // â”€â”€ CREATOR AI SHORTCUTS (BETA) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'AI CO-STREAM FEATURES (BETA)',
                 style: AppTheme.getH2Style(
@@ -202,7 +256,7 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // ── CHATBOT ASSISTANT CONFIG ─────────────────────────────
+              // â”€â”€ CHATBOT ASSISTANT CONFIG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Text(
                 'CHATBOT ASSISTANT CONFIG',
                 style: AppTheme.getH2Style(
@@ -242,10 +296,10 @@ class SettingsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 32),
 
-              // ── RESET TO DEFAULT ACTION ────────────────────────────────
+              // â”€â”€ RESET TO DEFAULT ACTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppColors.liveRed),
+                  side: BorderSide(color: AppColors.liveRed),
                   minimumSize: const Size.fromHeight(48),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
@@ -380,3 +434,4 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 }
+

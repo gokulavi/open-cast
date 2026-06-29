@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // lib/shared/widgets/live_badge.dart
 // Live stream status badge with pulsing dot animation
 // ============================================================
@@ -24,7 +24,7 @@ class LiveBadge extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.liveRed,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: const [AppGlows.redGlow],
+        boxShadow: [AppGlows.redGlow],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -77,3 +77,4 @@ class LiveBadge extends StatelessWidget {
     );
   }
 }
+
