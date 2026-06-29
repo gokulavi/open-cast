@@ -21,6 +21,11 @@ class AppColors {
   static const Color softWhite = Color(0xFFFAFAFA);         // Bright Soft White (clear readable text)
   static const Color cardDark = Color(0xFF141414);          // Frosted Glassy Black Card base
   static const Color surface = Color(0xFF1B1B1B);           // Elevated surface base
+
+  // Mutable text colors for bright/dark mode support
+  static Color textPrimary = softWhite;
+  static Color textMuted = Colors.white70;
+  static Color textFaded = Colors.white30;
   
   static const Color liveRed = Color(0xFFFF453A);           // Smooth Live Crimson Red
   static const Color onlineGreen = Color(0xFF30D158);       // Brilliant Active Green
@@ -103,6 +108,7 @@ class AppTheme {
     FontWeight fontWeight = FontWeight.w400,
     Color? color,
   }) {
+    color ??= AppColors.textPrimary;
     return GoogleFonts.exo2(
       fontSize: fontSize,
       fontWeight: fontWeight,
@@ -128,6 +134,9 @@ class AppTheme {
     }
     
     AppColors.border = AppColors.currentViolet.withValues(alpha: 0.25);
+    AppColors.textPrimary = config.isDark ? AppColors.softWhite : Colors.black87;
+    AppColors.textMuted = config.isDark ? Colors.white70 : Colors.black54;
+    AppColors.textFaded = config.isDark ? Colors.white30 : Colors.black38;
     
     AppColors.brandGradient = LinearGradient(
       colors: [AppColors.currentViolet, AppColors.currentViolet.withValues(alpha: 0.6)],

@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // lib/features/analytics/presentation/screens/analytics_screen.dart
 // Creator performance statistics & charts using fl_chart
 // ============================================================
@@ -43,94 +43,34 @@ class AnalyticsScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Text(
+                'PLATFORM CONNECTIONS',
+                style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
+              ),
+              const SizedBox(height: 8),
+              GlassCard(
+                child: Column(
+                  children: [
+                    _buildPlatformRow(ref, 'Twitch', isTwitchConnected),
+                    const Divider(height: 1, indent: 16, endIndent: 16),
+                    _buildPlatformRow(ref, 'YouTube', isYouTubeConnected),
+                    const Divider(height: 1, indent: 16, endIndent: 16),
+                    _buildPlatformRow(ref, 'TikTok', isTikTokConnected),
+                    const Divider(height: 1, indent: 16, endIndent: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'PLATFORM CONNECTIONS',
-                          style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
+                        IconButton(
+                          icon: Icon(Icons.add_circle_outline, color: AppColors.accentPurpleGlow),
+                          onPressed: () {
+                            ref.read(userProvider.notifier).connectPlatform('NewPlatform');
+                          },
                         ),
-                        const SizedBox(height: 8),
-                        GlassCard(
-                          child: Column(
-                            children: [
-                              _buildPlatformRow(ref, 'Twitch', isTwitchConnected),
-                              const Divider(height: 1, indent: 16, endIndent: 16),
-                              _buildPlatformRow(ref, 'YouTube', isYouTubeConnected),
-                              const Divider(height: 1, indent: 16, endIndent: 16),
-                              _buildPlatformRow(ref, 'TikTok', isTikTokConnected),
-                              const Divider(height: 1, indent: 16, endIndent: 16),
-                              // Add platform row
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.add_circle_outline, color: AppColors.accentPurpleGlow),
-                                    onPressed: () {
-                                      ref.read(userProvider.notifier).connectPlatform('NewPlatform');
-                                    },
-                                  ),
-                                  Text('Add Platform', style: TextStyle(color: AppColors.accentPurpleGlow)),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                        Text('Add Platform', style: TextStyle(color: AppColors.accentPurpleGlow)),
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 24),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'AUDIENCE BREAKDOWN BY PLATFORM',
-                          style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
-                        ),
-                        const SizedBox(height: 8),
-                        GlassCard(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: SizedBox(
-                                  height: 140,
-                                  child: PieChart(
-                                    PieChartData(
-                                      sectionsSpace: 4,
-                                      centerSpaceRadius: 28,
-                                      sections: [
-                                        PieChartSectionData(value: 55, title: 'Twitch', color: AppColors.currentViolet, radius: 30, titleStyle: AppTheme.getHeaderStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                                        PieChartSectionData(value: 30, title: 'YouTube', color: AppColors.infoBlue, radius: 30, titleStyle: AppTheme.getHeaderStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                                        PieChartSectionData(value: 15, title: 'TikTok', color: AppColors.liveRed, radius: 30, titleStyle: AppTheme.getHeaderStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 6,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _buildLegendRow('Twitch (55%)', AppColors.currentViolet),
-                                    _buildLegendRow('YouTube (30%)', AppColors.infoBlue),
-                                    _buildLegendRow('TikTok/Kick (15%)', AppColors.liveRed),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 24),
 
@@ -224,7 +164,7 @@ class AnalyticsScreen extends ConsumerWidget {
                       ),
                       subtitle: Text(
                         '${stream['date']} â€¢ Duration: ${stream['duration']}',
-                        style: AppTheme.getBodyStyle(fontSize: 11, color: Colors.white38),
+                        style: AppTheme.getBodyStyle(fontSize: 11, color: AppColors.textFaded),
                       ),
                       trailing: Text(
                         '${stream['views']} Views',
@@ -253,9 +193,9 @@ class AnalyticsScreen extends ConsumerWidget {
             children: [
               Text(
                 title.toUpperCase(),
-                style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white30),
+                style: AppTheme.getBodyStyle(fontSize: 10, color: AppColors.textFaded),
               ),
-              Icon(icon, color: AppColors.accentPurpleGlow, size: 16),
+              Icon(icon, color: AppColors.currentViolet, size: 16),
             ],
           ),
           Text(
@@ -267,25 +207,6 @@ class AnalyticsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLegendRow(String label, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        children: [
-          Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-          ),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: AppTheme.getBodyStyle(fontSize: 12, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildPlatformRow(WidgetRef ref, String name, bool connected) {
     return Padding(
