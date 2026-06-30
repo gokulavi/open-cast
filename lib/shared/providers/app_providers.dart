@@ -261,6 +261,7 @@ final micMutedProvider = StateProvider<bool>((ref) => false);
 final musicMutedProvider = StateProvider<bool>((ref) => false);
 final micVolumeProvider = StateProvider<double>((ref) => 0.8);
 final musicVolumeProvider = StateProvider<double>((ref) => 0.4);
+final facecamOnProvider = StateProvider<bool>((ref) => true);
 
 // ── Settings Provider ─────────────────────────────────────────
 class SettingsNotifier extends StateNotifier<AppSettings> {

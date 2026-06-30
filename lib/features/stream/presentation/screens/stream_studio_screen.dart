@@ -265,40 +265,58 @@ class StreamStudioScreen extends ConsumerWidget {
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: Image.network(
-                            'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          left: 8,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.black54,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 6,
-                                  height: 6,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.liveRed,
-                                    shape: BoxShape.circle,
+                          child: ref.watch(facecamOnProvider)
+                              ? Image.network(
+                                  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop',
+                                  fit: BoxFit.cover,
+                                )
+                              : Container(
+                                  color: Colors.black,
+                                  child: const Center(
+                                    child: Icon(Icons.videocam_off_rounded, color: Colors.white24, size: 32),
                                   ),
                                 ),
-                                const SizedBox(width: 4),
-                                Text('CAM', style: AppTheme.getBodyStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white)),
-                              ],
+                        ),
+                        if (ref.watch(facecamOnProvider))
+                          Positioned(
+                            top: 8,
+                            left: 8,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: Colors.black54,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.liveRed,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text('CAM', style: AppTheme.getBodyStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white)),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        const Positioned(
-                          top: 8,
-                          right: 8,
-                          child: Icon(Icons.videocam_rounded, color: Colors.white70, size: 16),
+                        Positioned(
+                          top: 4,
+                          right: 4,
+                          child: IconButton(
+                            icon: Icon(
+                              ref.watch(facecamOnProvider) ? Icons.videocam_rounded : Icons.videocam_off_rounded,
+                              color: ref.watch(facecamOnProvider) ? Colors.white : Colors.white54,
+                              size: 16,
+                            ),
+                            onPressed: () {
+                              ref.read(facecamOnProvider.notifier).state = !ref.read(facecamOnProvider);
+                            },
+                            tooltip: 'Toggle Facecam',
+                          ),
                         ),
                       ],
                     ),
