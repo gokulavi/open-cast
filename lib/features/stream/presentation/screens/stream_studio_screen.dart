@@ -512,7 +512,7 @@ class StreamStudioScreen extends ConsumerWidget {
                     height: 7,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: discordConnected ? AppColors.onlineGreen : Colors.white24,
+                      color: discordConnected ? AppColors.onlineGreen : AppColors.textPrimary.withValues(alpha: 0.24),
                     ),
                   ),
                 ],
@@ -551,7 +551,7 @@ class StreamStudioScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 6),
-                const Divider(height: 8, color: Colors.white10),
+                Divider(height: 8, color: AppColors.textPrimary.withValues(alpha: 0.1)),
                 ...discordParticipants.map((friend) {
                   final String name = friend['name'];
                   final bool isTalking = friend['isTalking'];
@@ -566,14 +566,14 @@ class StreamStudioScreen extends ConsumerWidget {
                               ? Icons.volume_up_rounded
                               : (isMuted ? Icons.mic_off_rounded : Icons.volume_mute_rounded),
                           size: 13,
-                          color: isTalking ? AppColors.onlineGreen : Colors.white30,
+                          color: isTalking ? AppColors.onlineGreen : AppColors.textPrimary.withValues(alpha: 0.3),
                         ),
                         const SizedBox(width: 6),
                         Text(
                           '@$name',
                           style: AppTheme.getBodyStyle(
                             fontSize: 10,
-                            color: isTalking ? Colors.white : Colors.white70,
+                            color: isTalking ? AppColors.textPrimary : AppColors.textMuted,
                             fontWeight: isTalking ? FontWeight.bold : FontWeight.normal,
                           ),
                         ),
