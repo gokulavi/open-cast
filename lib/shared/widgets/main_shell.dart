@@ -75,13 +75,19 @@ class MainShell extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.currentViolet.withValues(alpha: 0.1),
+                              color: AppColors.currentViolet,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: AppColors.currentViolet, width: 1.5),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.currentViolet.withValues(alpha: 0.3),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
                             ),
-                            child: Icon(
+                            child: const Icon(
                               Icons.podcasts_rounded,
-                              color: AppColors.accentPurpleGlow,
+                              color: Colors.white,
                               size: 24,
                             ),
                           ),
@@ -92,6 +98,7 @@ class MainShell extends ConsumerWidget {
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 2,
+                              color: AppColors.currentViolet,
                             ),
                           ),
                         ],
