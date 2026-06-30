@@ -1,3 +1,6 @@
+
+
+
 // ============================================================
 // lib/features/analytics/presentation/screens/analytics_screen.dart
 // Creator performance statistics & charts using fl_chart
@@ -138,41 +141,6 @@ class AnalyticsScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 24),
-
-
-              // â”€â”€ RECENT STREAMS LIST â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-              Text(
-                'RECENT STREAM LOGS',
-                style: AppTheme.getH2Style(fontSize: 12, color: AppColors.currentViolet),
-              ),
-              const SizedBox(height: 8),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: stats.recentStreams.length,
-                itemBuilder: (context, i) {
-                  final stream = stats.recentStreams[i];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 8),
-                    child: ListTile(
-                      leading: Icon(Icons.videocam_rounded, color: AppColors.accentPurpleGlow),
-                      title: Text(
-                        stream['title'],
-                        style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(
-                        '${stream['date']} â€¢ Duration: ${stream['duration']}',
-                        style: AppTheme.getBodyStyle(fontSize: 11, color: AppColors.textFaded),
-                      ),
-                      trailing: Text(
-                        '${stream['views']} Views',
-                        style: AppTheme.getHeaderStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.onlineGreen),
-                      ),
-                    ),
-                  );
-                },
               ),
             ],
           ),

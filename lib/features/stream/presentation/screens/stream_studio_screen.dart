@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // lib/features/stream/presentation/screens/stream_studio_screen.dart
 // Cyberpunk main live streaming studio dashboard
 // ============================================================
@@ -55,7 +55,7 @@ class StreamStudioScreen extends ConsumerWidget {
     final messages = ref.watch(chatMessagesProvider);
 
     return Scaffold(
-      backgroundColor: AppColors.matteBlack,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isDesktop = constraints.maxWidth >= 900;
@@ -95,7 +95,7 @@ class StreamStudioScreen extends ConsumerWidget {
           return DefaultTabController(
             length: 3,
             child: Scaffold(
-              backgroundColor: AppColors.matteBlack,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               appBar: AppBar(
                 backgroundColor: const Color(0xFF161616),
                 title: Text(
@@ -153,7 +153,7 @@ class StreamStudioScreen extends ConsumerWidget {
       children: [
         Text(
           'ACTIVE SCENES',
-          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
         ),
         const SizedBox(height: 8),
         Expanded(
@@ -202,7 +202,7 @@ class StreamStudioScreen extends ConsumerWidget {
         const SizedBox(height: 16),
         Text(
           'SCENE LAYER SOURCES',
-          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
         ),
         const SizedBox(height: 8),
         Expanded(
@@ -218,7 +218,7 @@ class StreamStudioScreen extends ConsumerWidget {
                   dense: true,
                   leading: Icon(
                     src.type == SourceType.camera ? Icons.videocam_rounded : (src.type == SourceType.screen ? Icons.monitor_rounded : Icons.audiotrack_rounded),
-                    color: Colors.white60,
+                    color: AppColors.textMuted,
                   ),
                   title: Text(
                     src.name,
@@ -259,7 +259,7 @@ class StreamStudioScreen extends ConsumerWidget {
       children: [
         Text(
           'PROGRAM MONITOR',
-          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
         ),
         const SizedBox(height: 8),
         
@@ -317,7 +317,7 @@ class StreamStudioScreen extends ConsumerWidget {
                     ),
                     child: Text(
                       'REC 01:24:50',
-                      style: AppTheme.getHeaderStyle(fontSize: 10, color: Colors.white70),
+                      style: AppTheme.getHeaderStyle(fontSize: 10, color: AppColors.textMuted),
                     ),
                   ),
                 ),
@@ -351,7 +351,7 @@ class StreamStudioScreen extends ConsumerWidget {
         // Control mixers and volume bar row
         Text(
           'BROADCAST CONTROLS',
-          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
         ),
         const SizedBox(height: 8),
         Expanded(
@@ -376,6 +376,25 @@ class StreamStudioScreen extends ConsumerWidget {
                       active: !ref.watch(cameraMutedProvider),
                       label: 'Cam',
                       onTap: () => ref.read(cameraMutedProvider.notifier).state = !ref.read(cameraMutedProvider),
+                    ),
+                  ],
+                ),
+                
+                // ── AUDIO MIXER ────────────────────────────────────────────
+                Column(
+                  children: [
+                    _AudioSlider(
+                      title: 'Broadcaster Mic',
+                      icon: Icons.mic_rounded,
+                      muteProvider: micMutedProvider,
+                      volumeProvider: micVolumeProvider,
+                    ),
+                    const Divider(height: 16, color: Colors.white10),
+                    _AudioSlider(
+                      title: 'Background Music',
+                      icon: Icons.music_note_rounded,
+                      muteProvider: cameraMutedProvider,
+                      volumeProvider: musicVolumeProvider,
                     ),
                   ],
                 ),
@@ -434,7 +453,7 @@ class StreamStudioScreen extends ConsumerWidget {
                   const SizedBox(width: 8),
                   Text(
                     'DISCORD VOICE CHAT',
-                    style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                   ),
                   const Spacer(),
                   Container(
@@ -469,7 +488,7 @@ class StreamStudioScreen extends ConsumerWidget {
                   children: [
                     Text(
                       'ðŸ”Š Room: ðŸŽ§ Friends Voice',
-                      style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white70),
+                      style: AppTheme.getBodyStyle(fontSize: 10, color: AppColors.textMuted),
                     ),
                     InkWell(
                       onTap: () => ref.read(discordConnectedProvider.notifier).state = false,
@@ -516,7 +535,7 @@ class StreamStudioScreen extends ConsumerWidget {
                         else if (isMuted)
                           Text(
                             'Muted',
-                            style: AppTheme.getBodyStyle(fontSize: 9, color: Colors.white24),
+                            style: AppTheme.getBodyStyle(fontSize: 9, color: AppColors.textFaded),
                           ),
                       ],
                     ),
@@ -533,7 +552,7 @@ class StreamStudioScreen extends ConsumerWidget {
           children: [
             Text(
               'STUDIO LIVE CHAT',
-              style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+              style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
             ),
             TextButton.icon(
               style: TextButton.styleFrom(
@@ -579,7 +598,7 @@ class StreamStudioScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           color: msg.type == ChatMessageType.donation
                               ? AppColors.warningAmber.withValues(alpha: 0.1)
-                              : Colors.white.withValues(alpha: 0.02),
+                              : AppColors.textPrimary.withValues(alpha: 0.04),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
@@ -598,14 +617,14 @@ class StreamStudioScreen extends ConsumerWidget {
                                 ),
                                 Text(
                                   '${msg.timestamp.hour}:${msg.timestamp.minute.toString().padLeft(2, '0')}',
-                                  style: AppTheme.getBodyStyle(fontSize: 9, color: Colors.white24),
+                                  style: AppTheme.getBodyStyle(fontSize: 9, color: AppColors.textFaded),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 4),
                             Text(
                               msg.message,
-                              style: AppTheme.getBodyStyle(fontSize: 12, color: Colors.white.withValues(alpha: 0.8)),
+                              style: AppTheme.getBodyStyle(fontSize: 12, color: AppColors.textPrimary.withValues(alpha: 0.8)),
                             ),
                           ],
                         ),
@@ -624,9 +643,9 @@ class StreamStudioScreen extends ConsumerWidget {
                         style: AppTheme.getBodyStyle(fontSize: 13),
                         decoration: InputDecoration(
                           hintText: 'Type message...',
-                          hintStyle: AppTheme.getBodyStyle(fontSize: 13, color: Colors.white30),
+                          hintStyle: AppTheme.getBodyStyle(fontSize: 13, color: AppColors.textFaded),
                           filled: true,
-                          fillColor: Colors.white.withValues(alpha: 0.04),
+                          fillColor: AppColors.textPrimary.withValues(alpha: 0.04),
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
                           contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                         ),
@@ -673,13 +692,13 @@ class _StudioControlBadge extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: active ? AppColors.currentViolet.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.05),
+              color: active ? AppColors.currentViolet.withValues(alpha: 0.15) : AppColors.textPrimary.withValues(alpha: 0.05),
               border: Border.all(color: active ? AppColors.accentPurpleGlow : AppColors.border),
             ),
             child: Icon(icon, color: active ? AppColors.accentPurpleGlow : Colors.white24, size: 24),
           ),
           const SizedBox(height: 6),
-          Text(label, style: AppTheme.getBodyStyle(fontSize: 11, color: Colors.white54)),
+          Text(label, style: AppTheme.getBodyStyle(fontSize: 11, color: AppColors.textMuted)),
         ],
       ),
     );
@@ -757,13 +776,13 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                   style: AppTheme.getHeaderStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const Spacer(),
-                const Icon(Icons.minimize_rounded, color: Colors.white60, size: 14),
+                Icon(Icons.minimize_rounded, color: AppColors.textMuted, size: 14),
                 const SizedBox(width: 12),
-                const Icon(Icons.check_box_outline_blank_rounded, color: Colors.white60, size: 12),
+                Icon(Icons.check_box_outline_blank_rounded, color: AppColors.textMuted, size: 12),
                 const SizedBox(width: 12),
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.close_rounded, color: Colors.white70, size: 16),
+                  child: Icon(Icons.close_rounded, color: AppColors.textMuted, size: 16),
                 ),
               ],
             ),
@@ -787,11 +806,11 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                           children: [
                             _buildLensTab(1),
                             const Spacer(),
-                            const Icon(Icons.flip_rounded, color: Colors.white38, size: 16),
+                            Icon(Icons.flip_rounded, color: AppColors.textFaded, size: 16),
                             const SizedBox(width: 12),
-                            const Icon(Icons.cached_rounded, color: Colors.white38, size: 16),
+                            Icon(Icons.cached_rounded, color: AppColors.textFaded, size: 16),
                             const SizedBox(width: 12),
-                            const Icon(Icons.crop_free_rounded, color: Colors.white38, size: 16),
+                            Icon(Icons.crop_free_rounded, color: AppColors.textFaded, size: 16),
                           ],
                         ),
                         const SizedBox(height: 16),
@@ -873,14 +892,14 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                                 ),
                                 Text(
                                   'Motion Off',
-                                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white60),
+                                  style: AppTheme.getBodyStyle(fontSize: 10, color: AppColors.textMuted),
                                 ),
                               ],
                             ),
                             const SizedBox(width: 16),
-                            const Icon(Icons.refresh_rounded, color: Colors.white54, size: 16),
+                            Icon(Icons.refresh_rounded, color: AppColors.textMuted, size: 16),
                             const SizedBox(width: 16),
-                            const Icon(Icons.flip_rounded, color: Colors.white54, size: 16),
+                            Icon(Icons.flip_rounded, color: AppColors.textMuted, size: 16),
                           ],
                         ),
                       ],
@@ -908,7 +927,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.phone_android_rounded, color: Colors.white60, size: 16),
+                            Icon(Icons.phone_android_rounded, color: AppColors.textMuted, size: 16),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
@@ -916,7 +935,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                                 style: AppTheme.getBodyStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
                               ),
                             ),
-                            const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.white38, size: 16),
+                            Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.textFaded, size: 16),
                           ],
                         ),
                       ),
@@ -924,7 +943,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
 
                       Text(
                         'Virtual Background',
-                        style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white70),
+                        style: AppTheme.getHeaderStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.textMuted),
                       ),
                       const SizedBox(height: 8),
 
@@ -1020,8 +1039,8 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                                     width: 2,
                                   ),
                                 ),
-                                child: const Center(
-                                  child: Icon(Icons.play_circle_filled_rounded, color: Colors.white70, size: 20),
+                                child: Center(
+                                  child: Icon(Icons.play_circle_filled_rounded, color: AppColors.textMuted, size: 20),
                                 ),
                               ),
                             );
@@ -1070,11 +1089,11 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.settings_rounded, color: Colors.white38, size: 14),
+                Icon(Icons.settings_rounded, color: AppColors.textFaded, size: 14),
                 const SizedBox(width: 6),
                 Text(
                   '1280 x 720',
-                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                  style: AppTheme.getBodyStyle(fontSize: 10, color: AppColors.textMuted),
                 ),
                 const SizedBox(width: 16),
                 Container(
@@ -1085,12 +1104,12 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
                 const SizedBox(width: 4),
                 Text(
                   'CPU: 2.92%',
-                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                  style: AppTheme.getBodyStyle(fontSize: 10, color: AppColors.textMuted),
                 ),
                 const SizedBox(width: 12),
                 Text(
                   'GPU: 0.00%',
-                  style: AppTheme.getBodyStyle(fontSize: 10, color: Colors.white54),
+                  style: AppTheme.getBodyStyle(fontSize: 10, color: AppColors.textMuted),
                 ),
                 const Spacer(),
                 Text(
@@ -1177,7 +1196,7 @@ class _OpenCastLensWidgetState extends State<_OpenCastLensWidget> {
   Widget _buildToolbarIcon(IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Icon(icon, color: Colors.white38, size: 18),
+      child: Icon(icon, color: AppColors.textFaded, size: 18),
     );
   }
 }
@@ -1220,3 +1239,73 @@ class _MockQrPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
+// ── Audio Mixer Slider ────────────────────────────────────────────
+class _AudioSlider extends ConsumerWidget {
+  final String title;
+  final IconData icon;
+  final StateProvider<bool> muteProvider;
+  final StateProvider<double> volumeProvider;
+
+  const _AudioSlider({
+    required this.title,
+    required this.icon,
+    required this.muteProvider,
+    required this.volumeProvider,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final muted = ref.watch(muteProvider);
+    final volume = ref.watch(volumeProvider);
+
+    return Row(
+      children: [
+        IconButton(
+          icon: Icon(
+            muted ? Icons.volume_off_rounded : icon,
+            color: muted ? AppColors.liveRed : AppColors.accentPurpleGlow,
+            size: 22,
+          ),
+          onPressed: () => ref.read(muteProvider.notifier).state = !muted,
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: AppTheme.getBodyStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+                  ),
+                  Text(
+                    muted ? 'MUTED' : '${(volume * 100).toInt()}%',
+                    style: AppTheme.getHeaderStyle(fontSize: 11, color: muted ? AppColors.liveRed : Colors.white60),
+                  ),
+                ],
+              ),
+              SliderTheme(
+                data: SliderThemeData(
+                  trackHeight: 3,
+                  activeTrackColor: muted ? AppColors.border : AppColors.currentViolet,
+                  inactiveTrackColor: AppColors.border,
+                  thumbColor: muted ? AppColors.border : AppColors.accentPurpleGlow,
+                  overlayColor: AppColors.accentPurpleGlow.withValues(alpha: 0.1),
+                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                ),
+                child: Slider(
+                  value: muted ? 0.0 : volume,
+                  onChanged: muted
+                      ? null
+                      : (val) => ref.read(volumeProvider.notifier).state = val,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

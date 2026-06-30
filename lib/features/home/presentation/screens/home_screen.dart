@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // lib/features/home/presentation/screens/home_screen.dart
 // Cyberpunk main control dashboard
 // ============================================================
@@ -19,6 +19,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider);
     final session = ref.watch(streamSessionProvider);
+    final stats = ref.watch(analyticsProvider);
     final isLive = session.status == StreamStatus.live;
 
     final themeType = ref.watch(themeProvider);
@@ -38,42 +39,65 @@ class HomeScreen extends ConsumerWidget {
             children: [
               // â”€â”€ TOP BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'WELCOME BACK,',
+                        style: AppTheme.getBodyStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: subheadColor,
+                        ),
+                      ),
+                      Text(
+                        user?.username.toUpperCase() ?? 'STREAMER',
+                        style: AppTheme.getHeaderStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ).copyWith(
+                          color: Colors.amber,
+                          shadows: [
+                            Shadow(
+                              color: Colors.amber.withValues(alpha: 0.6),
+                              blurRadius: 12,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.amberAccent,
+                          decorationStyle: TextDecorationStyle.double,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'WELCOME BACK,',
-                          style: AppTheme.getBodyStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: subheadColor,
-                          ),
+                          'CREATOR SHORTCUTS',
+                          style: AppTheme.getH2Style(fontSize: 10, color: AppColors.currentViolet),
                         ),
-                        Text(
-                          user?.username.toUpperCase() ?? 'STREAMER',
-                          style: AppTheme.getHeaderStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ).copyWith(
-                            color: Colors.amber,
-                            shadows: [
-                              Shadow(
-                                color: Colors.amber.withValues(alpha: 0.6),
-                                blurRadius: 12,
-                                offset: const Offset(0, 2),
-                              ),
+                        const SizedBox(height: 6),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              _ToolChip(label: 'AI Auto Captions', icon: Icons.closed_caption_rounded),
+                              _ToolChip(label: 'Screen Overlay', icon: Icons.branding_watermark_rounded, active: true),
+                              _ToolChip(label: 'Alert Animations', icon: Icons.celebration_rounded, active: true),
+                              _ToolChip(label: 'Noise Cancellation', icon: Icons.waves_rounded),
                             ],
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.amberAccent,
-                            decorationStyle: TextDecorationStyle.double,
                           ),
                         ),
                       ],
                     ),
                   ),
-
                 ],
               ),
               const SizedBox(height: 24),
@@ -169,6 +193,7 @@ class HomeScreen extends ConsumerWidget {
               const SizedBox(height: 24),
 
               // â”€â”€ STREAM HEALTH STATS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              // ——————————————————————————————————————————————————————————
               if (isLive) ...[
                 Text(
                   'STREAM METRICS & HEALTH',
@@ -189,54 +214,41 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
               ],
 
-
-
-
-              // â”€â”€ AUDIO MIXER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              // ── RECENT STREAMS LIST ──────────────────────────────────────
               Text(
-                'AUDIO MIXER',
+                'RECENT STREAM LOGS',
                 style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
               ),
               const SizedBox(height: 12),
-              GlassCard(
-                child: Column(
-                  children: [
-                    _AudioSlider(
-                      title: 'Broadcaster Mic',
-                      icon: Icons.mic_rounded,
-                      muteProvider: micMutedProvider,
-                      volumeProvider: micVolumeProvider,
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: stats.recentStreams.length,
+                itemBuilder: (context, i) {
+                  final stream = stats.recentStreams[i];
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    child: ListTile(
+                      leading: Icon(Icons.videocam_rounded, color: AppColors.accentPurpleGlow),
+                      title: Text(
+                        stream['title'],
+                        style: AppTheme.getBodyStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        '${stream['date']} • Duration: ${stream['duration']}',
+                        style: AppTheme.getBodyStyle(fontSize: 11, color: AppColors.textFaded),
+                      ),
+                      trailing: Text(
+                        '${stream['views']} Views',
+                        style: AppTheme.getHeaderStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.onlineGreen),
+                      ),
                     ),
-                    const Divider(height: 24),
-                    _AudioSlider(
-                      title: 'Background Music',
-                      icon: Icons.music_note_rounded,
-                      muteProvider: cameraMutedProvider, // maps to music volume toggle
-                      volumeProvider: musicVolumeProvider,
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
               const SizedBox(height: 24),
 
-              // â”€â”€ CREATOR TOOLS TOGGLES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-              Text(
-                'CREATOR SHORTCUTS',
-                style: AppTheme.getH2Style(fontSize: 14, color: AppColors.currentViolet),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 42,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    _ToolChip(label: 'AI Auto Captions', icon: Icons.closed_caption_rounded),
-                    _ToolChip(label: 'Screen Overlay', icon: Icons.branding_watermark_rounded, active: true),
-                    _ToolChip(label: 'Alert Animations', icon: Icons.celebration_rounded, active: true),
-                    _ToolChip(label: 'Noise Cancellation', icon: Icons.waves_rounded),
-                  ],
-                ),
-              ),
+
             ],
           ),
         ),
@@ -245,7 +257,7 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-// â”€â”€ Quick Operations Grid Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ——————————————————————————————————————————————————————————
 class _QuickActionCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -290,7 +302,7 @@ class _QuickActionCard extends StatelessWidget {
   }
 }
 
-// â”€â”€ Stream Health Status Metrics â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ——————————————————————————————————————————————————————————
 class _HealthMetric extends StatelessWidget {
   final String label;
   final String value;
@@ -313,77 +325,6 @@ class _HealthMetric extends StatelessWidget {
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: color ?? AppColors.softWhite,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// â”€â”€ Audio Mixer Slider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-class _AudioSlider extends ConsumerWidget {
-  final String title;
-  final IconData icon;
-  final StateProvider<bool> muteProvider;
-  final StateProvider<double> volumeProvider;
-
-  const _AudioSlider({
-    required this.title,
-    required this.icon,
-    required this.muteProvider,
-    required this.volumeProvider,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final muted = ref.watch(muteProvider);
-    final volume = ref.watch(volumeProvider);
-
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(
-            muted ? Icons.volume_off_rounded : icon,
-            color: muted ? AppColors.liveRed : AppColors.accentPurpleGlow,
-            size: 22,
-          ),
-          onPressed: () => ref.read(muteProvider.notifier).state = !muted,
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    title,
-                    style: AppTheme.getBodyStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  ),
-                  Text(
-                    muted ? 'MUTED' : '${(volume * 100).toInt()}%',
-                    style: AppTheme.getHeaderStyle(fontSize: 11, color: muted ? AppColors.liveRed : Colors.white60),
-                  ),
-                ],
-              ),
-              SliderTheme(
-                data: SliderThemeData(
-                  trackHeight: 3,
-                  activeTrackColor: muted ? AppColors.border : AppColors.currentViolet,
-                  inactiveTrackColor: AppColors.border,
-                  thumbColor: muted ? AppColors.border : AppColors.accentPurpleGlow,
-                  overlayColor: AppColors.accentPurpleGlow.withValues(alpha: 0.1),
-                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                ),
-                child: Slider(
-                  value: muted ? 0.0 : volume,
-                  onChanged: muted
-                      ? null
-                      : (val) => ref.read(volumeProvider.notifier).state = val,
-                ),
-              ),
-            ],
           ),
         ),
       ],
