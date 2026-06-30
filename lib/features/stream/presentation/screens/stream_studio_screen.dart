@@ -207,43 +207,105 @@ class StreamStudioScreen extends ConsumerWidget {
         const SizedBox(height: 8),
         Expanded(
           flex: 6,
-          child: GlassCard(
-            padding: const EdgeInsets.all(12),
-            child: ListView.builder(
-              itemCount: activeScene.sources.length,
-              itemBuilder: (context, i) {
-                final src = activeScene.sources[i];
-                return ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  dense: true,
-                  leading: Icon(
-                    src.type == SourceType.camera ? Icons.videocam_rounded : (src.type == SourceType.screen ? Icons.monitor_rounded : Icons.audiotrack_rounded),
-                    color: AppColors.textMuted,
-                  ),
-                  title: Text(
-                    src.name,
-                    style: AppTheme.getBodyStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (src.type == SourceType.camera)
-                        IconButton(
-                          icon: const Icon(Icons.qr_code_rounded, size: 16),
-                          color: AppColors.currentViolet,
-                          tooltip: 'Connect Mobile Camera (OpenCast Lens)',
-                          onPressed: () => _showMobileLensDialog(context),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: GlassCard(
+                  padding: const EdgeInsets.all(12),
+                  child: ListView.builder(
+                    itemCount: activeScene.sources.length,
+                    itemBuilder: (context, i) {
+                      final src = activeScene.sources[i];
+                      return ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        dense: true,
+                        leading: Icon(
+                          src.type == SourceType.camera ? Icons.videocam_rounded : (src.type == SourceType.screen ? Icons.monitor_rounded : Icons.audiotrack_rounded),
+                          color: AppColors.textMuted,
                         ),
-                      IconButton(
-                        icon: Icon(src.isVisible ? Icons.visibility_rounded : Icons.visibility_off_rounded, size: 16),
-                        color: src.isVisible ? AppColors.accentPurpleGlow : Colors.white24,
-                        onPressed: () => ref.read(scenesProvider.notifier).toggleSourceVisibility(activeScene.id, src.id),
-                      ),
-                    ],
+                        title: Text(
+                          src.name,
+                          style: AppTheme.getBodyStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (src.type == SourceType.camera)
+                              IconButton(
+                                icon: const Icon(Icons.qr_code_rounded, size: 16),
+                                color: AppColors.currentViolet,
+                                tooltip: 'Connect Mobile Camera (OpenCast Lens)',
+                                onPressed: () => _showMobileLensDialog(context),
+                              ),
+                            IconButton(
+                              icon: Icon(src.isVisible ? Icons.visibility_rounded : Icons.visibility_off_rounded, size: 16),
+                              color: src.isVisible ? AppColors.accentPurpleGlow : AppColors.textPrimary.withValues(alpha: 0.24),
+                              onPressed: () => ref.read(scenesProvider.notifier).toggleSourceVisibility(activeScene.id, src.id),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'FACECAM PREVIEW',
+                style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
+              ),
+              const SizedBox(height: 8),
+              GlassCard(
+                padding: EdgeInsets.zero,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Image.network(
+                            'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 8,
+                          left: 8,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.black54,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.liveRed,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                Text('CAM', style: AppTheme.getBodyStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Icon(Icons.videocam_rounded, color: Colors.white70, size: 16),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
