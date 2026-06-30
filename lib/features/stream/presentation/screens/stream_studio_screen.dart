@@ -77,14 +77,14 @@ class StreamStudioScreen extends ConsumerWidget {
                   // Column 2: Video Monitor preview & stream controls
                   Expanded(
                     flex: 4,
-                    child: _buildStudioPreviewColumn(context, ref, session, scenes),
+                    child: _buildStudioPreviewColumn(context, ref, session, scenes, messages),
                   ),
                   const SizedBox(width: 16),
                   
                   // Column 3: Live Chat & Alerts
                   Expanded(
                     flex: 2,
-                    child: _buildChatAndAlertsColumn(ref, messages),
+                    child: _buildChatAndAlertsColumn(context, ref),
                   ),
                 ],
               ),
@@ -129,11 +129,11 @@ class StreamStudioScreen extends ConsumerWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: _buildStudioPreviewColumn(context, ref, session, scenes),
+                    child: _buildStudioPreviewColumn(context, ref, session, scenes, messages),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16),
-                    child: _buildChatAndAlertsColumn(ref, messages),
+                    child: _buildChatAndAlertsColumn(context, ref),
                   ),
                 ],
               ),
@@ -251,8 +251,22 @@ class StreamStudioScreen extends ConsumerWidget {
   }
 
   // â”€â”€ Column 2 helper: Studio Preview & monitor controls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  Widget _buildStudioPreviewColumn(BuildContext context, WidgetRef ref, StreamSession session, List<SceneModel> scenes) {
+  Widget _buildStudioPreviewColumn(BuildContext context, WidgetRef ref, StreamSession session, List<SceneModel> scenes, List<ChatMessage> messages) {
     final activeScene = scenes.firstWhere((s) => s.isActive, orElse: () => scenes.first);
+
+    final textController = TextEditingController();
+
+    void submitChat() {
+      if (textController.text.trim().isEmpty) return;
+      ref.read(chatMessagesProvider.notifier).addMessage(ChatMessage(
+            id: 'msg_new_${DateTime.now().millisecondsSinceEpoch}',
+            username: 'Broadcaster',
+            message: textController.text.trim(),
+            timestamp: DateTime.now(),
+            usernameColor: '#D4AF37',
+          ));
+      textController.clear();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -348,67 +362,117 @@ class StreamStudioScreen extends ConsumerWidget {
         
         const SizedBox(height: 16),
         
-        // Control mixers and volume bar row
-        Text(
-          'BROADCAST CONTROLS',
-          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'STUDIO LIVE CHAT',
+              style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
+            ),
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                backgroundColor: AppColors.warningAmber.withValues(alpha: 0.1),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+              ),
+              icon: Icon(Icons.star_rounded, color: AppColors.warningAmber, size: 12),
+              label: Text(
+                'SIM SUB',
+                style: AppTheme.getHeaderStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.warningAmber),
+              ),
+              onPressed: () {
+                ref.read(chatMessagesProvider.notifier).addMessage(ChatMessage(
+                      id: 'sim_sub_${DateTime.now().millisecondsSinceEpoch}',
+                      username: 'Subscriber${DateTime.now().second}',
+                      message: 'Just subscribed for Tier 1! ðŸŽ‰',
+                      timestamp: DateTime.now(),
+                      type: ChatMessageType.subscription,
+                      usernameColor: '#FFB300',
+                      badges: const ['subscriber'],
+                    ));
+              },
+            ),
+          ],
         ),
         const SizedBox(height: 8),
         Expanded(
           child: GlassCard(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                // Quick toggles row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _StudioControlBadge(
-                      icon: ref.watch(micMutedProvider) ? Icons.mic_off_rounded : Icons.mic_rounded,
-                      active: !ref.watch(micMutedProvider),
-                      label: 'Mic',
-                      onTap: () => ref.read(micMutedProvider.notifier).state = !ref.read(micMutedProvider),
-                    ),
-                    const SizedBox(width: 24),
-                    _StudioControlBadge(
-                      icon: ref.watch(cameraMutedProvider) ? Icons.videocam_off_rounded : Icons.videocam_rounded,
-                      active: !ref.watch(cameraMutedProvider),
-                      label: 'Cam',
-                      onTap: () => ref.read(cameraMutedProvider.notifier).state = !ref.read(cameraMutedProvider),
-                    ),
-                  ],
-                ),
-                
-                // ── AUDIO MIXER ────────────────────────────────────────────
-                Column(
-                  children: [
-                    _AudioSlider(
-                      title: 'Broadcaster Mic',
-                      icon: Icons.mic_rounded,
-                      muteProvider: micMutedProvider,
-                      volumeProvider: micVolumeProvider,
-                    ),
-                    const Divider(height: 16, color: Colors.white10),
-                    _AudioSlider(
-                      title: 'Background Music',
-                      icon: Icons.music_note_rounded,
-                      muteProvider: cameraMutedProvider,
-                      volumeProvider: musicVolumeProvider,
-                    ),
-                  ],
-                ),
-                
-                // End Stream Trigger
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.liveRed,
-                    minimumSize: const Size.fromHeight(48),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: messages.length,
+                    itemBuilder: (context, i) {
+                      final msg = messages[i];
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: msg.type == ChatMessageType.donation
+                              ? AppColors.warningAmber.withValues(alpha: 0.1)
+                              : AppColors.textPrimary.withValues(alpha: 0.04),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  msg.username,
+                                  style: AppTheme.getBodyStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: msg.type == ChatMessageType.donation ? AppColors.warningAmber : AppColors.accentPurpleGlow,
+                                  ),
+                                ),
+                                Text(
+                                  '${msg.timestamp.hour}:${msg.timestamp.minute.toString().padLeft(2, '0')}',
+                                  style: AppTheme.getBodyStyle(fontSize: 9, color: AppColors.textFaded),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              msg.message,
+                              style: AppTheme.getBodyStyle(fontSize: 12, color: AppColors.textPrimary.withValues(alpha: 0.8)),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  icon: const Icon(Icons.stop_rounded, color: Colors.white),
-                  label: Text('STOP STREAM BROADCAST', style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                  onPressed: () => _onConfirmEndStream(context, ref),
+                ),
+                const SizedBox(height: 8),
+                
+                // TextInput row
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: textController,
+                        style: AppTheme.getBodyStyle(fontSize: 13),
+                        decoration: InputDecoration(
+                          hintText: 'Type message...',
+                          hintStyle: AppTheme.getBodyStyle(fontSize: 13, color: AppColors.textFaded),
+                          filled: true,
+                          fillColor: AppColors.textPrimary.withValues(alpha: 0.04),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        ),
+                        onSubmitted: (_) => submitChat(),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: Icon(Icons.send_rounded, color: AppColors.accentPurpleGlow, size: 18),
+                      onPressed: submitChat,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -419,22 +483,9 @@ class StreamStudioScreen extends ConsumerWidget {
   }
 
   // â”€â”€ Column 3 helper: Live Chat scrolling feed â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  Widget _buildChatAndAlertsColumn(WidgetRef ref, List<ChatMessage> messages) {
-    final textController = TextEditingController();
+  Widget _buildChatAndAlertsColumn(BuildContext context, WidgetRef ref) {
     final discordConnected = ref.watch(discordConnectedProvider);
     final discordParticipants = ref.watch(discordVoiceParticipantsProvider);
-
-    void submitChat() {
-      if (textController.text.trim().isEmpty) return;
-      ref.read(chatMessagesProvider.notifier).addMessage(ChatMessage(
-            id: 'msg_new_${DateTime.now().millisecondsSinceEpoch}',
-            username: 'Broadcaster',
-            message: textController.text.trim(),
-            timestamp: DateTime.now(),
-            usernameColor: '#D4AF37',
-          ));
-      textController.clear();
-    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -547,117 +598,67 @@ class StreamStudioScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'STUDIO LIVE CHAT',
-              style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
-            ),
-            TextButton.icon(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                minimumSize: Size.zero,
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                backgroundColor: AppColors.warningAmber.withValues(alpha: 0.1),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-              ),
-              icon: Icon(Icons.star_rounded, color: AppColors.warningAmber, size: 12),
-              label: Text(
-                'SIM SUB',
-                style: AppTheme.getHeaderStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppColors.warningAmber),
-              ),
-              onPressed: () {
-                ref.read(chatMessagesProvider.notifier).addMessage(ChatMessage(
-                      id: 'sim_sub_${DateTime.now().millisecondsSinceEpoch}',
-                      username: 'Subscriber${DateTime.now().second}',
-                      message: 'Just subscribed for Tier 1! ðŸŽ‰',
-                      timestamp: DateTime.now(),
-                      type: ChatMessageType.subscription,
-                      usernameColor: '#FFB300',
-                      badges: const ['subscriber'],
-                    ));
-              },
-            ),
-          ],
+        // Control mixers and volume bar row
+        Text(
+          'BROADCAST CONTROLS',
+          style: AppTheme.getHeaderStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textMuted),
         ),
         const SizedBox(height: 8),
         Expanded(
           child: GlassCard(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, i) {
-                      final msg = messages[i];
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: msg.type == ChatMessageType.donation
-                              ? AppColors.warningAmber.withValues(alpha: 0.1)
-                              : AppColors.textPrimary.withValues(alpha: 0.04),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  msg.username,
-                                  style: AppTheme.getBodyStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: msg.type == ChatMessageType.donation ? AppColors.warningAmber : AppColors.accentPurpleGlow,
-                                  ),
-                                ),
-                                Text(
-                                  '${msg.timestamp.hour}:${msg.timestamp.minute.toString().padLeft(2, '0')}',
-                                  style: AppTheme.getBodyStyle(fontSize: 9, color: AppColors.textFaded),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              msg.message,
-                              style: AppTheme.getBodyStyle(fontSize: 12, color: AppColors.textPrimary.withValues(alpha: 0.8)),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 8),
-                
-                // TextInput row
+                // Quick toggles row
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: TextField(
-                        controller: textController,
-                        style: AppTheme.getBodyStyle(fontSize: 13),
-                        decoration: InputDecoration(
-                          hintText: 'Type message...',
-                          hintStyle: AppTheme.getBodyStyle(fontSize: 13, color: AppColors.textFaded),
-                          filled: true,
-                          fillColor: AppColors.textPrimary.withValues(alpha: 0.04),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                        ),
-                        onSubmitted: (_) => submitChat(),
-                      ),
+                    _StudioControlBadge(
+                      icon: ref.watch(micMutedProvider) ? Icons.mic_off_rounded : Icons.mic_rounded,
+                      active: !ref.watch(micMutedProvider),
+                      label: 'Mic',
+                      onTap: () => ref.read(micMutedProvider.notifier).state = !ref.read(micMutedProvider),
                     ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      icon: Icon(Icons.send_rounded, color: AppColors.accentPurpleGlow, size: 18),
-                      onPressed: submitChat,
+                    const SizedBox(width: 24),
+                    _StudioControlBadge(
+                      icon: ref.watch(cameraMutedProvider) ? Icons.videocam_off_rounded : Icons.videocam_rounded,
+                      active: !ref.watch(cameraMutedProvider),
+                      label: 'Cam',
+                      onTap: () => ref.read(cameraMutedProvider.notifier).state = !ref.read(cameraMutedProvider),
                     ),
                   ],
+                ),
+                
+                // ── AUDIO MIXER ────────────────────────────────────────────
+                Column(
+                  children: [
+                    _AudioSlider(
+                      title: 'Broadcaster Mic',
+                      icon: Icons.mic_rounded,
+                      muteProvider: micMutedProvider,
+                      volumeProvider: micVolumeProvider,
+                    ),
+                    const Divider(height: 16, color: Colors.white10),
+                    _AudioSlider(
+                      title: 'Background Music',
+                      icon: Icons.music_note_rounded,
+                      muteProvider: cameraMutedProvider,
+                      volumeProvider: musicVolumeProvider,
+                    ),
+                  ],
+                ),
+                
+                // End Stream Trigger
+                ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.liveRed,
+                    minimumSize: const Size.fromHeight(48),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  icon: const Icon(Icons.stop_rounded, color: Colors.white),
+                  label: Text('STOP STREAM BROADCAST', style: AppTheme.getHeaderStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                  onPressed: () => _onConfirmEndStream(context, ref),
                 ),
               ],
             ),
