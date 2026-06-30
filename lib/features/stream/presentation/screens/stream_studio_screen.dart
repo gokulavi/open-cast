@@ -684,10 +684,10 @@ class StreamStudioScreen extends ConsumerWidget {
                     ),
                     const SizedBox(width: 24),
                     _StudioControlBadge(
-                      icon: ref.watch(cameraMutedProvider) ? Icons.videocam_off_rounded : Icons.videocam_rounded,
-                      active: !ref.watch(cameraMutedProvider),
-                      label: 'Cam',
-                      onTap: () => ref.read(cameraMutedProvider.notifier).state = !ref.read(cameraMutedProvider),
+                      icon: ref.watch(musicMutedProvider) ? Icons.music_off_rounded : Icons.music_note_rounded,
+                      active: !ref.watch(musicMutedProvider),
+                      label: 'Music',
+                      onTap: () => ref.read(musicMutedProvider.notifier).state = !ref.read(musicMutedProvider),
                     ),
                   ],
                 ),
@@ -705,7 +705,7 @@ class StreamStudioScreen extends ConsumerWidget {
                     _AudioSlider(
                       title: 'Background Music',
                       icon: Icons.music_note_rounded,
-                      muteProvider: cameraMutedProvider,
+                      muteProvider: musicMutedProvider,
                       volumeProvider: musicVolumeProvider,
                     ),
                   ],

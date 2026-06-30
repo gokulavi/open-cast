@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // lib/features/stream/presentation/screens/go_live_screen.dart
 // Pre-stream configuration panel & countdown trigger
 // ============================================================
@@ -108,7 +108,7 @@ class _GoLiveScreenState extends ConsumerState<GoLiveScreen> {
             );
         // Set volume/toggles
         ref.read(micMutedProvider.notifier).state = !_micOn;
-        ref.read(cameraMutedProvider.notifier).state = !_camOn;
+        ref.read(musicMutedProvider.notifier).state = !_camOn;
 
         if (mounted) {
           context.go('/studio');

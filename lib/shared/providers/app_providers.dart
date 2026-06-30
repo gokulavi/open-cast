@@ -258,7 +258,7 @@ final chatMessagesProvider = StateNotifierProvider<ChatMessagesNotifier, List<Ch
 
 // ── Audio Mixer volume controls & toggles ─────────────────────
 final micMutedProvider = StateProvider<bool>((ref) => false);
-final cameraMutedProvider = StateProvider<bool>((ref) => false);
+final musicMutedProvider = StateProvider<bool>((ref) => false);
 final micVolumeProvider = StateProvider<double>((ref) => 0.8);
 final musicVolumeProvider = StateProvider<double>((ref) => 0.4);
 
